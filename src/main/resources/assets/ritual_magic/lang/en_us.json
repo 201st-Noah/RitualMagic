@@ -1,3 +1,16 @@
 {
+  "itemGroup.ritual_magic_tab": "Ritual Magic",
 
+  "item.ritual_magic.dragon_scale": "Dragon Scale",
+  "item.ritual_magic.dragon_plate": "Dragon Plate",
+  "item.ritual_magic.atlantian_steel_ingot": "Atlantian Steel",
+  "item.ritual_magic.atlantian_scrap": "Atlantian Scrap",
+  "item.ritual_magic.dwarven_scrap": "Dwarf Scrap",
+  "item.ritual_magic.dwarven_steel_ingot": "Dwarven Steel Ingot",
+  "item.ritual_magic.warden_core": "Warden Core",
+  "item.ritual_magic.lost_soul": "Lost Soul",
+
+  "block.ritual_magic.dwarven_debris": "Dwarven Debris",
+  "block.ritual_magic.atlantian_debris": "Atlantian Debris",
+  "block.ritual_magic.petrified_dragon_scale": "Petrified Dragon Scale"
 }

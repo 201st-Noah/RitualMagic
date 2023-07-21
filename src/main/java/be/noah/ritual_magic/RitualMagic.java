@@ -1,5 +1,7 @@
 package be.noah.ritual_magic;
 
+import be.noah.ritual_magic.block.ModBlocks;
+import be.noah.ritual_magic.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
@@ -32,6 +34,9 @@ public class RitualMagic {
     private static final Logger LOGGER = LogUtils.getLogger();
     public RitualMagic() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
