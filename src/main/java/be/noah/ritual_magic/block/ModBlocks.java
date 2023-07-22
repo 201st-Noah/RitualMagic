@@ -24,7 +24,7 @@ public class ModBlocks {
     //Simple Blocks
     public static final RegistryObject<Block> DWARVEN_DEBRIS = registerBlock("dwarven_debris", ()-> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(50f,1200.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
     public static final RegistryObject<Block> ATLANTIAN_DEBRIS = registerBlock("atlantian_debris", ()-> new GravelBlock(BlockBehaviour.Properties.of(Material.SAND).strength(3f).sound(SoundType.GRAVEL).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
-    public static final RegistryObject<Block> PETRIFIED_DRAGON_SCALE = registerBlock("petrified_dragon_scale.json", ()-> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3f,9.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
+    public static final RegistryObject<Block> PETRIFIED_DRAGON_SCALE = registerBlock("petrified_dragon_scale", ()-> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3f,9.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
