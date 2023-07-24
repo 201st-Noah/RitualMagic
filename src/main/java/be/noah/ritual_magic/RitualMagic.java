@@ -2,6 +2,8 @@ package be.noah.ritual_magic;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.world.feature.ModConfiguredFeatures;
+import be.noah.ritual_magic.world.feature.ModPlacedFeatures;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
@@ -37,6 +39,9 @@ public class RitualMagic {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModConfiguredFeatures.register(modEventBus);
+        ModPlacedFeatures.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
