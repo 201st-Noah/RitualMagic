@@ -20,7 +20,7 @@ public class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> PETRIFIED_DRAGON_SCALE_PLACED = PLACED_FEATURES.register("petrified_dragon_scale_placed",
             ()-> new PlacedFeature(ModConfiguredFeatures.PETRIFIED_DRAGON_SCALE.getHolder().get(),
                     commonOrePlacement(2,
-                            HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(10),VerticalAnchor.aboveBottom(30)))));
+                            HeightRangePlacement.uniform(VerticalAnchor.absolute(10),VerticalAnchor.absolute(30)))));
     public static final RegistryObject<PlacedFeature> ATLANTIAN_DEBRIS_PLACED = PLACED_FEATURES.register("atlantian_debris_placed",
             ()-> new PlacedFeature(ModConfiguredFeatures.ATLANTIAN_DEBRIS.getHolder().get(),
                     commonOrePlacement(6,

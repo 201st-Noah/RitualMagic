@@ -34,7 +34,7 @@ public class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?,?>> ATLANTIAN_DEBRIS = CONFIGURED_FEATURES.register("atlantian_debris",
             ()-> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ATLANTIAN_DEBRIS_ORES.get(),3)));
     public static final RegistryObject<ConfiguredFeature<?,?>> PETRIFIED_DRAGON_SCALE = CONFIGURED_FEATURES.register("petrified_dragon_scale",
-            ()-> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(END_BLOCKS.get(),2)));
+            ()-> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(END_BLOCKS.get(),8)));
 
     public static void register(IEventBus eventBus){
         CONFIGURED_FEATURES.register(eventBus);
