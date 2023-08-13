@@ -1,6 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "ritual_magic:block/dwarven_debris"
+    "side": "ritual_magic:block/dwarven_debris",
+    "end": "ritual_magic:block/dwarven_debris_top"
   }
 }
