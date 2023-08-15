@@ -12,5 +12,6 @@
 
   "block.ritual_magic.dwarven_debris": "Dwarven Debris",
   "block.ritual_magic.atlantian_debris": "Atlantian Debris",
-  "block.ritual_magic.petrified_dragon_scale": "Petrified Dragon Scale"
+  "block.ritual_magic.petrified_dragon_scale": "Petrified Dragon Scale",
+  "block.ritual_magic.item_holder": "Item holder"
 }
