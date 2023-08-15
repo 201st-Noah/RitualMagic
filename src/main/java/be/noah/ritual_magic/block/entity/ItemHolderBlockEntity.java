@@ -48,5 +48,7 @@ public class ItemHolderBlockEntity extends BlockEntity {
         this.optional.invalidate();
     }
 
-
+    public ItemStackHandler getInventory() {
+        return inventory;
+    }
 }
