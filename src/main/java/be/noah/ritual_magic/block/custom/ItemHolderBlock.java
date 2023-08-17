@@ -27,7 +27,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemHolderBlock extends Block implements EntityBlock, SimpleWaterloggedBlock {
@@ -59,14 +59,32 @@ public class ItemHolderBlock extends Block implements EntityBlock, SimpleWaterlo
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
+            ItemHolderBlockEntity entity = (ItemHolderBlockEntity) pLevel.getBlockEntity(pPos);
             ItemStack heldItem = pPlayer.getItemInHand(pHand);
-           // ItemStack stackThere = ItemStackHandler.insertItem(0,heldItem,false);
+            if(entity != null){
+                if(!heldItem.isEmpty()){
+                    ItemStack remainingStack = ItemHandlerHelper.insertItemStacked(entity.getInventory(), heldItem, false);
+                    pPlayer.setItemInHand(pHand, remainingStack);
+                } else if (heldItem.isEmpty()) {
+                    ItemStack inv = entity.getInventory().getStackInSlot(0);
+                    pPlayer.setItemInHand(pHand,inv);
+                    entity.getInventory().setStackInSlot(0,ItemStack.EMPTY);
+                }
+            }
         }
-
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
-
+  /*  sollte dafür sorgen, dass die gespeicherten items droppen (tut es aber nicht kümmer ich mich später drumm)
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (pState.getBlock() != pNewState.getBlock()) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof ItemHolderBlockEntity) {
+                ((ItemHolderBlockEntity) blockEntity).drops();
+            }
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+    }*/
     // waterlogging
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(WATERLOGGED);

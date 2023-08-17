@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "ritual_magic:petrified_dragon_scale",
-    "ritual_magic:dwarven_debris"
+    "ritual_magic:dwarven_debris",
+    "ritual_magic:item_holder"
   ]
 }
