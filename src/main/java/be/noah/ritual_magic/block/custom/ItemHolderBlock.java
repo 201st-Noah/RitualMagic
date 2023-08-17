@@ -1,9 +1,12 @@
 package be.noah.ritual_magic.block.custom;
 
 import be.noah.ritual_magic.block.entity.ItemHolderBlockEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.MagmaBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -72,19 +76,23 @@ public class ItemHolderBlock extends Block implements EntityBlock, SimpleWaterlo
                 }
             }
         }
+        pLevel.blockUpdated(pPos,this);
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
-  /*  sollte dafür sorgen, dass die gespeicherten items droppen (tut es aber nicht kümmer ich mich später drumm)
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (pState.getBlock() != pNewState.getBlock()) {
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof ItemHolderBlockEntity) {
-                ((ItemHolderBlockEntity) blockEntity).drops();
+        if (!pState.is(pNewState.getBlock())) {
+            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
+            ItemHolderBlockEntity itemHolderBlockEntity = (ItemHolderBlockEntity) blockentity;
+            if (itemHolderBlockEntity != null) {
+                ItemHolderBlockEntity.dropItemStack(pLevel,pPos.getX(),pPos.getY(),pPos.getZ(),itemHolderBlockEntity.getInventory().getStackInSlot(0));
+                pLevel.updateNeighbourForOutputSignal(pPos, this);
             }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }*/
+    }
+
+
     // waterlogging
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(WATERLOGGED);

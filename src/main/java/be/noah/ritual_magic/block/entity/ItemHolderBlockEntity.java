@@ -2,7 +2,14 @@ package be.noah.ritual_magic.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -14,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.awt.*;
+
+import static net.minecraft.world.Containers.dropContents;
 
 public class ItemHolderBlockEntity extends BlockEntity {
 
@@ -31,8 +40,8 @@ public class ItemHolderBlockEntity extends BlockEntity {
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
         pTag.put("inventory", this.inventory.serializeNBT());
+        super.saveAdditional(pTag);
     }
 
     @Override
@@ -47,14 +56,20 @@ public class ItemHolderBlockEntity extends BlockEntity {
     public ItemStackHandler getInventory() {
         return inventory;
     }
-    public void setHandler(ItemStackHandler itemStackHandler) {
-        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
-            inventory.setStackInSlot(i, itemStackHandler.getStackInSlot(i));
+    public static void dropItemStack(Level pLevel, double pX, double pY, double pZ, ItemStack pStack) {
+        double d0 = (double) EntityType.ITEM.getWidth();
+        double d1 = 1.0D - d0;
+        double d2 = d0 / 2.0D;
+        double d3 = Math.floor(pX) + pLevel.random.nextDouble() * d1 + d2;
+        double d4 = Math.floor(pY) + pLevel.random.nextDouble() * d1;
+        double d5 = Math.floor(pZ) + pLevel.random.nextDouble() * d1 + d2;
+        while(!pStack.isEmpty()) {
+            System.out.println(pStack.getCount());
+            ItemEntity itementity = new ItemEntity(pLevel, d3, d4, d5, pStack.split(pLevel.random.nextInt(21) + 10));
+            float f = 0.05F;
+            itementity.setDeltaMovement(pLevel.random.triangle(0.0D, 0.11485000171139836D), pLevel.random.triangle(0.2D, 0.11485000171139836D), pLevel.random.triangle(0.0D, 0.11485000171139836D));
+            pLevel.addFreshEntity(itementity);
         }
-    }
-    public void drops() {
-        SimpleContainer inventory1 = new SimpleContainer(inventory.getSlots());
-        inventory.setStackInSlot(0, inventory.getStackInSlot(0));
-    }
 
+    }
 }
