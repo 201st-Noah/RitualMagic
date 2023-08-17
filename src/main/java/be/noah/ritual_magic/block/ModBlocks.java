@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -26,7 +27,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> DWARVEN_DEBRIS = registerBlock("dwarven_debris", ()-> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(50f,1200.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
     public static final RegistryObject<Block> ATLANTIAN_DEBRIS = registerBlock("atlantian_debris", ()-> new GravelBlock(BlockBehaviour.Properties.of(Material.SAND).strength(3f).sound(SoundType.GRAVEL).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
     public static final RegistryObject<Block> PETRIFIED_DRAGON_SCALE = registerBlock("petrified_dragon_scale", ()-> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3f,9.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
-
+    public static final RegistryObject<Block> POLISHED_OBSIDIAN = registerBlock("polished_obsidian", ()->new Block(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F)),ModCreativeModeTab.RITUAL_MAGIC_TAB);
     //Block Entitys
     public static final RegistryObject<Block> ITEM_HOLDER = registerBlock("item_holder", ()-> new ItemHolderBlock(BlockBehaviour.Properties.of(Material.STONE).strength(1.5f,12.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
 
