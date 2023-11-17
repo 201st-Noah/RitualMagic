@@ -2,15 +2,18 @@ package be.noah.ritual_magic.block;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.custom.ItemHolderBlock;
+import be.noah.ritual_magic.block.custom.SoulForgeBlock;
 import be.noah.ritual_magic.item.ModCreativeModeTab;
 import be.noah.ritual_magic.item.ModItems;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.GravelBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,8 +33,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> POLISHED_OBSIDIAN = registerBlock("polished_obsidian", ()->new Block(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F)),ModCreativeModeTab.RITUAL_MAGIC_TAB);
     public static final RegistryObject<Block> SOUL_BRICKS = registerBlock("soul_bricks", ()->new Block(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(5.0F, 1200.0F)),ModCreativeModeTab.RITUAL_MAGIC_TAB);
 
+
+
     //Block Entitys
     public static final RegistryObject<Block> ITEM_HOLDER = registerBlock("item_holder", ()-> new ItemHolderBlock(BlockBehaviour.Properties.of(Material.STONE).strength(1.5f,12.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()), ModCreativeModeTab.RITUAL_MAGIC_TAB);
+    public static final RegistryObject<Block> SOUL_FORGE = registerBlock("soul_forge", ()->new SoulForgeBlock(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F)),ModCreativeModeTab.RITUAL_MAGIC_TAB);
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

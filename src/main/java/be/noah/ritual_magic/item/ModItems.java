@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.item;
 
 import be.noah.ritual_magic.RitualMagic;
+import be.noah.ritual_magic.item.custom.BanishingWandItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,7 +21,8 @@ public class ModItems {
     public static final RegistryObject<Item> DWARVEN_STEEL_INGOT = ITEMS.register("dwarven_steel_ingot", ()-> new Item(new Item.Properties().tab(ModCreativeModeTab.RITUAL_MAGIC_TAB)));
     public static final RegistryObject<Item> LOST_SOUL = ITEMS.register("lost_soul", ()-> new Item(new Item.Properties().tab(ModCreativeModeTab.RITUAL_MAGIC_TAB)));
 
-    //Block Items
+    //Advanced Items
+    public static final RegistryObject<Item> BANISHING_WAND = ITEMS.register("banishing_wand", ()-> new BanishingWandItem(new Item.Properties().tab(ModCreativeModeTab.RITUAL_MAGIC_TAB)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

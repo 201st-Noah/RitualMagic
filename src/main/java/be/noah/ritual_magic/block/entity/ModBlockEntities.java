@@ -16,6 +16,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("item_holder", () ->
                     BlockEntityType.Builder.of(ItemHolderBlockEntity::new,
                             ModBlocks.ITEM_HOLDER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SoulForgeBlockEntity>> SOUL_FORGE =
+            BLOCK_ENTITIES.register("soul_forge", () ->
+                    BlockEntityType.Builder.of(SoulForgeBlockEntity::new,
+                            ModBlocks.SOUL_FORGE.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

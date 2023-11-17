@@ -75,8 +75,8 @@ public class ItemHolderBlock extends Block implements EntityBlock, SimpleWaterlo
                     entity.getInventory().setStackInSlot(0,ItemStack.EMPTY);
                 }
             }
+            pLevel.blockUpdated(pPos,pState.getBlock());
         }
-        pLevel.blockUpdated(pPos,this);
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
     @Override
