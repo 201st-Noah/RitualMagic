@@ -28,11 +28,13 @@ public class ModCreativeModTabs {
 
                        // pOutput.accept(ModBlocks.ITEM_HOLDER.get());
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
-                        pOutput.accept(ModBlocks.SOUL_FORGE.get());
+                        //pOutput.accept(ModBlocks.SOUL_FORGE.get());
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
+
+                        pOutput.accept(ModItems.SPEER.get());
                     })
                     .build());
 

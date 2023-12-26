@@ -12,11 +12,11 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, RitualMagic.MODID);
 
-    public static final RegistryObject<BlockEntityType<SoulForgeBlockEntity>> SOUL_FORGE =
+    /*public static final RegistryObject<BlockEntityType<SoulForgeBlockEntity>> SOUL_FORGE =
             BLOCK_ENTITIES.register("soul_forge", () ->
                     BlockEntityType.Builder.of(SoulForgeBlockEntity::new,
                             ModBlocks.SOUL_FORGE.get()).build(null));
-
+*/
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

@@ -2,11 +2,12 @@ package be.noah.ritual_magic;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
+import be.noah.ritual_magic.entities.client.BallLightningRenderer;
+import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
 import com.mojang.logging.LogUtils;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -31,7 +32,7 @@ public class RitualMagic {
 
 
         ModBlockEntities.register(modEventBus);
-
+        ModEntities.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
 
@@ -46,7 +47,7 @@ public class RitualMagic {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+            EntityRenderers.register(ModEntities.BALL_LIGHTNING.get(), BallLightningRenderer::new);
         }
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
