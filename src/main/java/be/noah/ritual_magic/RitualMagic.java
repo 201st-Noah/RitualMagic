@@ -2,12 +2,14 @@ package be.noah.ritual_magic;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
+import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
-import be.noah.ritual_magic.world.feature.ModConfiguredFeatures;
-import be.noah.ritual_magic.world.feature.ModPlacedFeatures;
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,13 +27,13 @@ public class RitualMagic {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModCreativeModTabs.register(modEventBus);
 
-        ModConfiguredFeatures.register(modEventBus);
-        ModPlacedFeatures.register(modEventBus);
 
         ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::addCreative);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -46,5 +48,8 @@ public class RitualMagic {
         public static void onClientSetup(FMLClientSetupEvent event) {
 
         }
+    }
+    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+
     }
 }

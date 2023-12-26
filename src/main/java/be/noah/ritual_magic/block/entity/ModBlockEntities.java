@@ -12,10 +12,6 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, RitualMagic.MODID);
 
-    public static final RegistryObject<BlockEntityType<ItemHolderBlockEntity>> ITEM_HOLDER =
-            BLOCK_ENTITIES.register("item_holder", () ->
-                    BlockEntityType.Builder.of(ItemHolderBlockEntity::new,
-                            ModBlocks.ITEM_HOLDER.get()).build(null));
     public static final RegistryObject<BlockEntityType<SoulForgeBlockEntity>> SOUL_FORGE =
             BLOCK_ENTITIES.register("soul_forge", () ->
                     BlockEntityType.Builder.of(SoulForgeBlockEntity::new,

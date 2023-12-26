@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#minecraft:is_deep_ocean",
-  "features": "ritual_magic:atlantian_debris_placed",
-  "step": "underground_ores"
-}

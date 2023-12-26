@@ -1,6 +1,5 @@
 package be.noah.ritual_magic.block.custom;
 
-import be.noah.ritual_magic.block.entity.ItemHolderBlockEntity;
 import be.noah.ritual_magic.block.entity.SoulForgeBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
