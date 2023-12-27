@@ -23,7 +23,7 @@ public class ModItems {
 
     //Advanced Items
     //public static final RegistryObject<Item> BANISHING_WAND = ITEMS.register("banishing_wand", ()-> new BanishingWandItem(new Item.Properties().tab(ModCreativeModeTab.RITUAL_MAGIC_TAB)));
-    public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(new Item.Properties()));
+    public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(ModToolTiers.DRACONIC,80, -3.5f,new Item.Properties()));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
