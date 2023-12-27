@@ -15,6 +15,12 @@ public class ModEntities {
             () -> EntityType.Builder.<BallLightning>of(BallLightning::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F)
                     .build(new ResourceLocation(RitualMagic.MODID, "ball_lightning").toString()));
+    public static final RegistryObject<EntityType<ThrownDwarvenAxe>> THROWN_DWARVEN_AXE = ENTITIES.register("thrown_dwarven_axe",
+            () -> EntityType.Builder.<ThrownDwarvenAxe>of(ThrownDwarvenAxe::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F)
+                    //.clientTrackingRange(4)
+                    .updateInterval(20)
+                    .build(new ResourceLocation(RitualMagic.MODID, "thrown_dwarven_axe").toString()));
 
     public static void register(IEventBus eventBus)
     {

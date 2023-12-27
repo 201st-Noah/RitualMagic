@@ -4,6 +4,7 @@ import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
 import be.noah.ritual_magic.entities.client.BallLightningRenderer;
 import be.noah.ritual_magic.entities.ModEntities;
+import be.noah.ritual_magic.entities.client.ThrownDwarvenAxeRenderer;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
 import com.mojang.logging.LogUtils;
@@ -48,6 +49,7 @@ public class RitualMagic {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.BALL_LIGHTNING.get(), BallLightningRenderer::new);
+            EntityRenderers.register(ModEntities.THROWN_DWARVEN_AXE.get(), ThrownDwarvenAxeRenderer::new);
         }
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

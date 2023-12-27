@@ -32,7 +32,7 @@ public class Speer extends SwordItem {
         if(!player.isShiftKeyDown()){
             if(!level.isClientSide()){
                 BallLightning ballLightning = new BallLightning(ModEntities.BALL_LIGHTNING.get(), player, level);
-                ballLightning.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 5.0F, 1.0F);
+                ballLightning.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 5.0F, 0F);
                 level.addFreshEntity(ballLightning);
             }
             player.getCooldowns().addCooldown(this, cooldowntime);
