@@ -2,14 +2,11 @@ package be.noah.ritual_magic.item;
 
 import be.noah.ritual_magic.entities.BallLightning;
 import be.noah.ritual_magic.entities.ModEntities;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 public class Speer extends SwordItem {
 
     private final int cooldowntime = 8;

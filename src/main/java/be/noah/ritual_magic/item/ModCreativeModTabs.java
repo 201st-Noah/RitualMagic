@@ -35,6 +35,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
 
                         pOutput.accept(ModItems.SPEER.get());
+                        pOutput.accept(ModItems.DRAWEN_AXE.get());
                     })
                     .build());
 
