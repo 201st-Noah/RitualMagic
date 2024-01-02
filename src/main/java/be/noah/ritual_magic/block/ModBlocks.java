@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.block;
 
 import be.noah.ritual_magic.RitualMagic;
+import be.noah.ritual_magic.block.custom.MiningCoreBlock;
 import be.noah.ritual_magic.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -10,6 +11,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 
 import java.util.function.Supplier;
 
@@ -26,7 +28,7 @@ public class ModBlocks {
 
 
     //Block Entitys
-   // public static final RegistryObject<Block> ITEM_HOLDER = registerBlock("item_holder", ()-> new ItemHolderBlock(BlockBehaviour.Properties.copy(Blocks.STONE).strength(1.5f,12.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> MINING_CORE = registerBlock("mining_core",()->new MiningCoreBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     //public static final RegistryObject<Block> SOUL_FORGE = registerBlock("soul_forge", ()->new SoulForgeBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

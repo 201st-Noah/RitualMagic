@@ -18,6 +18,7 @@ public class ModCreativeModTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.ATLANTIAN_STEEL_INGOT.get()))
                     .title(Component.translatable("creativetab.ritual_magic_tab"))
                     .displayItems((pParameters, pOutput) -> {
+                        //Basic Items
                         pOutput.accept(ModItems.DWARVEN_SCRAP.get());
                         pOutput.accept(ModItems.DWARVEN_STEEL_INGOT.get());
                         pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
@@ -25,17 +26,18 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DRAGON_PLATE.get());
                         pOutput.accept(ModItems.DRAGON_SCALE.get());
                         pOutput.accept(ModItems.WARDEN_CORE.get());
+                        //Functional Items (Wapons, Tools, Armor,...)
+                        pOutput.accept(ModItems.SPEER.get());
+                        pOutput.accept(ModItems.DRAWEN_AXE.get());
 
-                       // pOutput.accept(ModBlocks.ITEM_HOLDER.get());
+                        //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
-                        //pOutput.accept(ModBlocks.SOUL_FORGE.get());
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
-
-                        pOutput.accept(ModItems.SPEER.get());
-                        pOutput.accept(ModItems.DRAWEN_AXE.get());
+                        //BlockEntities
+                        pOutput.accept(ModBlocks.MINING_CORE.get());
                     })
                     .build());
 
