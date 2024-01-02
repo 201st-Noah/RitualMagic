@@ -1,58 +1,42 @@
 package be.noah.ritual_magic.entities.client;
 
-import be.noah.ritual_magic.entities.BallLightning;
 import be.noah.ritual_magic.entities.ThrownDwarvenAxe;
-import be.noah.ritual_magic.RitualMagic;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.projectile.DragonFireball;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemDisplayContext;
 
-public class ThrownDwarvenAxeRenderer extends EntityRenderer<ThrownDwarvenAxe>{
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(RitualMagic.MODID, "textures/entity/ball_lightning.png");
-    private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(TEXTURE_LOCATION);
+//NOT WORKING there is nothing rendering but also no crash, so I leave it for now :(
 
-    public ThrownDwarvenAxeRenderer(EntityRendererProvider.Context p_173962_) {
-        super(p_173962_);
+public class ThrownDwarvenAxeRenderer<T extends ThrownDwarvenAxe> extends EntityRenderer {
+    private static final int degreesPerTick = 24;
+    private ItemRenderer itemRenderer = null;
+
+    public ThrownDwarvenAxeRenderer(EntityRendererProvider.Context pContext) {
+        super(pContext);
+        this.itemRenderer = pContext.getItemRenderer();
     }
+
     @Override
-    public ResourceLocation getTextureLocation(ThrownDwarvenAxe pEntity) {
-        return TEXTURE_LOCATION;
+    public ResourceLocation getTextureLocation(Entity pEntity) {
+        return null;
     }
 
-    protected int getBlockLightLevel(DragonFireball p_114087_, BlockPos p_114088_) {
-        return 15;
-    }
-
-    public void render(ThrownDwarvenAxe projectile, float p_114081_, float partialTick, PoseStack stack, MultiBufferSource source, int light)
-    {
-        stack.pushPose();
-        stack.scale(2.0F, 2.0F, 2.0F);
-        stack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        stack.mulPose(Axis.YP.rotationDegrees(180.0F));
-        PoseStack.Pose posestack$pose = stack.last();
-        Matrix4f matrix4f = posestack$pose.pose();
-        Matrix3f matrix3f = posestack$pose.normal();
-        VertexConsumer vertexconsumer = source.getBuffer(RENDER_TYPE);
-        vertex(vertexconsumer, matrix4f, matrix3f, light, 0.0F, 0, 0, 1);
-        vertex(vertexconsumer, matrix4f, matrix3f, light, 1.0F, 0, 1, 1);
-        vertex(vertexconsumer, matrix4f, matrix3f, light, 1.0F, 1, 1, 0);
-        vertex(vertexconsumer, matrix4f, matrix3f, light, 0.0F, 1, 0, 0);
-        stack.popPose();
-        super.render(projectile, p_114081_, partialTick, stack, source, light);
-    }
-
-    private static void vertex(VertexConsumer p_114090_, Matrix4f p_114091_, Matrix3f p_114092_, int p_114093_, float p_114094_, int p_114095_, int p_114096_, int p_114097_)
-    {
-        p_114090_.vertex(p_114091_, p_114094_ - 0.5F, (float)p_114095_ - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)p_114096_, (float)p_114097_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_114093_).normal(p_114092_, 0.0F, 1.0F, 0.0F).endVertex();
+    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        poseStack.pushPose();
+        poseStack.translate(0.0, 0.25, 0.0);
+        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F - entity.getYRot()));
+        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(((float)entity.tickCount + partialTicks) * 24.0F % 360.0F));
+        this.itemRenderer.renderStatic(entity.getItem(), ItemDisplayContext.FIXED, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
+        poseStack.popPose();
     }
 }

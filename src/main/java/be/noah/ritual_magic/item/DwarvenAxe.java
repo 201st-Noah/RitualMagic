@@ -49,7 +49,7 @@ public class DwarvenAxe extends AxeItem {
                     thrownDwarvenAxe.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
                 pLevel.addFreshEntity(thrownDwarvenAxe);
-                pLevel.playSound((Player)null, thrownDwarvenAxe, SoundEvents.FIREWORK_ROCKET_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                pLevel.playSound((Player)null, thrownDwarvenAxe, SoundEvents.ANVIL_FALL, SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild) {
                     player.getInventory().removeItem(pStack);
                 }

@@ -1,6 +1,9 @@
 package be.noah.ritual_magic.entities;
 
+import be.noah.ritual_magic.item.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -12,15 +15,16 @@ import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-
+import net.minecraft.network.syncher.EntityDataSerializers;
 public class ThrownDwarvenAxe extends AbstractArrow {
-
+    private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK;
     private boolean dealtDamage;
     public int clientSideReturnAxeTickCount;
     private ItemStack axeItem = new ItemStack(Items.NETHERITE_AXE);
@@ -56,7 +60,7 @@ public class ThrownDwarvenAxe extends AbstractArrow {
                 double d0 = 0.05D * (double)i;
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0)));
                 if (this.clientSideReturnAxeTickCount == 0) {
-                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
+                    this.playSound(SoundEvents.ANVIL_DESTROY, 10.0F, 1.0F);
                 }
 
                 ++this.clientSideReturnAxeTickCount;
@@ -92,7 +96,7 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         Entity entity1 = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, (Entity)(entity1 == null ? this : entity1));
         this.dealtDamage = true;
-        SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
+        SoundEvent soundevent = SoundEvents.ANVIL_HIT;
         if (entity.hurt(damagesource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
@@ -110,5 +114,16 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         }
 
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
+    }
+    public ItemStack getItem() {
+        ItemStack itemstack = (ItemStack)this.entityData.get(DATA_ITEM_STACK);
+        return itemstack.isEmpty() ? new ItemStack(this.getDefaultItem()) : itemstack;
+    }
+    static {
+        DATA_ITEM_STACK = SynchedEntityData.defineId(ThrownDwarvenAxe.class, EntityDataSerializers.ITEM_STACK);
+        //DATA_RETURNING = SynchedEntityData.defineId(ThrownDwarvenAxe.class, EntityDataSerializers.f_135035_);
+    }
+    protected Item getDefaultItem() {
+        return (Item) ModItems.DRAWEN_AXE.get();
     }
 }
