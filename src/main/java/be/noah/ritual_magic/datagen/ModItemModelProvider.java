@@ -25,9 +25,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.DWARVEN_STEEL_INGOT);
         simpleItem(ModItems.WARDEN_CORE);
 
-        //geht nicht muss neu gemacht werden
-        simpleItem(ModItems.SPEER);
-        simpleItem(ModItems.DRAWEN_AXE);
+        //custom
+        getBuilder("speer").parent(getExistingFile(mcLoc("item/generated"))).texture("layer0", mcLoc("ritual_magic:item/speer"));
+        getBuilder("dwarven_axe").parent(getExistingFile(mcLoc("item/generated"))).texture("layer0", mcLoc("ritual_magic:item/dwarven_axe"));
     }
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
