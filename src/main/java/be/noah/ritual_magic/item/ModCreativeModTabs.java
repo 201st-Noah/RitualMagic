@@ -31,6 +31,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DRAWEN_AXE.get());
 
                         //Blocks
+                        pOutput.accept(ModBlocks.MOD_PORTAL.get());
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());
