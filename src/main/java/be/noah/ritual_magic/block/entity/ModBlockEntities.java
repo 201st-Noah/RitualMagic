@@ -16,7 +16,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("mining_core", () ->
                     BlockEntityType.Builder.of(MiningCoreBlockEntity::new,
                             ModBlocks.MINING_CORE.get()).build(null));
-
+    public static final RegistryObject<BlockEntityType<ModTeleportorEntity>> MOD_TELEPORTER =
+            BLOCK_ENTITIES.register("mod_teleporter", () ->
+                    BlockEntityType.Builder.of(ModTeleportorEntity::new,
+                            ModBlocks.MOD_TELEPORTER.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

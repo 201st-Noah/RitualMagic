@@ -38,7 +38,7 @@ public class ModDimensions {
                 false, // ultraWarm
                 false, // natural
                 1.0, // coordinateScale
-                true, // bedWorks
+                false, // bedWorks
                 false, // respawnAnchorWorks
                 -64, // minY
                 256, // height
@@ -64,7 +64,7 @@ public class ModDimensions {
                                         Climate.parameters(0.4F, 0.3F, 0.2F, 0.1F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(Biomes.DARK_FOREST))
 
                         ))),
-                noiseGenSettings.getOrThrow(NoiseGeneratorSettings.AMPLIFIED));
+                noiseGenSettings.getOrThrow(NoiseGeneratorSettings.OVERWORLD));
 
         LevelStem stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.INFINITY_NEXUS_TYPE), noiseBasedChunkGenerator);
 

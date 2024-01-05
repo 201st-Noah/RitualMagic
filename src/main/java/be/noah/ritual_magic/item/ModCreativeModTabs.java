@@ -31,14 +31,15 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DRAWEN_AXE.get());
 
                         //Blocks
-                        pOutput.accept(ModBlocks.MOD_PORTAL.get());
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
+                        pOutput.accept(ModBlocks.DWARVEN_STEEL_BLOCK.get());
                         //BlockEntities
                         pOutput.accept(ModBlocks.MINING_CORE.get());
+                        pOutput.accept(ModBlocks.MOD_TELEPORTER.get());
                     })
                     .build());
 
