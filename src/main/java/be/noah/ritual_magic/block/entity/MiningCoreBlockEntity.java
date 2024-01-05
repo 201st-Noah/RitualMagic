@@ -14,7 +14,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public class MiningCoreBlockEntity extends BlockEntity {
-
+    public static MultiBlockLayer getMultiBlockLayer(){
+        MultiBlockLayer layer = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get());
+        layer.addCircle(6,0,0,0, 0);
+        return layer;
+    }
     public MiningCoreBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MINING_CORE.get(), pPos, pBlockState);
     }
@@ -36,26 +40,6 @@ public class MiningCoreBlockEntity extends BlockEntity {
 
     }
     private boolean updateStructure(Level pLevel, int pX, int pY, int pZ){
-    /*    Block layer1 = ModBlocks.POLISHED_OBSIDIAN.get();
-        if (pLevel.getBlockState(new BlockPos(pX+2, pY, pZ-1 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+2, pY, pZ )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+2, pY, pZ-1 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-2, pY, pZ-1)).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-2, pY, pZ )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-2, pY, pZ+1 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-1, pY, pZ+2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX, pY, pZ+2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+1, pY, pZ+2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-1, pY, pZ-2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX, pY, pZ-2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+1, pY, pZ-2 )).is(layer1)) {
-            return true;
-        }
-        else {
-            return false;
-        }*/
-        MultiBlockLayer layer = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get());
-        layer.addCircle(4,0,0,0);
-        if(layer.checkLayer(pLevel,pX,pY,pZ)){return true;} else {return false;}
+        return MiningCoreBlockEntity.getMultiBlockLayer().checkLayer(pLevel, pX, pY, pZ);
     }
 }

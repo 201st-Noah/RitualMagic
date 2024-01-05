@@ -32,19 +32,51 @@ public class MultiBlockLayer {
     public List<List<Integer>> getCoordsList(){
         return coords;
     }
-    public void addCircle(int radius, int OffsetX, int OffsetY, int OffsetZ){
+    public void addCircle(int radius, int offsetX, int offsetY, int offsetZ, int orientation){
+        int x = 0;
+        int y = 0;
         int z = 0;
         for(int i = 0; i <= radius; i++){
             for(int j = 0; j <= radius; j++){
-                if(Math.abs((double) radius - Math.sqrt(Math.pow((double) i,2)+Math.pow((double) j,2))) <= 0.5 ){
-                    //System.out.println(Math.abs((double) radius - Math.sqrt(Math.pow((double) i,2)+Math.pow((double) j,2))));
-                    coords.add(List.of(i,j,z));
-                    coords.add(List.of(-i,j,z));
-                    coords.add(List.of(i,-j,z));
-                    coords.add(List.of(-i,-j,z));
+                if(!isExeption(radius,i,j)) {
+                    if (Math.abs((double) radius - Math.sqrt(Math.pow((double) i, 2) + Math.pow((double) j, 2))) <= 0.5) {
+                        switch (orientation){
+                            case 0:
+                                coords.add(List.of(i + offsetX, j + offsetY, offsetZ));
+                                coords.add(List.of(-i + offsetX, j + offsetY, offsetZ));
+                                coords.add(List.of(i + offsetX, -j + offsetY, offsetZ));
+                                coords.add(List.of(-i + offsetX, -j + offsetY, offsetZ));
+                                break;
+                            case 1:
+                                coords.add(List.of(offsetX, y + offsetY, i + offsetZ));
+                                coords.add(List.of(offsetX, y + offsetY, -i + offsetZ));
+                                coords.add(List.of(offsetX, -y + offsetY, i + offsetZ));
+                                coords.add(List.of(offsetX, -y + offsetY, -i + offsetZ));
+                                break;
+                            case 2:
+                                coords.add(List.of(i + offsetX, offsetY, j + offsetZ));
+                                coords.add(List.of(-i + offsetX, offsetY, j + offsetZ));
+                                coords.add(List.of(i + offsetX, offsetY, -j + offsetZ));
+                                coords.add(List.of(-i + offsetX, offsetY, -j + offsetZ));
+                                break;
+                        }
+                    }
                 }
             }
         }
-        //System.out.println(coords);
+    }
+    private boolean isExeption(int radius, int x, int y){
+        if(radius == 4) {
+            if((x == 2 && y == 4) || (x == 4 && y == 2)) {return true;}
+        } else if (radius == 6) {
+            if(x == 4 && y == 4){return true;}
+        }
+        return false;
+    }
+    public void deletePos(List<List<Integer>> list){
+
+    }
+    private void deleteDuplicats(){
+
     }
 }
