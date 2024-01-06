@@ -13,6 +13,11 @@ import java.util.List;
 
 public class ModTeleportorEntity extends BlockEntity {
     public boolean MULTIBLOCK_OK = false;
+    public static MultiBlockLayer getMultiBlockLayer(){
+        MultiBlockLayer layer = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get());
+        layer.addCircle(3,0,0,0, 2);
+        return layer;
+    }
     public ModTeleportorEntity( BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MOD_TELEPORTER.get(), pPos, pBlockState);
     }
@@ -29,43 +34,7 @@ public class ModTeleportorEntity extends BlockEntity {
         }
 
     }
-    private boolean updateStructure(Level pLevel, int pX, int pY, int pZ) {
-        MultiBlockLayer layer = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get(), List.of(
-                List.of(3, 0, 0),
-                List.of(3, 0, -1),
-                List.of(3, 0, 1),
-                List.of(-3, 0, 0),
-                List.of(-3, 0, 1),
-                List.of(-3, 0, -1),
-                List.of(0, 0, 3),
-                List.of(-1, 0, 3),
-                List.of(1, 0, 3),
-                List.of(0, 0, -3),
-                List.of(1, 0, -3),
-                List.of(-1, 0, -3),
-                List.of(2, 0, 2),
-                List.of(2, 0, -2),
-                List.of(-2, 0, 2),
-                List.of(-2, 0, -2)));
-        //Block layer1 = ModBlocks.POLISHED_OBSIDIAN.get();
-        if (layer.checkLayer(pLevel, pX, pY, pZ)) {
-        /*if (pLevel.getBlockState(new BlockPos(pX+2, pY, pZ-1 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+2, pY, pZ )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+2, pY, pZ-1 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-2, pY, pZ-1)).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-2, pY, pZ )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-2, pY, pZ+1 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-1, pY, pZ+2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX, pY, pZ+2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+1, pY, pZ+2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX-1, pY, pZ-2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX, pY, pZ-2 )).is(layer1) &&
-                pLevel.getBlockState(new BlockPos(pX+1, pY, pZ-2 )).is(layer1)) */
-
-            return true;
-        }
-        else{
-            return false;
-        }
+    private boolean updateStructure(Level pLevel, int pX, int pY, int pZ){
+        return ModTeleportorEntity.getMultiBlockLayer().checkLayer(pLevel, pX, pY, pZ);
     }
 }

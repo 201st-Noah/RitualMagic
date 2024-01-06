@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.block.entity;
 
 import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
+import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -11,7 +12,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MiningCoreBlockEntity extends BlockEntity {
     public static MultiBlockLayer getMultiBlockLayer(){
@@ -37,9 +40,9 @@ public class MiningCoreBlockEntity extends BlockEntity {
                 System.out.println("Neiiiiiiiiiiiiiiiiiiiiiiin");
             }
         }
-
     }
     private boolean updateStructure(Level pLevel, int pX, int pY, int pZ){
-        return MiningCoreBlockEntity.getMultiBlockLayer().checkLayer(pLevel, pX, pY, pZ);
+        //return MiningCoreBlockEntity.getMultiBlockLayer().checkLayer(pLevel, pX, pY, pZ);
+        return MultiBlockStructure.getTeleporterStruct().checkStructure(pLevel,pX,pY,pZ);
     }
 }

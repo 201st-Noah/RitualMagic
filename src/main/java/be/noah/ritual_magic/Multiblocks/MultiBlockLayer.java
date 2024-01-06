@@ -4,8 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MultiBlockLayer {
     private Block layer;
@@ -18,6 +17,12 @@ public class MultiBlockLayer {
     public MultiBlockLayer(Block layer){
         this.layer = layer;
         this.coords = new ArrayList<>();
+
+    }
+    public MultiBlockLayer(Block layer, int x, int y, int z){
+        this.layer = layer;
+        this.coords = new ArrayList<>();
+        coords.add(List.of(x,y,z));
     }
     public boolean checkLayer(Level pLevel, int pX, int pY, int pZ){
         boolean res = true;
@@ -33,9 +38,6 @@ public class MultiBlockLayer {
         return coords;
     }
     public void addCircle(int radius, int offsetX, int offsetY, int offsetZ, int orientation){
-        int x = 0;
-        int y = 0;
-        int z = 0;
         for(int i = 0; i <= radius; i++){
             for(int j = 0; j <= radius; j++){
                 if(!isExeption(radius,i,j)) {
@@ -48,10 +50,10 @@ public class MultiBlockLayer {
                                 coords.add(List.of(-i + offsetX, -j + offsetY, offsetZ));
                                 break;
                             case 1:
-                                coords.add(List.of(offsetX, y + offsetY, i + offsetZ));
-                                coords.add(List.of(offsetX, y + offsetY, -i + offsetZ));
-                                coords.add(List.of(offsetX, -y + offsetY, i + offsetZ));
-                                coords.add(List.of(offsetX, -y + offsetY, -i + offsetZ));
+                                coords.add(List.of(offsetX, j + offsetY, i + offsetZ));
+                                coords.add(List.of(offsetX, j + offsetY, -i + offsetZ));
+                                coords.add(List.of(offsetX, -j + offsetY, i + offsetZ));
+                                coords.add(List.of(offsetX, -j + offsetY, -i + offsetZ));
                                 break;
                             case 2:
                                 coords.add(List.of(i + offsetX, offsetY, j + offsetZ));
@@ -73,8 +75,15 @@ public class MultiBlockLayer {
         }
         return false;
     }
-    public void deletePos(List<List<Integer>> list){
-
+    public void deletePos(int x, int y, int z){
+        List<List<Integer>> clearList = new ArrayList<>();
+        for (List<Integer> innerList : coords) {
+            if (!(innerList.get(0) == x && innerList.get(1) == y && innerList.get(2) == z)) {
+                clearList.add(innerList);
+            }
+        }
+        coords.clear();
+        coords.addAll(clearList);
     }
     private void deleteDuplicats(){
 
