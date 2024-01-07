@@ -1,4 +1,4 @@
-package be.noah.ritual_magic.item;
+package be.noah.ritual_magic.item.custom;
 
 import be.noah.ritual_magic.entities.ThrownDwarvenAxe;
 import net.minecraft.sounds.SoundEvents;

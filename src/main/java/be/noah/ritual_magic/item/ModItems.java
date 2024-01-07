@@ -1,6 +1,8 @@
 package be.noah.ritual_magic.item;
 
 import be.noah.ritual_magic.RitualMagic;
+import be.noah.ritual_magic.item.custom.DwarvenAxe;
+import be.noah.ritual_magic.item.custom.Speer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

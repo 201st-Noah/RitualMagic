@@ -2,9 +2,11 @@ package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.ModBlocks;
+import be.noah.ritual_magic.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -44,5 +46,10 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.ATLANTIAN_DEBRIS.get());
+
+        this.tag(ModTags.Blocks.DRAGON_FIRE_BLOCK)
+                .add(Blocks.END_STONE,
+                        Blocks.END_STONE_BRICKS,
+                        ModBlocks.PETRIFIED_DRAGON_SCALE.get());
     }
 }
