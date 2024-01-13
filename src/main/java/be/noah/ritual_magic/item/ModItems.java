@@ -2,6 +2,7 @@ package be.noah.ritual_magic.item;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.item.custom.DwarvenAxe;
+import be.noah.ritual_magic.item.custom.ModTorch;
 import be.noah.ritual_magic.item.custom.Speer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,7 +24,7 @@ public class ModItems {
     public static final RegistryObject<Item> LOST_SOUL = ITEMS.register("lost_soul", ()-> new Item(new Item.Properties()));
 
     //Advanced Items
-    //public static final RegistryObject<Item> BANISHING_WAND = ITEMS.register("banishing_wand", ()-> new BanishingWandItem(new Item.Properties().tab(ModCreativeModeTab.RITUAL_MAGIC_TAB)));
+    public static final RegistryObject<Item> TORCH = ITEMS.register("torch", ()-> new ModTorch(new Item.Properties()));
     public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(ModToolTiers.DRACONIC,80, -3.5f,new Item.Properties()));
     public static final RegistryObject<Item> DRAWEN_AXE = ITEMS.register("dwarven_axe", ()-> new DwarvenAxe(ModToolTiers.DRACONIC,80,-3.5f,new Item.Properties()));
     public static void register(IEventBus eventBus){

@@ -29,6 +29,7 @@ public class ModCreativeModTabs {
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.SPEER.get());
                         pOutput.accept(ModItems.DRAWEN_AXE.get());
+                        pOutput.accept(ModItems.TORCH.get());
 
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
