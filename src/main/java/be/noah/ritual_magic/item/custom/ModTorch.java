@@ -2,7 +2,10 @@ package be.noah.ritual_magic.item.custom;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.custom.fire.DragonFireBlock;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -11,10 +14,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class ModTorch extends Item {
     private static final String BURN_TIME_TAG = "BurnTime";
@@ -93,9 +100,14 @@ public class ModTorch extends Item {
     public int getMaxStackSize(ItemStack stack) {
         return 1;
     }
+
+    @Override
+    public boolean isFireResistant() {
+        return true;
+    }
+
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
-        System.out.println("ne ey");
         if(isOn(stack)){
             switch (getFireType(stack)){
                 case FIRE:

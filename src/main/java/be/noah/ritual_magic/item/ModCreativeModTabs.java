@@ -30,6 +30,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SPEER.get());
                         pOutput.accept(ModItems.DRAWEN_AXE.get());
                         pOutput.accept(ModItems.TORCH.get());
+                        pOutput.accept(ModItems.DWAREN_STEEL_HELMET.get());
+                        pOutput.accept(ModItems.DWAREN_STEEL_CHESTPLATE.get());
+                        pOutput.accept(ModItems.DWAREN_STEEL_LEGGINGS.get());
+                        pOutput.accept(ModItems.DWAREN_STEEL_BOOTS.get());
 
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
