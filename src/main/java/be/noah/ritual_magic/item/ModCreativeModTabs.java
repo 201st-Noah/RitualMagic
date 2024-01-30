@@ -26,6 +26,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DRAGON_PLATE.get());
                         pOutput.accept(ModItems.DRAGON_SCALE.get());
                         pOutput.accept(ModItems.WARDEN_CORE.get());
+                        pOutput.accept(ModItems.DWARVEN_TEMPLATE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.SPEER.get());
                         pOutput.accept(ModItems.DRAWEN_AXE.get());

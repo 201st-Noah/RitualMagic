@@ -24,6 +24,7 @@ public class ModItems {
     public static final RegistryObject<Item> DWARVEN_SCRAP = ITEMS.register("dwarven_scrap", ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> WARDEN_CORE = ITEMS.register("warden_core", ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_STEEL_INGOT = ITEMS.register("dwarven_steel_ingot", ()-> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_TEMPLATE = ITEMS.register("dwarven_template", ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LOST_SOUL = ITEMS.register("lost_soul", ()-> new Item(new Item.Properties()));
 
     //Advanced Items

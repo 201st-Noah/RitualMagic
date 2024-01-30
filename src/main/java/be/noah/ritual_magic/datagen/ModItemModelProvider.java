@@ -24,6 +24,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.DWARVEN_SCRAP);
         simpleItem(ModItems.DWARVEN_STEEL_INGOT);
         simpleItem(ModItems.WARDEN_CORE);
+        simpleItem(ModItems.DWARVEN_TEMPLATE);
 
         //custom
         getBuilder("speer").parent(getExistingFile(mcLoc("item/generated"))).texture("layer0", mcLoc("ritual_magic:item/speer"));

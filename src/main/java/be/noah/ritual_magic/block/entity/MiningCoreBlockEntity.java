@@ -4,17 +4,9 @@ import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
 import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 public class MiningCoreBlockEntity extends BlockEntity {
     public static MultiBlockLayer getMultiBlockLayer(){

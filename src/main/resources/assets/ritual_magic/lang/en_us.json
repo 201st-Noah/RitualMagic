@@ -9,11 +9,25 @@
   "item.ritual_magic.dwarven_steel_ingot": "Dwarven Steel Ingot",
   "item.ritual_magic.warden_core": "Warden Core",
   "item.ritual_magic.lost_soul": "Lost Soul",
+  "item.ritual_magic.dwarven_steel_ingot": "Dwarven Steel Ingot",
+  "item.ritual_magic.dwarven_template": "Dwarven Template",
+
   "item.ritual_magic.speer": "Dragon rider's Speer",
+  "item.ritual_magic.torch": "Torch",
+  "item.ritual_magic.dwarven_axe": "Dwarven Axe",
+  "item.ritual_magic.dwarven_steel_helmet": "Dwarven Steel Helmet",
+  "item.ritual_magic.dwarven_steel_chestplate": "Dwarven Steel Chestplate",
+  "item.ritual_magic.dwarven_steel_leggings": "Dwarven Steel Legings",
+  "item.ritual_magic.dwarven_steel_boots": "Dwarven Steel Boots",
+
 
   "block.ritual_magic.dwarven_debris": "Dwarven Debris",
   "block.ritual_magic.atlantian_debris": "Atlantian Debris",
   "block.ritual_magic.petrified_dragon_scale": "Petrified Dragon Scale",
   "block.ritual_magic.item_holder": "Item holder",
-  "block.ritual_magic.polished_obsidian": "Polished Obsidian"
+  "block.ritual_magic.polished_obsidian": "Polished Obsidian",
+  "block.ritual_magic.dwarven_steel_block": "Dwarven Steel Block",
+
+  "block.ritual_magic.mod_portal": "Teleporter Core",
+  "block.ritual_magic.mining_core": "Mining Core"
 }

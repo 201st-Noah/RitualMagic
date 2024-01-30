@@ -10,8 +10,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -34,6 +32,32 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         oreSmelting(pWriter, List.of(ModBlocks.PETRIFIED_DRAGON_SCALE.get()), RecipeCategory.MISC ,ModItems.DRAGON_SCALE.get(), 0.25f, 200,"dragon_scale");
         oreBlasting(pWriter, List.of(ModBlocks.PETRIFIED_DRAGON_SCALE.get()), RecipeCategory.MISC ,ModItems.DRAGON_SCALE.get(), 0.25f, 100,"dragon_scale");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DWARVEN_TEMPLATE.get())
+                .requires(Items.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE,1)
+                .requires(Items.WARD_ARMOR_TRIM_SMITHING_TEMPLATE,1)
+                .requires(Items.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE,1)
+                .requires(Items.HOST_ARMOR_TRIM_SMITHING_TEMPLATE,1)
+                .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
+                .save(pWriter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DWARVEN_STEEL_INGOT.get())
+                .requires(ModItems.DWARVEN_SCRAP.get(),4)
+                .requires(ModItems.WARDEN_CORE.get(),1)
+                .requires(Items.IRON_INGOT,4)
+                .unlockedBy(getHasName(ModItems.DWARVEN_SCRAP.get()), has(ModItems.DWARVEN_SCRAP.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DWARVEN_STEEL_BLOCK.get())
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A',ModItems.DWARVEN_STEEL_INGOT.get())
+                .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
+                .save(pWriter);
+        //Doppelte Rezepte gehen nicht wtf
+        /*ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DWARVEN_STEEL_INGOT.get(),9)
+                .requires(ModBlocks.DWARVEN_STEEL_BLOCK.get())
+                .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
+                .save(pWriter);*/
 
     }
     protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
