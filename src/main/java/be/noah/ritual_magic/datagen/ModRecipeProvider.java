@@ -58,7 +58,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModBlocks.DWARVEN_STEEL_BLOCK.get())
                 .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
                 .save(pWriter);*/
-
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.HEART_OF_THE_SEA,2)
+                .pattern("ITI")
+                .pattern("NHN")
+                .pattern("ITI")
+                .define('T',Items.SCUTE)
+                .define('N',Items.NAUTILUS_SHELL)
+                .define('I',Items.BLUE_ICE)
+                .define('H',Items.HEART_OF_THE_SEA)
+                .unlockedBy(getHasName(Items.HEART_OF_THE_SEA), has(Items.HEART_OF_THE_SEA))
+                .save(pWriter);
     }
     protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
         oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTIme, pGroup, "_from_smelting");

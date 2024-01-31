@@ -35,6 +35,6 @@ public class ModTeleportorEntity extends BlockEntity {
 
     }
     private boolean updateStructure(Level pLevel, int pX, int pY, int pZ){
-        return ModTeleportorEntity.getMultiBlockLayer().checkLayer(pLevel, pX, pY, pZ);
+        return ModTeleportorEntity.getMultiBlockLayer().checkLayer(1, pLevel, pX, pY, pZ);
     }
 }
