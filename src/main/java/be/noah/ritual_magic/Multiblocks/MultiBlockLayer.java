@@ -40,7 +40,7 @@ public class MultiBlockLayer {
                 case 1:
                     if(resN)
                         resN = pLevel.getBlockState(new BlockPos(coords.get(i).get(0) + pX, coords.get(i).get(1) + pY, coords.get(i).get(2) + pZ)).is(layer);
-                    if(resN){return false;}
+                    if(!resN){return false;}
                     break;
                 case 2:
                     if (resN)

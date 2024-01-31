@@ -15,10 +15,10 @@ public class MultiBlockStructure {
         this.layers = new ArrayList<>();
         this.layers.add(layer);
     }
-    public boolean checkStructure(int symetry,Level pLevel, int pX, int pY, int pZ){
+    public boolean checkStructure(int symmetry,Level pLevel, int pX, int pY, int pZ){
         boolean res = true;
         for (MultiBlockLayer layer : layers) {
-            res = res && layer.checkLayer(symetry,pLevel,pX,pY,pZ);
+            res = res && layer.checkLayer(symmetry,pLevel,pX,pY,pZ);
             if(!res)
                 return false;
         }
