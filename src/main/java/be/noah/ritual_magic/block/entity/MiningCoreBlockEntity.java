@@ -35,6 +35,5 @@ public class MiningCoreBlockEntity extends BlockEntity {
     }
     private boolean updateStructure(Level pLevel, int pX, int pY, int pZ){
         return MultiBlockStructure.test().checkStructure(3,pLevel,pX,pY,pZ);
-        //return MultiBlockStructure.getTeleporterStruct().checkStructure(pLevel,pX,pY,pZ);
     }
 }
