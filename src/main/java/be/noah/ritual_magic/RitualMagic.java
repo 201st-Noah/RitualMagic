@@ -7,7 +7,10 @@ import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.entities.client.ThrownDwarvenAxeRenderer;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.screen.AncientAnvilScreen;
+import be.noah.ritual_magic.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,7 +33,7 @@ public class RitualMagic {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModCreativeModTabs.register(modEventBus);
-
+        ModMenuTypes.register(modEventBus);
 
         ModBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
@@ -50,9 +53,11 @@ public class RitualMagic {
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.BALL_LIGHTNING.get(), BallLightningRenderer::new);
             EntityRenderers.register(ModEntities.THROWN_DWARVEN_AXE.get(), ThrownDwarvenAxeRenderer::new);
+            MenuScreens.register(ModMenuTypes.ANCIENT_ANVIL_MENU.get(), AncientAnvilScreen::new);
         }
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
 
     }
+
 }

@@ -35,14 +35,16 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.PETRIFIED_DRAGON_SCALE.get(),
                         ModBlocks.MINING_CORE.get(),
                         ModBlocks.POLISHED_OBSIDIAN.get(),
-                        ModBlocks.DWARVEN_STEEL_BLOCK.get());
+                        ModBlocks.DWARVEN_STEEL_BLOCK.get(),
+                        ModBlocks.ANCIENT_ANVIL.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.DWARVEN_DEBRIS.get(),
                         ModBlocks.PETRIFIED_DRAGON_SCALE.get(),
                         ModBlocks.MINING_CORE.get(),
                         ModBlocks.POLISHED_OBSIDIAN.get(),
-                        ModBlocks.DWARVEN_STEEL_BLOCK.get());
+                        ModBlocks.DWARVEN_STEEL_BLOCK.get(),
+                        ModBlocks.ANCIENT_ANVIL.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.ATLANTIAN_DEBRIS.get());

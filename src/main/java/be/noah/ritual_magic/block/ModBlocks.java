@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.block;
 
 import be.noah.ritual_magic.RitualMagic;
+import be.noah.ritual_magic.block.custom.AncientAnvilBlock;
 import be.noah.ritual_magic.block.custom.MiningCoreBlock;
 import be.noah.ritual_magic.block.custom.ModTeleportorBlock;
 import be.noah.ritual_magic.block.custom.fire.DragonFireBlock;
@@ -36,7 +37,7 @@ public class ModBlocks {
     //Block Entities
     public static final RegistryObject<Block> MOD_TELEPORTER = registerBlock("mod_portal", () -> new ModTeleportorBlock(BlockBehaviour.Properties.copy(Blocks.STONE).noLootTable().noOcclusion()));
     public static final RegistryObject<Block> MINING_CORE = registerBlock("mining_core",()->new MiningCoreBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
-    //public static final RegistryObject<Block> SOUL_FORGE = registerBlock("soul_forge", ()->new SoulForgeBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F)));
+    public static final RegistryObject<Block> ANCIENT_ANVIL = registerBlock("ancient_anvil", ()->new AncientAnvilBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

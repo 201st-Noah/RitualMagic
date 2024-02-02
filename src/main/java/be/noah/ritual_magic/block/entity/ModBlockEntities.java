@@ -20,6 +20,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("mod_teleporter", () ->
                     BlockEntityType.Builder.of(ModTeleportorEntity::new,
                             ModBlocks.MOD_TELEPORTER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<AncientAnvilBlockEntity>> ANCIENT_ANVIL =
+            BLOCK_ENTITIES.register("ancient_anvil", () ->
+                    BlockEntityType.Builder.of(AncientAnvilBlockEntity::new,
+                            ModBlocks.ANCIENT_ANVIL.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

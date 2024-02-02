@@ -20,6 +20,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.PETRIFIED_DRAGON_SCALE);
         blockWithItem(ModBlocks.POLISHED_OBSIDIAN);
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
+        //blockWithItem(ModBlocks.ANCIENT_ANVIL);
 
     }
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
