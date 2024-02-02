@@ -12,9 +12,25 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 
 public class ModToolTiers {
-    private static Object ModTags;
     public static final Tier DRACONIC = TierSortingRegistry.registerTier(
             new ForgeTier(5, 10000, 5f, 4f, 25,
+                    Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.DRAGON_SCALE.get())),
+            new ResourceLocation(RitualMagic.MODID, "draconic"), List.of(Tiers.NETHERITE), List.of());
+    public static final Tier ATLANTIAN = TierSortingRegistry.registerTier(
+            new ForgeTier(5, 10000, 5f, 4f, 25,
+                    Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.ATLANTIAN_STEEL_INGOT.get())),
+            new ResourceLocation(RitualMagic.MODID, "atlantian"), List.of(Tiers.NETHERITE), List.of());
+    public static final Tier DWARVEN = TierSortingRegistry.registerTier(
+            new ForgeTier(5, 10000, 5f, 4f, 25,
+                    Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.DWARVEN_STEEL_INGOT.get())),
+            new ResourceLocation(RitualMagic.MODID, "dwarven"), List.of(Tiers.NETHERITE), List.of());
+    public static final Tier HELLISH = TierSortingRegistry.registerTier(
+            new ForgeTier(5, 10000, 5f, 4f, 25,
+                    Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.PURE_NETHERITE.get())),
+            new ResourceLocation(RitualMagic.MODID, "hellish"), List.of(Tiers.NETHERITE), List.of());
+    //Ignore
+    public static final Tier TEMP = TierSortingRegistry.registerTier(
+            new ForgeTier(5, 10000, 5f, 4f, 25,
                     Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.DRAGON_PLATE.get())),
-            new ResourceLocation(RitualMagic.MODID, "dragon_plate"), List.of(Tiers.NETHERITE), List.of());
+            new ResourceLocation(RitualMagic.MODID, "temp"), List.of(Tiers.NETHERITE), List.of());
 }
