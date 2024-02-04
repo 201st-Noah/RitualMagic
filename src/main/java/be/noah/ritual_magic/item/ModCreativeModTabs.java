@@ -27,6 +27,17 @@ public class ModCreativeModTabs {
                     .build()
     );
 
+    public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_ATLANTA_TAB = CREATIVE_MODE_TABS.register(
+            "ritual_magic_atlantian_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModBlocks.ATLANTIAN_DEBRIS.get()))
+                    .title(Component.translatable("creativetab.ritual_magic_atlantian_tab"))
+                    .displayItems((pParameters, pOutput) -> {
+                        pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
+                    })
+                    .build()
+    );
+
     public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_TAB = CREATIVE_MODE_TABS.register("ritual_magic_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.ATLANTIAN_STEEL_INGOT.get()))
                     .title(Component.translatable("creativetab.ritual_magic_tab"))
