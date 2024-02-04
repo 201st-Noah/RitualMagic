@@ -49,6 +49,18 @@ public class ModCreativeModTabs {
                     .build()
     );
 
+    public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_SOULEATER_TAB = CREATIVE_MODE_TABS.register(
+            "ritual_magic_souleater_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModBlocks.PETRIFIED_DRAGON_SCALE.get()) // TODO: Change to soul eater icon
+                    )
+                    .title(Component.translatable("creativetab.ritual_magic_souleater_tab"))
+                    .displayItems((pParameters, pOutput) -> {
+                        pOutput.accept(ModItems.DRAGON_SCALE.get()); // TODO: Change to soul eater items
+                    })
+                    .build()
+    );
+
     public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_TAB = CREATIVE_MODE_TABS.register("ritual_magic_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.ATLANTIAN_STEEL_INGOT.get()))
                     .title(Component.translatable("creativetab.ritual_magic_tab"))
