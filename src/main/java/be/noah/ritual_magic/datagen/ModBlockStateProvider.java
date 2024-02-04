@@ -5,6 +5,7 @@ import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -20,7 +21,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.PETRIFIED_DRAGON_SCALE);
         blockWithItem(ModBlocks.POLISHED_OBSIDIAN);
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
-        //blockWithItem(ModBlocks.ANCIENT_ANVIL);
+
+        simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
 
     }
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
