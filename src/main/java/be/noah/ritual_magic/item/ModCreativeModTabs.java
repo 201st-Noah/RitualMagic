@@ -10,9 +10,22 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, RitualMagic.MODID);
+
+    public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_DWARVEN_TAB = CREATIVE_MODE_TABS.register(
+            "ritual_magic_dwarven_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModBlocks.DWARVEN_STEEL_BLOCK.get()))
+                    .title(Component.translatable("creativetab.ritual_magic_dwarven_tab"))
+                    .displayItems((pParameters, pOutput) -> {
+                        pOutput.accept(ModItems.DWARVEN_SCRAP.get());
+                    })
+                    .build()
+    );
 
     public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_TAB = CREATIVE_MODE_TABS.register("ritual_magic_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.ATLANTIAN_STEEL_INGOT.get()))

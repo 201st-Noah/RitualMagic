@@ -1,5 +1,6 @@
 {
-  "itemGroup.ritual_magic_tab": "Ritual Magic",
+  "creativetab.ritual_magic_tab": "Ritual Magic",
+  "creativetab.ritual_magic_dwarven_tab": "Ritual Magic - Dwarven",
 
   "item.ritual_magic.dragon_scale": "Dragon Scale",
   "item.ritual_magic.dragon_plate": "Dragon Plate",
