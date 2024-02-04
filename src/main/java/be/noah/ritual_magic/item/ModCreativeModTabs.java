@@ -27,13 +27,24 @@ public class ModCreativeModTabs {
                     .build()
     );
 
-    public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_ATLANTA_TAB = CREATIVE_MODE_TABS.register(
+    public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_ATLANTIAN_TAB = CREATIVE_MODE_TABS.register(
             "ritual_magic_atlantian_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModBlocks.ATLANTIAN_DEBRIS.get()))
                     .title(Component.translatable("creativetab.ritual_magic_atlantian_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
+                    })
+                    .build()
+    );
+
+    public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_VOIDWALKER_TAB = CREATIVE_MODE_TABS.register(
+            "ritual_magic_voidwalker_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModBlocks.PETRIFIED_DRAGON_SCALE.get()))
+                    .title(Component.translatable("creativetab.ritual_magic_voidwalker_tab"))
+                    .displayItems((pParameters, pOutput) -> {
+                        pOutput.accept(ModItems.DRAGON_SCALE.get());
                     })
                     .build()
     );
