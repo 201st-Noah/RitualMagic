@@ -117,8 +117,6 @@ run/
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# ignore datagen directory
-/src/generated/
-
-# ignore run data directory
+# Data generation
 /run-data/
+/src/generated/
