@@ -27,7 +27,6 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DWARVEN_TEMPLATE.get());
                         pOutput.accept(ModItems.DWARVEN_STEEL_ARMOR_PLATE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
-                        pOutput.accept(ModItems.SPEER.get());
                         pOutput.accept(ModItems.DRAWEN_AXE.get());
                         pOutput.accept(ModItems.TORCH.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_HELMET.get());
@@ -38,8 +37,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());
                         pOutput.accept(ModBlocks.DWARVEN_STEEL_BLOCK.get());
                         //BlockEntities
-
-                        pOutput.accept(ModItems.DWARVEN_SCRAP.get());
+                        pOutput.accept(ModBlocks.ANCIENT_ANVIL.get());
                     })
                     .build()
     );
@@ -50,7 +48,6 @@ public class ModCreativeModTabs {
                     .icon(() -> new ItemStack(ModBlocks.ATLANTIAN_DEBRIS.get()))
                     .title(Component.translatable("creativetab.ritual_magic_atlantian_tab"))
                     .displayItems((pParameters, pOutput) -> {
-                        pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
                         //Basic Items
                         pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
                         pOutput.accept(ModItems.ATLANTIAN_STEEL_INGOT.get());
@@ -68,13 +65,14 @@ public class ModCreativeModTabs {
                     .icon(() -> new ItemStack(ModBlocks.PETRIFIED_DRAGON_SCALE.get()))
                     .title(Component.translatable("creativetab.ritual_magic_voidwalker_tab"))
                     .displayItems((pParameters, pOutput) -> {
-                        pOutput.accept(ModItems.DRAGON_SCALE.get());
                         //Basic Items
                         pOutput.accept(ModItems.DRAGON_PLATE.get());
                         pOutput.accept(ModItems.DRAGON_SCALE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
+                        pOutput.accept(ModItems.SPEER.get());
                         //Blocks
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
+                        pOutput.accept(ModBlocks.DRAGON_FIRE.get()); // Remove later just here for testing
                         //BlockEntities
                     })
                     .build()

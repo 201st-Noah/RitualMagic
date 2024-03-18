@@ -1,22 +1,27 @@
 package be.noah.ritual_magic.item.armor;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 public class DwarvenArmor extends ArmorItem {
     private static final Map<ArmorMaterial, MobEffectInstance> MATERIAL_TO_EFFECT_MAP =
             (new ImmutableMap.Builder<ArmorMaterial, MobEffectInstance>())
-                    .put(ModArmorMaterials.DWARVEN_STEEL, new MobEffectInstance(MobEffects.ABSORPTION, 200, 4,
+                    .put(ModArmorMaterials.DWARVEN_STEEL, new MobEffectInstance(MobEffects.REGENERATION, 200, 2,
                             false,false, true)).build();
     //Reduces and removes the negativ effects like slowness, not able to swim, falldamage = x2
     private static final String OPTIMISING_COUNT = "OptimisingCount";
@@ -30,14 +35,16 @@ public class DwarvenArmor extends ArmorItem {
         super(pMaterial, pType, pProperties);
     }
 
-    //pls how else could i do it ?
     @Override
-    public void onArmorTick(ItemStack stack, Level world, Player player) {
-        if(!world.isClientSide()) {
-            if(hasFullSuitOfArmorOn(player)) {
-                evaluateArmorEffects(player);
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        if(pEntity instanceof Player){
+            if (!pLevel.isClientSide()) {
+                if (hasFullSuitOfArmorOn((Player) pEntity)) {
+                    evaluateArmorEffects((Player) pEntity);
+                }
             }
         }
+        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
     private void evaluateArmorEffects(Player player) {
@@ -81,23 +88,29 @@ public class DwarvenArmor extends ArmorItem {
         return helmet.getMaterial() == material && breastplate.getMaterial() == material &&
                 leggings.getMaterial() == material && boots.getMaterial() == material;
     }
-
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.literal("Purity: " + getPurity(pStack)));
+        pTooltipComponents.add(Component.literal("Magic Capacity: " + getMagicCapacity(pStack)));
+        pTooltipComponents.add(Component.literal("Optimisation: " + getOptimisingCount(pStack)));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
     @Override
     public boolean isDamageable(ItemStack stack) {
         return false;
     }
-    private void setPurity(ItemStack stack, int value) {
+    public static void setPurity(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(PURITY, value);
     }
-    private int getPurity(ItemStack stack) {
+    public int getPurity(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(PURITY) : 0;
     }
-    private void setMagicCapacity(ItemStack stack, int value) {
+    public void setMagicCapacity(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(MAGIC_CAPACITY, value);
     }
-    private int getMagicCapacity(ItemStack stack) {
+    public int getMagicCapacity(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(MAGIC_CAPACITY) : 0;
     }
-    private void setOptimisingCount(ItemStack stack, int value) {stack.getOrCreateTag().putInt(OPTIMISING_COUNT, value);}
-    private int getOptimisingCount(ItemStack stack) {return stack.hasTag() ? stack.getTag().getInt(OPTIMISING_COUNT) : 0;}
+    public void setOptimisingCount(ItemStack stack, int value) {stack.getOrCreateTag().putInt(OPTIMISING_COUNT, value);}
+    public int getOptimisingCount(ItemStack stack) {return stack.hasTag() ? stack.getTag().getInt(OPTIMISING_COUNT) : 0;}
 }
