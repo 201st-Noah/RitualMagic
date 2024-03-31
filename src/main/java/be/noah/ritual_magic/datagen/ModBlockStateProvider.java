@@ -24,6 +24,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
+        simpleBlockWithItem(ModBlocks.DRAGON_FIRE.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/dragon_fire")));
 
     }
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

@@ -9,10 +9,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.SoulFireBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -53,5 +50,9 @@ public class DragonFireBlock extends BaseFireBlock {
             return ModBlocks.DRAGON_FIRE.get().defaultBlockState();
         }
         return Blocks.AIR.defaultBlockState();
+    }
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.MODEL ;
     }
 }
