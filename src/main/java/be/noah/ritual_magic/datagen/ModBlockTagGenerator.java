@@ -49,7 +49,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.ATLANTIAN_DEBRIS.get());
 
-        this.tag(ModTags.Blocks.DRAGON_FIRE_BLOCK)
+        this.tag(ModTags.Blocks.DRAGON_FIRE_BASE_BLOCK)
                 .add(Blocks.END_STONE,
                         Blocks.END_STONE_BRICKS,
                         ModBlocks.PETRIFIED_DRAGON_SCALE.get());

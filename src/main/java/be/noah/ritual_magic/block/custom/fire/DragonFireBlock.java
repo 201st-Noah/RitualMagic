@@ -4,7 +4,6 @@ import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -24,25 +23,30 @@ public class DragonFireBlock extends BaseFireBlock {
         super(p_56653_ , 4.0F);
     }
 
+    @Override
     public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
         return this.canSurvive(pState, pLevel, pCurrentPos) ? this.defaultBlockState() : Blocks.AIR.defaultBlockState();
     }
 
+    @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         return canSurviveOnBlock(pLevel.getBlockState(pPos.below()));
     }
 
     public static boolean canSurviveOnBlock(BlockState pState) {
-        return pState.is(ModTags.Blocks.DRAGON_FIRE_BLOCK);
+        return pState.is(ModTags.Blocks.DRAGON_FIRE_BASE_BLOCK);
     }
 
+    @Override
     protected boolean canBurn(BlockState pState) {
         return true;
     }
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         return getState(pContext.getLevel(), pContext.getClickedPos());
     }
+
     public static BlockState getState(BlockGetter pReader, BlockPos pPos) {
         BlockPos blockpos = pPos.below();
         BlockState blockstate = pReader.getBlockState(blockpos);
@@ -51,8 +55,9 @@ public class DragonFireBlock extends BaseFireBlock {
         }
         return Blocks.AIR.defaultBlockState();
     }
+
     @Override
     public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.MODEL ;
+        return RenderShape.MODEL;
     }
 }
