@@ -2,9 +2,7 @@ package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.ModBlocks;
-import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.models.ModelProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.*;
