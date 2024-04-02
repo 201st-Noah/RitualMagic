@@ -51,7 +51,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DWARVEN_STEEL_ARMOR_PLATE, "Dwarven Steel Armor Plate");
         addItem(ModItems.PURE_NETHERITE, "Pure Netherite");
         addItem(ModItems.TORCH, "Torch");
-        addItem(ModItems.SPEER, "Dragon rider's Speer");
+        addItem(ModItems.SPEER, "Dragon Rider's Speer");
         addItem(ModItems.DRAWEN_AXE, "Dwarven Axe");
         addItem(ModItems.DWAREN_STEEL_HELMET, "Dwarven Steel Helmet");
         addItem(ModItems.DWAREN_STEEL_CHESTPLATE, "Dwarven Steel Chestplate");
