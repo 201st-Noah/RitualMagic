@@ -24,8 +24,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
-//        simpleBlockWithItem(ModBlocks.DRAGON_FIRE.get(),
-//                new ModelFile.UncheckedModelFile(modLoc("block/dragon_fire_block")));
         fireBlock(ModBlocks.DRAGON_FIRE);
     }
 
@@ -37,36 +35,41 @@ public class ModBlockStateProvider extends BlockStateProvider {
         String name = blockRegistryObject.getId().getPath();
 
         ModelFile floor0 = models().singleTexture(
-                "block/" + name + "_floor0",
-                new ResourceLocation("block/template_fire_floor"),
-                "fire",
-                new ResourceLocation(RitualMagic.MODID, "block/" + name + "_0")
-        ), floor1 = models().singleTexture(
+                        "block/" + name + "_floor0",
+                        new ResourceLocation("block/template_fire_floor"),
+                        "fire",
+                        new ResourceLocation(RitualMagic.MODID, "block/" + name + "_0")
+        ).renderType("cutout"),
+            floor1 = models().singleTexture(
                 "block/" + name + "_floor1",
                 new ResourceLocation("block/template_fire_floor"),
                 "fire",
                 new ResourceLocation(RitualMagic.MODID, "block/" + name + "_1")
-        ), side0 = models().singleTexture(
+        ).renderType("cutout"),
+            side0 = models().singleTexture(
                 "block/" + name + "_side0",
                 new ResourceLocation("block/template_fire_side"),
                 "fire",
                 new ResourceLocation(RitualMagic.MODID, "block/" + name + "_0")
-        ), side1 = models().singleTexture(
+        ).renderType("cutout"),
+            side1 = models().singleTexture(
                 "block/" + name + "_side1",
                 new ResourceLocation("block/template_fire_side"),
                 "fire",
                 new ResourceLocation(RitualMagic.MODID, "block/" + name + "_1")
-        ), side_alt0 = models().singleTexture(
+        ).renderType("cutout"),
+            side_alt0 = models().singleTexture(
                 "block/" + name + "_side_alt0",
                 new ResourceLocation("block/template_fire_side_alt"),
                 "fire",
                 new ResourceLocation(RitualMagic.MODID, "block/" + name + "_0")
-        ), side_alt1 = models().singleTexture(
+        ).renderType("cutout"),
+            side_alt1 = models().singleTexture(
                 "block/" + name + "_side_alt1",
                 new ResourceLocation("block/template_fire_side_alt"),
                 "fire",
                 new ResourceLocation(RitualMagic.MODID, "block/" + name + "_1")
-        );
+        ).renderType("cutout");
 
         getMultipartBuilder(blockRegistryObject.get())
                 .part()
