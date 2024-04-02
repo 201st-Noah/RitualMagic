@@ -24,7 +24,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
-        fireBlock(ModBlocks.DRAGON_FIRE);
+        fireBlockWithItem(ModBlocks.DRAGON_FIRE);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
@@ -130,5 +130,21 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .rotationY(270)
                     .addModel()
                     .end();
+    }
+
+    private void fireBlockItem(RegistryObject<Block> blockRegistryObject) {
+        String name = blockRegistryObject.getId().getPath();
+
+        models().singleTexture("item/" + name,
+                new ResourceLocation("block/template_fire_floor"),
+                "fire",
+                new ResourceLocation(
+                        RitualMagic.MODID, "block/" + name + "_0"
+                ));
+    }
+
+    private void fireBlockWithItem(RegistryObject<Block> blockRegistryObject) {
+        fireBlock(blockRegistryObject);
+        fireBlockItem(blockRegistryObject);
     }
 }
