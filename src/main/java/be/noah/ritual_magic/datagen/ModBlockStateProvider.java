@@ -36,13 +36,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void fireBlock(RegistryObject<Block> blockRegistryObject){
         String name = blockRegistryObject.getId().getPath();
 
-        ModelFile test = models().singleTexture(
-                "block/" + name + "_side0",
-                new ResourceLocation("block/template_fire_side"),
-                "fire",
-                new ResourceLocation(RitualMagic.MODID, "block/" + name + "_0")
-        );
-
         ModelFile floor0 = models().singleTexture(
                 "block/" + name + "_floor0",
                 new ResourceLocation("block/template_fire_floor"),
