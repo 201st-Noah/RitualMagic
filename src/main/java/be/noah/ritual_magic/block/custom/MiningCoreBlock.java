@@ -1,15 +1,12 @@
 package be.noah.ritual_magic.block.custom;
 
-import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
 import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.Multiblocks.MultiblockBaseEntityBlock;
-import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.MiningCoreBlockEntity;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;

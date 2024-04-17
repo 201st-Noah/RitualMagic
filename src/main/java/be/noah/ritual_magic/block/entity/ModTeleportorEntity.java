@@ -1,16 +1,11 @@
 package be.noah.ritual_magic.block.entity;
 
-import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
 import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
-import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.List;
 
 public class ModTeleportorEntity extends BlockEntity {
     public boolean MULTIBLOCK_OK = false;
