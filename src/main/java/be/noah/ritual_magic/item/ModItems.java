@@ -3,10 +3,7 @@ package be.noah.ritual_magic.item;
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.item.armor.DwarvenArmor;
 import be.noah.ritual_magic.item.armor.ModArmorMaterials;
-import be.noah.ritual_magic.item.custom.ArmorPlate;
-import be.noah.ritual_magic.item.custom.DwarvenAxe;
-import be.noah.ritual_magic.item.custom.ModTorch;
-import be.noah.ritual_magic.item.custom.Speer;
+import be.noah.ritual_magic.item.custom.*;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -34,6 +31,7 @@ public class ModItems {
     public static final RegistryObject<Item> TORCH = ITEMS.register("torch", ()-> new ModTorch(new Item.Properties()));
     public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(ModToolTiers.DRACONIC,80, -3.5f,new Item.Properties()));
     public static final RegistryObject<Item> DRAWEN_AXE = ITEMS.register("dwarven_axe", ()-> new DwarvenAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));
+    public static final RegistryObject<Item> BUILDERSTAFF = ITEMS.register("builderstaff", ()-> new BuildersStaff(new Item.Properties()));
 
     //Armors
     public static final RegistryObject<Item> DWAREN_STEEL_HELMET = ITEMS.register("dwarven_steel_helmet", ()-> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));

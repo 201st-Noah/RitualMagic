@@ -29,6 +29,7 @@ public class ModCreativeModTabs {
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.DRAWEN_AXE.get());
                         pOutput.accept(ModItems.TORCH.get());
+                        pOutput.accept(ModItems.BUILDERSTAFF.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_HELMET.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_CHESTPLATE.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_LEGGINGS.get());

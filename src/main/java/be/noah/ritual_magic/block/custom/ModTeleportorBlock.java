@@ -1,5 +1,7 @@
 package be.noah.ritual_magic.block.custom;
 
+import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
+import be.noah.ritual_magic.Multiblocks.MultiblockBaseEntityBlock;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
 import be.noah.ritual_magic.block.entity.ModTeleportorEntity;
 import be.noah.ritual_magic.worldgen.dimension.ModDimensions;
@@ -26,11 +28,18 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class ModTeleportorBlock extends BaseEntityBlock {
+public class ModTeleportorBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
+    private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
     public ModTeleportorBlock(Properties pProperties) {
         super(pProperties);
     }
+
+    @Override
+    public MultiBlockStructure getStructure() {
+        return structure;
+    }
+
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;

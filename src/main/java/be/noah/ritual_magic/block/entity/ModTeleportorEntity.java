@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.block.entity;
 
 import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
+import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -13,11 +14,7 @@ import java.util.List;
 
 public class ModTeleportorEntity extends BlockEntity {
     public boolean MULTIBLOCK_OK = false;
-    public static MultiBlockLayer getMultiBlockLayer(){
-        MultiBlockLayer layer = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get());
-        layer.addCircle(3,0,0,0, 2);
-        return layer;
-    }
+    private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
     public ModTeleportorEntity( BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MOD_TELEPORTER.get(), pPos, pBlockState);
     }
@@ -35,6 +32,6 @@ public class ModTeleportorEntity extends BlockEntity {
 
     }
     private boolean updateStructure(Level pLevel, int pX, int pY, int pZ){
-        return ModTeleportorEntity.getMultiBlockLayer().checkLayer(1, pLevel, pX, pY, pZ);
+        return structure.checkStructure(3,pLevel,pX,pY,pZ);
     }
 }

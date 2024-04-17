@@ -57,6 +57,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DWAREN_STEEL_CHESTPLATE, "Dwarven Steel Chestplate");
         addItem(ModItems.DWAREN_STEEL_LEGGINGS, "Dwarven Steel Leggings");
         addItem(ModItems.DWAREN_STEEL_BOOTS, "Dwarven Steel Boots");
+        addItem(ModItems.BUILDERSTAFF, "Builder's Staff");
     }
 
     @Override

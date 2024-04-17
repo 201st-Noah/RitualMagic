@@ -2,6 +2,7 @@ package be.noah.ritual_magic.Multiblocks;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,21 @@ public class MultiBlockStructure {
         }
         return res;
     }
+    public void buildStructure(Level pLevel, int pX, int pY, int pZ){
+        for(MultiBlockLayer layer : layers){
+            if(layer.buildLayer(pLevel, pX, pY, pZ)){
+                break;
+            }
+        }
+    }
+    public static MultiBlockStructure pyramid(Block block, int h){
+        MultiBlockLayer layer = new MultiBlockLayer(block);
+        for(int i = 1; i < h; i++){
+            layer.addSquare(MultiBlockLayer.Mode.CENTER, i*2+1, i*2+1, 0, -i, 0, 2);
+        }
+        return new MultiBlockStructure(layer);
+    }
+
     public static MultiBlockStructure getTeleporterStruct(){
         MultiBlockLayer layer0 = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get());
         layer0.addCircle(3,0,0,0, 2);

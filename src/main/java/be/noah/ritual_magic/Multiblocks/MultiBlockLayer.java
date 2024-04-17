@@ -3,6 +3,7 @@ package be.noah.ritual_magic.Multiblocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.*;
 
@@ -63,6 +64,17 @@ public class MultiBlockLayer {
             }
         }
         return true;
+    }
+    public boolean buildLayer(Level pLevel, int pX, int pY, int pZ){
+        for (List<Integer> cord : coords) {
+            BlockPos pos = new BlockPos(cord.get(0) + pX, cord.get(1) + pY, cord.get(2) + pZ);
+            if (pLevel.getBlockState(pos).is(Blocks.AIR)) {
+                System.out.print(".");
+                pLevel.setBlockAndUpdate(pos, layer.defaultBlockState());
+                return true;
+            }
+        }
+        return false;
     }
     public Block getlayerBlock(){
         return  layer;

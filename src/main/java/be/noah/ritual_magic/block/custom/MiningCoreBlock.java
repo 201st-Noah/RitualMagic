@@ -1,5 +1,9 @@
 package be.noah.ritual_magic.block.custom;
 
+import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
+import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
+import be.noah.ritual_magic.Multiblocks.MultiblockBaseEntityBlock;
+import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.MiningCoreBlockEntity;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -16,10 +20,16 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class MiningCoreBlock extends BaseEntityBlock {
+public class MiningCoreBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
+    private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
     public MiningCoreBlock(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    public MultiBlockStructure getStructure() {
+        return structure;
     }
 
     @Override

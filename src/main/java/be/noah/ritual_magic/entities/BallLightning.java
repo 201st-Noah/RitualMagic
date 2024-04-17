@@ -11,7 +11,7 @@ import net.minecraft.world.phys.HitResult;
 
 public class BallLightning extends ThrowableProjectile {
 
-    private final int explosionPower = 0;
+    private final int explosionPower = 4;
     private final int onFireTimeSec = 5;
     protected BallLightning(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
