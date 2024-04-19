@@ -11,8 +11,6 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.Map;
 public class DwarvenArmor extends ArmorItem {
     private static final Map<ArmorMaterial, MobEffectInstance> MATERIAL_TO_EFFECT_MAP =
             (new ImmutableMap.Builder<ArmorMaterial, MobEffectInstance>())
-                    .put(ModArmorMaterials.DWARVEN_STEEL, new MobEffectInstance(MobEffects.REGENERATION, 200, 2,
+                    .put(ModArmorMaterials.DWARVEN_STEEL, new MobEffectInstance(MobEffects.HEALTH_BOOST, 1000000000, 2,
                             false,false, true)).build();
     //Reduces and removes the negativ effects like slowness, not able to swim, falldamage = x2
     private static final String OPTIMISING_COUNT = "OptimisingCount";
@@ -99,10 +97,10 @@ public class DwarvenArmor extends ArmorItem {
     public boolean isDamageable(ItemStack stack) {
         return false;
     }
-    public static void setPurity(ItemStack stack, int value) {
+    public void setPurity(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(PURITY, value);
     }
-    public int getPurity(ItemStack stack) {
+    public static int getPurity(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(PURITY) : 0;
     }
     public void setMagicCapacity(ItemStack stack, int value) {
