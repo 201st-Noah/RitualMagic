@@ -3,6 +3,7 @@ package be.noah.ritual_magic.Multiblocks;
 import be.noah.ritual_magic.block.ModBlocks;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +65,21 @@ public class MultiBlockStructure {
         return new MultiBlockStructure(List.of(layer0,layer1,layer2,layer3));
     }
 
-    public static MultiBlockStructure test(){
-        MultiBlockLayer layer0 = new MultiBlockLayer(ModBlocks.DWARVEN_STEEL_BLOCK.get());
-        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,3,0,0,0,1);
-        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,3,4,0,0,1);
-        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,3,2,-2,0,2);
-        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,3,2,0,-2,0);
-        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,3,2,0,2,0);
+    public static MultiBlockStructure forgeT1(){
+        MultiBlockLayer layer0 = new MultiBlockLayer(Blocks.DEEPSLATE_BRICKS,1,-1,0);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,1,3,0,1,0,1);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,1,3,2,1,0,1);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,1,3,1,1,-1,0);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,1,3,1,1,1,0);
+        return new MultiBlockStructure(List.of(layer0));
+    }
+    public static MultiBlockStructure forgeT2(){
+        MultiBlockLayer layer0 = new MultiBlockLayer(Blocks.DEEPSLATE_TILES);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,5,0,2,0,1);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,5,4,2,0,1);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,3,2,-1,0,2);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,5,2,2,-2,0);
+        layer0.addSquare(MultiBlockLayer.Mode.CENTER,3,5,2,2,2,0);
         return new MultiBlockStructure(List.of(layer0));
     }
 }

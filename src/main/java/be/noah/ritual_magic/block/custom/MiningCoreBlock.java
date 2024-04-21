@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class MiningCoreBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
-    private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
+    private static final MultiBlockStructure structure = MultiBlockStructure.forgeT2();
     public MiningCoreBlock(Properties pProperties) {
         super(pProperties);
     }

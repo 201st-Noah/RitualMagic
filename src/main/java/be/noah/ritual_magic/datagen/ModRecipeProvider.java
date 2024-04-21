@@ -68,6 +68,22 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('H',Items.HEART_OF_THE_SEA)
                 .unlockedBy(getHasName(Items.HEART_OF_THE_SEA), has(Items.HEART_OF_THE_SEA))
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BUILDERSTAFF.get(),1 )
+                .pattern("  I")
+                .pattern(" S ")
+                .pattern("S  ")
+                .define('S',Items.STICK)
+                .define('I',ModItems.DWARVEN_STEEL_INGOT.get())
+                .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TORCH.get(),1 )
+                .pattern(" C ")
+                .pattern(" S ")
+                .pattern(" S ")
+                .define('S',Items.STICK)
+                .define('C',Items.COAL_BLOCK)
+                .unlockedBy(getHasName(Items.COAL_BLOCK), has(Items.COAL_BLOCK))
+                .save(pWriter);
     }
     protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
         oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTIme, pGroup, "_from_smelting");

@@ -97,7 +97,7 @@ public class DwarvenArmor extends ArmorItem {
     public boolean isDamageable(ItemStack stack) {
         return false;
     }
-    public void setPurity(ItemStack stack, int value) {
+    public static void setPurity(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(PURITY, value);
     }
     public static int getPurity(ItemStack stack) {
