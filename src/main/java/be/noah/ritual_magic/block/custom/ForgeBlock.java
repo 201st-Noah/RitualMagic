@@ -3,7 +3,6 @@ package be.noah.ritual_magic.block.custom;
 import be.noah.ritual_magic.Multiblocks.MultiBlockLayer;
 import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.Multiblocks.MultiblockBaseEntityBlock;
-import be.noah.ritual_magic.block.entity.AncientAnvilBlockEntity;
 import be.noah.ritual_magic.block.entity.ForgeBlockEntity;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;

@@ -2,7 +2,6 @@ package be.noah.ritual_magic.block.entity;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.block.custom.ForgeBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
