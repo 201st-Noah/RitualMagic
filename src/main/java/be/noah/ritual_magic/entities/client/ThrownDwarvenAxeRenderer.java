@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ThrownDwarvenAxeRenderer<T extends ThrownDwarvenAxe> extends EntityRenderer<T> {
     private static final int degreesPerTick = 24;
-    private ItemRenderer itemRenderer = null;
+    private final ItemRenderer itemRenderer;
 
     public ThrownDwarvenAxeRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
@@ -25,14 +25,29 @@ public class ThrownDwarvenAxeRenderer<T extends ThrownDwarvenAxe> extends Entity
     }
 
     @Override
-    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
-        poseStack.translate(0.0, 0.25, 0.0);
-        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F - entity.getYRot()));
-        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
-        poseStack.mulPose(Axis.XP.rotationDegrees(((float)entity.tickCount + partialTicks) * 24.0F % 360.0F));
-        this.itemRenderer.renderStatic(entity.getItem(), ItemDisplayContext.FIXED, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
+
+        // Position the axe
+        poseStack.translate(0.0D, 0.25D, 0.0D);
+
+        poseStack.mulPose(Axis.YP.rotationDegrees(entity.getYRot() + 90F));
+
+        // Add spinning animation around the throwing axis
+        poseStack.mulPose(Axis.ZP.rotationDegrees(((float)entity.tickCount + partialTicks) * degreesPerTick));
+
+        // Render the item
+        this.itemRenderer.renderStatic(
+                entity.getItem(),
+                ItemDisplayContext.FIXED,
+                packedLight,
+                OverlayTexture.NO_OVERLAY,
+                poseStack,
+                buffer,
+                entity.level(),
+                entity.getId()
+        );
+
         poseStack.popPose();
     }
 

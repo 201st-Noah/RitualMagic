@@ -5,7 +5,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -24,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ThrownDwarvenAxe extends AbstractArrow {
     private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK;
+    private static final double RETURN_SPEED_MODIFIER = 5F;
 
     static {
         DATA_ITEM_STACK = SynchedEntityData.defineId(ThrownDwarvenAxe.class, EntityDataSerializers.ITEM_STACK);
@@ -33,13 +33,6 @@ public class ThrownDwarvenAxe extends AbstractArrow {
     public int clientSideReturnAxeTickCount;
     private boolean dealtDamage;
     private ItemStack axeItem = new ItemStack(Items.NETHERITE_AXE);
-
-    public ThrownDwarvenAxe(EntityType<? extends AbstractArrow> pEntityType, Level pLevel, ItemStack pStack) {
-        super(pEntityType, pLevel);
-
-        this.axeItem = pStack.copy();
-        this.setItem(pStack);
-    }
 
     public ThrownDwarvenAxe(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -57,8 +50,7 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         }
 
         Entity entity = this.getOwner();
-        int i = 5;
-        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
+        if ( (this.dealtDamage || this.isNoPhysics()) && entity != null) {
             if (!this.isAcceptableReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation(this.getPickupItem(), 0.1F);
@@ -68,12 +60,12 @@ public class ThrownDwarvenAxe extends AbstractArrow {
             } else {
                 this.setNoPhysics(true);
                 Vec3 vec3 = entity.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * (double) i, this.getZ());
+                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * RETURN_SPEED_MODIFIER, this.getZ());
                 if (this.level().isClientSide) {
                     this.yOld = this.getY();
                 }
 
-                double d0 = 0.05D * (double) i;
+                double d0 = 0.05D * RETURN_SPEED_MODIFIER;
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0)));
                 if (this.clientSideReturnAxeTickCount == 0) {
                     this.playSound(SoundEvents.ANVIL_DESTROY, 10.0F, 1.0F);
@@ -117,7 +109,6 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         Entity entity1 = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, entity1 == null ? this : entity1);
         this.dealtDamage = true;
-        SoundEvent soundevent = SoundEvents.ANVIL_HIT;
         if (entity.hurt(damagesource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
@@ -142,7 +133,7 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         this.entityData.define(DATA_ITEM_STACK, ItemStack.EMPTY);
     }
 
-    public void setItem(ItemStack pStack) {
+    public void setItem(@NotNull ItemStack pStack) {
         if (!pStack.is(this.getDefaultItem()) || pStack.hasTag()) {
             this.entityData.set(DATA_ITEM_STACK, pStack.copy());
         }
