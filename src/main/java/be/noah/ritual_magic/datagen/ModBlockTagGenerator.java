@@ -26,8 +26,12 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.ATLANTIAN_DEBRIS.get(),
                         ModBlocks.PETRIFIED_DRAGON_SCALE.get());
 
+        this.tag(BlockTags.NEEDS_STONE_TOOL)
+                .add(ModBlocks.FORGE_T0.get());
+
         this.tag(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.SOUL_BRICKS.get());
+                .add(ModBlocks.SOUL_BRICKS.get(),
+                        ModBlocks.FORGE_T1.get());
 
         this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.DWARVEN_DEBRIS.get(),
@@ -36,7 +40,8 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.MINING_CORE.get(),
                         ModBlocks.POLISHED_OBSIDIAN.get(),
                         ModBlocks.DWARVEN_STEEL_BLOCK.get(),
-                        ModBlocks.ANCIENT_ANVIL.get());
+                        ModBlocks.ANCIENT_ANVIL.get(),
+                        ModBlocks.FORGE_T2.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.DWARVEN_DEBRIS.get(),
@@ -44,7 +49,10 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.MINING_CORE.get(),
                         ModBlocks.POLISHED_OBSIDIAN.get(),
                         ModBlocks.DWARVEN_STEEL_BLOCK.get(),
-                        ModBlocks.ANCIENT_ANVIL.get());
+                        ModBlocks.ANCIENT_ANVIL.get(),
+                        ModBlocks.FORGE_T0.get(),
+                        ModBlocks.FORGE_T1.get(),
+                        ModBlocks.FORGE_T2.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.ATLANTIAN_DEBRIS.get());

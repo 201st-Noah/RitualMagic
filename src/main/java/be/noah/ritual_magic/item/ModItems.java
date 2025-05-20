@@ -32,6 +32,7 @@ public class ModItems {
     public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(ModToolTiers.DRACONIC,80, -3.5f,new Item.Properties()));
     public static final RegistryObject<Item> DRAWEN_AXE = ITEMS.register("dwarven_axe", ()-> new DwarvenAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));
     public static final RegistryObject<Item> BUILDERSTAFF = ITEMS.register("builderstaff", ()-> new BuildersStaff(new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_SCEPTRE = ITEMS.register("nether_sceptre", ()-> new NetherScepter(new Item.Properties()));
 
     //Armors
     public static final RegistryObject<Item> DWAREN_STEEL_HELMET = ITEMS.register("dwarven_steel_helmet", ()-> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));

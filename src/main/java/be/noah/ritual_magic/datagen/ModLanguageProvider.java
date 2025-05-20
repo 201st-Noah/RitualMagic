@@ -27,7 +27,9 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.MOD_TELEPORTER, "Teleporter Core");
         addBlock(ModBlocks.MINING_CORE, "Mining Core");
         addBlock(ModBlocks.ANCIENT_ANVIL, "Ancient Anvil");
-
+        addBlock(ModBlocks.FORGE_T0, "Beginner Forge");
+        addBlock(ModBlocks.FORGE_T1, "Basic Forge");
+        addBlock(ModBlocks.FORGE_T2, "Advanced Forge");
     }
 
     private void creativeTabs() {
@@ -58,6 +60,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DWAREN_STEEL_LEGGINGS, "Dwarven Steel Leggings");
         addItem(ModItems.DWAREN_STEEL_BOOTS, "Dwarven Steel Boots");
         addItem(ModItems.BUILDERSTAFF, "Builder's Staff");
+        addItem(ModItems.NETHER_SCEPTRE, "Sceptre of the Nether");
     }
 
     @Override

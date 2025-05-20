@@ -39,6 +39,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.DWARVEN_STEEL_BLOCK.get());
                         //BlockEntities
                         pOutput.accept(ModBlocks.ANCIENT_ANVIL.get());
+                        pOutput.accept(ModBlocks.FORGE_T0.get());
+                        pOutput.accept(ModBlocks.FORGE_T1.get());
+                        pOutput.accept(ModBlocks.FORGE_T2.get());
                     })
                     .build()
     );
@@ -87,6 +90,7 @@ public class ModCreativeModTabs {
                     .displayItems((pParameters, pOutput) -> {
                         //Basic Items
                         //Functional Items (Wapons, Tools, Armor,...)
+                        pOutput.accept(ModItems.NETHER_SCEPTRE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
                         //BlockEntities

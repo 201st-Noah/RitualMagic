@@ -21,6 +21,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.PETRIFIED_DRAGON_SCALE);
         blockWithItem(ModBlocks.POLISHED_OBSIDIAN);
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
+        blockWithItem(ModBlocks.FORGE_T0);
 
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));

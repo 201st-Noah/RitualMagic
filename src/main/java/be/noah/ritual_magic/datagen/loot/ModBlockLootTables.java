@@ -26,6 +26,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
         this.dropSelf(ModBlocks.DWARVEN_STEEL_BLOCK.get());
         this.dropSelf(ModBlocks.ANCIENT_ANVIL.get());
+        this.dropSelf(ModBlocks.FORGE_T0.get());
+        this.dropSelf(ModBlocks.FORGE_T1.get());
+        this.dropSelf(ModBlocks.FORGE_T2.get());
 
     }
     @Override

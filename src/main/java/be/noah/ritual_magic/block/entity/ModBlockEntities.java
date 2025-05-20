@@ -2,6 +2,7 @@ package be.noah.ritual_magic.block.entity;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.ModBlocks;
+import be.noah.ritual_magic.block.custom.ForgeBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,6 +25,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("ancient_anvil", () ->
                     BlockEntityType.Builder.of(AncientAnvilBlockEntity::new,
                             ModBlocks.ANCIENT_ANVIL.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ForgeBlockEntity>> FORGE =
+            BLOCK_ENTITIES.register("forge", () ->
+                    BlockEntityType.Builder.of(ForgeBlockEntity::new,
+                            ModBlocks.FORGE_T0.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
