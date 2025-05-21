@@ -16,9 +16,9 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("mining_core", () ->
                     BlockEntityType.Builder.of(MiningCoreBlockEntity::new,
                             ModBlocks.MINING_CORE.get()).build(null));
-    public static final RegistryObject<BlockEntityType<ModTeleportorEntity>> MOD_TELEPORTER =
+    public static final RegistryObject<BlockEntityType<ModTeleporterEntity>> MOD_TELEPORTER =
             BLOCK_ENTITIES.register("mod_teleporter", () ->
-                    BlockEntityType.Builder.of(ModTeleportorEntity::new,
+                    BlockEntityType.Builder.of(ModTeleporterEntity::new,
                             ModBlocks.MOD_TELEPORTER.get()).build(null));
     public static final RegistryObject<BlockEntityType<AncientAnvilBlockEntity>> ANCIENT_ANVIL =
             BLOCK_ENTITIES.register("ancient_anvil", () ->

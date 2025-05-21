@@ -3,7 +3,7 @@ package be.noah.ritual_magic.block.custom;
 import be.noah.ritual_magic.Multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.Multiblocks.MultiblockBaseEntityBlock;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
-import be.noah.ritual_magic.block.entity.ModTeleportorEntity;
+import be.noah.ritual_magic.block.entity.ModTeleporterEntity;
 import be.noah.ritual_magic.worldgen.dimension.ModDimensions;
 import be.noah.ritual_magic.worldgen.portal.ModTeleporter;
 import net.minecraft.core.BlockPos;
@@ -27,10 +27,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class ModTeleportorBlock extends MultiblockBaseEntityBlock {
+public class ModTeleporterBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
     private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
-    public ModTeleportorBlock(Properties pProperties) {
+    public ModTeleporterBlock(Properties pProperties) {
         super(pProperties);
     }
 
@@ -60,8 +60,8 @@ public class ModTeleportorBlock extends MultiblockBaseEntityBlock {
         @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-        if(blockentity instanceof  ModTeleportorEntity) {
-            if (pPlayer.canChangeDimensions() && ((ModTeleportorEntity) blockentity).MULTIBLOCK_OK) {
+        if(blockentity instanceof ModTeleporterEntity) {
+            if (pPlayer.canChangeDimensions() && ((ModTeleporterEntity) blockentity).MULTIBLOCK_OK) {
                 handleInfinityPortal(pPlayer, pPos);
                 return InteractionResult.SUCCESS;
             } else {return InteractionResult.CONSUME;}
@@ -88,6 +88,6 @@ public class ModTeleportorBlock extends MultiblockBaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new ModTeleportorEntity(pPos, pState);
+        return new ModTeleporterEntity(pPos, pState);
     }
 }

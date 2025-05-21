@@ -7,10 +7,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 
-public class ModTeleportorEntity extends BlockEntity {
+public class ModTeleporterEntity extends BlockEntity {
     public boolean MULTIBLOCK_OK = false;
     private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
-    public ModTeleportorEntity( BlockPos pPos, BlockState pBlockState) {
+    public ModTeleporterEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MOD_TELEPORTER.get(), pPos, pBlockState);
     }
     public void tick(Level pLevel, BlockPos pPos, BlockState pState){
@@ -18,11 +18,7 @@ public class ModTeleportorEntity extends BlockEntity {
         int y = pPos.getY();
         int z = pPos.getZ();
         if (pLevel.getGameTime() % 79L == 0L) {
-            if (updateStructure(pLevel, x, y, z)) {
-                this.MULTIBLOCK_OK = true;
-            } else {
-                this.MULTIBLOCK_OK = false;
-            }
+            this.MULTIBLOCK_OK = updateStructure(pLevel, x, y, z);
         }
 
     }

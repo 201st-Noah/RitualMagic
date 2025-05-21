@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.worldgen.portal;
 
 import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.block.custom.ModTeleportorBlock;
+import be.noah.ritual_magic.block.custom.ModTeleporterBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -47,7 +47,7 @@ public class ModTeleporter implements ITeleporter {
             boolean doSetBlock = true;
             for (BlockPos checkPos : BlockPos.betweenClosed(destinationPos.below(10).west(10),
                     destinationPos.above(10).east(10))) {
-                if (destinationWorld.getBlockState(checkPos).getBlock() instanceof ModTeleportorBlock) {
+                if (destinationWorld.getBlockState(checkPos).getBlock() instanceof ModTeleporterBlock) {
                     doSetBlock = false;
                     break;
                 }
