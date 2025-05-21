@@ -61,6 +61,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DWAREN_STEEL_BOOTS, "Dwarven Steel Boots");
         addItem(ModItems.BUILDERSTAFF, "Builder's Staff");
         addItem(ModItems.NETHER_SCEPTRE, "Sceptre of the Nether");
+        addItem(ModItems.ICE_SWORD, "Eternal Ice Sword");
     }
 
     @Override

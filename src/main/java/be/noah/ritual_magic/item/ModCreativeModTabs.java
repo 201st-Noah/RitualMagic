@@ -56,6 +56,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
                         pOutput.accept(ModItems.ATLANTIAN_STEEL_INGOT.get());
                         //Functional Items (Wapons, Tools, Armor,...)
+                        pOutput.accept(ModItems.ICE_SWORD.get());
                         //Blocks
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         //BlockEntities
