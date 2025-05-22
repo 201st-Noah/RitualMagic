@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
@@ -21,12 +22,9 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.network.chat.Component;
 
 public class IceSword extends SwordItem {
-    private static final int PROJECTILE_COUNT = 13;
-    private static final double SPAWN_HEIGHT = 2.0;
+    private static final int PROJECTILE_COUNT = 17;
+    private static final int COOLDOWN = 30;
     private static final double TARGET_RANGE = 3200.0;
-
-    //private List<DelayedProjectileSpawn> projectileQueue = new ArrayList<>();
-
 
     public IceSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -39,20 +37,20 @@ public class IceSword extends SwordItem {
         if (!level.isClientSide) {
             Entity target = findTargetInLineOfSight(player);
 
-            if (target instanceof LivingEntity livingTarget) {
+            if (target != null) {
                 // Spawn drei Projektile über dem Spieler
-                spawnProjectiles(level, player, livingTarget);
+                spawnProjectiles(level, player, target);
 
                 // Spiele Sound-Effekt
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
                         SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS,
                         1.0F, 1.0F);
+                player.getCooldowns().addCooldown(this, COOLDOWN);
 
-                itemstack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
-                return InteractionResultHolder.consume(itemstack);
+                return InteractionResultHolder.success(itemstack);
             } else {
                 // Informiere den Spieler, dass kein Ziel gefunden wurde
-                player.displayClientMessage(Component.translatable("Kein Ziel in Sichtlinie gefunden"), true);
+                player.displayClientMessage(Component.translatable("No Target detected"), true);
                 return InteractionResultHolder.fail(itemstack);
             }
         }
@@ -60,7 +58,7 @@ public class IceSword extends SwordItem {
         return InteractionResultHolder.pass(itemstack);
     }
 
-    private void spawnProjectiles(Level level, Player player, LivingEntity target) {
+    private void spawnProjectiles(Level level, Player player, Entity target) {
         // Berechne die Basis-Vektoren für das Portal-ähnliche Spawn-Muster
         Vec3 lookVec = player.getViewVector(1.0F);
         Vec3 upVec = new Vec3(0, 1, 0);
@@ -94,6 +92,7 @@ public class IceSword extends SwordItem {
             projectile.setOwner(player);
             projectile.setTarget(target);
             projectile.setNoGravity(true);
+            projectile.setDelayRange(10, 80);
 
             // Richtung zum Ziel
             Vec3 direction = new Vec3(
@@ -102,7 +101,7 @@ public class IceSword extends SwordItem {
                     target.getZ() - spawnPos.z
             ).normalize();
 
-            projectile.shoot(direction.x, direction.y, direction.z, 1.5F, 0.0F);
+            projectile.shoot(direction.x, direction.y, direction.z, 0.0F, 0.0F);
             level.addFreshEntity(projectile);
         }
     }
@@ -132,9 +131,7 @@ public class IceSword extends SwordItem {
 
         for (Entity entity : player.level().getEntities(player,
                 new AABB(eyePos.x, eyePos.y, eyePos.z, targetVec.x, targetVec.y, targetVec.z).inflate(1.0),
-                e -> e instanceof LivingEntity && !(e instanceof Player))) {
-
-            if (!(entity instanceof LivingEntity)) continue;
+                e -> e instanceof Entity && !(e instanceof Player || e instanceof Projectile))) {
 
             Vec3 directionToEntity = entity.position()
                     .add(0, entity.getBbHeight() * 0.5, 0)
