@@ -38,10 +38,8 @@ public class IceSword extends SwordItem {
             Entity target = findTargetInLineOfSight(player);
 
             if (target != null) {
-                // Spawn drei Projektile über dem Spieler
                 spawnProjectiles(level, player, target);
 
-                // Spiele Sound-Effekt
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
                         SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS,
                         1.0F, 1.0F);
@@ -49,7 +47,6 @@ public class IceSword extends SwordItem {
 
                 return InteractionResultHolder.success(itemstack);
             } else {
-                // Informiere den Spieler, dass kein Ziel gefunden wurde
                 player.displayClientMessage(Component.translatable("No Target detected"), true);
                 return InteractionResultHolder.fail(itemstack);
             }

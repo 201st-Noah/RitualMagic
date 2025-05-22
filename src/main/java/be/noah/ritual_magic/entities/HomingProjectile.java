@@ -43,6 +43,7 @@ public class HomingProjectile extends ThrowableProjectile {
         return true;
     }
 
+    //not working
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (this.isInvulnerable()) {
