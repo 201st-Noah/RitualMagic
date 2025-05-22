@@ -22,6 +22,12 @@ public class ModEntities {
                     .updateInterval(20)
                     .build(new ResourceLocation(RitualMagic.MODID, "thrown_dwarven_axe").toString()));
 
+    public static final RegistryObject<EntityType<HomingProjectile>> HOMING_PROJECTILE = ENTITIES.register("homing_projectile",
+            () -> EntityType.Builder.<HomingProjectile>of(HomingProjectile::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F)
+                    .updateInterval(1) // Update frequently for smooth homing
+                    .build(new ResourceLocation(RitualMagic.MODID, "homing_projectile").toString()));
+
     public static void register(IEventBus eventBus)
     {
         ENTITIES.register(eventBus);

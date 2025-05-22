@@ -2,9 +2,8 @@ package be.noah.ritual_magic;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
-import be.noah.ritual_magic.entities.client.BallLightningRenderer;
+import be.noah.ritual_magic.entities.client.*;
 import be.noah.ritual_magic.entities.ModEntities;
-import be.noah.ritual_magic.entities.client.ThrownDwarvenAxeRenderer;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
 import be.noah.ritual_magic.screen.AncientAnvilScreen;
@@ -53,6 +52,7 @@ public class RitualMagic {
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.BALL_LIGHTNING.get(), BallLightningRenderer::new);
             EntityRenderers.register(ModEntities.THROWN_DWARVEN_AXE.get(), ThrownDwarvenAxeRenderer::new);
+            EntityRenderers.register(ModEntities.HOMING_PROJECTILE.get(), HomingProjectileRenderer::new);
             MenuScreens.register(ModMenuTypes.ANCIENT_ANVIL_MENU.get(), AncientAnvilScreen::new);
         }
     }

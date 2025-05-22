@@ -7,4 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ModModelLayers {
     public static final ModelLayerLocation AXE_LAYER = new ModelLayerLocation(
             new ResourceLocation(RitualMagic.MODID, "axe"), "main");
+    public static final ModelLayerLocation HOMING_PROJECTILE_LAYER = new ModelLayerLocation(
+            new ResourceLocation(RitualMagic.MODID, "homing_projectile"), "main");
+
 }
