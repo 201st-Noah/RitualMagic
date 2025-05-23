@@ -6,7 +6,9 @@ import be.noah.ritual_magic.entities.ModEntities;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -103,7 +105,6 @@ public class IceSword extends SwordItem {
         }
     }
 
-
     private Entity findTargetInLineOfSight(Player player) {
         Vec3 eyePos = player.getEyePosition();
         Vec3 lookVec = player.getViewVector(1.0F);
@@ -128,7 +129,7 @@ public class IceSword extends SwordItem {
 
         for (Entity entity : player.level().getEntities(player,
                 new AABB(eyePos.x, eyePos.y, eyePos.z, targetVec.x, targetVec.y, targetVec.z).inflate(1.0),
-                e -> e instanceof Entity && !(e instanceof Player || e instanceof Projectile))) {
+                e -> e instanceof Entity && !(e instanceof Player || e instanceof Projectile || e instanceof ItemEntity || e instanceof ExperienceOrb))) {
 
             Vec3 directionToEntity = entity.position()
                     .add(0, entity.getBbHeight() * 0.5, 0)

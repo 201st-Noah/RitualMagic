@@ -2,6 +2,7 @@ package be.noah.ritual_magic;
 
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
+import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.entities.client.*;
 import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
@@ -33,7 +34,7 @@ public class RitualMagic {
         ModBlocks.register(modEventBus);
         ModCreativeModTabs.register(modEventBus);
         ModMenuTypes.register(modEventBus);
-
+        ModEffects.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
         modEventBus.addListener(this::commonSetup);

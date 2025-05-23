@@ -1,8 +1,13 @@
 package be.noah.ritual_magic.entities;
 
+import be.noah.ritual_magic.effect.IceCaveSyndrom;
+import be.noah.ritual_magic.effect.ModEffects;
+import com.mojang.blaze3d.shaders.Effect;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -138,6 +143,11 @@ public class HomingProjectile extends ThrowableProjectile {
         if (!this.level().isClientSide) {
             Entity entity = result.getEntity();
             // Deal damage to the hit entity
+            if (entity instanceof LivingEntity) {
+                ((LivingEntity) entity).addEffect(new MobEffectInstance(
+                        ModEffects.ICECAVESYNDROM.get(),
+                        200, 0));
+            }
             entity.hurt(this.level().damageSources().playerAttack((Player) this.getOwner()), 8.0F);
             // Remove the projectile
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
