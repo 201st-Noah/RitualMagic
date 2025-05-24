@@ -1,10 +1,13 @@
 
 package be.noah.ritual_magic.item.custom;
 
+import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.entities.HomingProjectile;
 import be.noah.ritual_magic.entities.ModEntities;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +30,7 @@ public class IceSword extends SwordItem {
     private static final int PROJECTILE_COUNT = 17;
     private static final int COOLDOWN = 30;
     private static final double TARGET_RANGE = 3200.0;
-
+    private int mode = 0;
     public IceSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
@@ -37,24 +40,39 @@ public class IceSword extends SwordItem {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
-            Entity target = findTargetInLineOfSight(player);
-
-            if (target != null) {
-                spawnProjectiles(level, player, target);
-
-                level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                        SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS,
-                        1.0F, 1.0F);
-                player.getCooldowns().addCooldown(this, COOLDOWN);
-
+            if (player.isShiftKeyDown()) {
+                mode = (mode + 1) % 2;
+                if (mode == 0) {
+                    player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.0"), true);
+                } else {
+                    player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.1"), true);
+                }
                 return InteractionResultHolder.success(itemstack);
             } else {
-                player.displayClientMessage(Component.translatable("No Target detected"), true);
-                return InteractionResultHolder.fail(itemstack);
+                Entity target = findTargetInLineOfSight(player);
+                if (target != null) {
+                    switch (mode) {
+                        case 0:
+                            spawnProjectiles(level, player, target);
+                            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            break;
+                        case 1:
+                            if (target instanceof LivingEntity) {
+                                ((LivingEntity) target).addEffect(new MobEffectInstance(ModEffects.ICERAIN.get(), 200, 20));
+                            }
+                            break;
+                    }
+                    player.getCooldowns().addCooldown(this, COOLDOWN);
+                    return InteractionResultHolder.success(itemstack);
+                } else{
+                    player.displayClientMessage(Component.translatable("No Target detected"), true);
+                    return InteractionResultHolder.fail(itemstack);
+                }
+
             }
         }
-
         return InteractionResultHolder.pass(itemstack);
+
     }
 
     private void spawnProjectiles(Level level, Player player, Entity target) {
