@@ -72,7 +72,7 @@ public class IceSword extends SwordItem {
                             }
                             break;
                         case 2:
-                            createIceField(level, player, target, 12);
+                            createIceField(level, player, target, 8);
                             break;
                     }
                     player.getCooldowns().addCooldown(this, COOLDOWN);
