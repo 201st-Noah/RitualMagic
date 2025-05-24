@@ -22,10 +22,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.POLISHED_OBSIDIAN);
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
         blockWithItem(ModBlocks.FORGE_T0);
-
-        simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(),
-                new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
+        simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(), new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
         fireBlockWithItem(ModBlocks.DRAGON_FIRE);
+        simpleBlockWithItem(ModBlocks.ICE_SPIKE.get(), models().cross("ice_spike_block", modLoc("block/ice_spike_block")).renderType("cutout"));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

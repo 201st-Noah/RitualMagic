@@ -1,9 +1,11 @@
 
 package be.noah.ritual_magic.item.custom;
 
+import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.entities.HomingProjectile;
 import be.noah.ritual_magic.entities.ModEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,6 +22,8 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -41,11 +45,17 @@ public class IceSword extends SwordItem {
 
         if (!level.isClientSide) {
             if (player.isShiftKeyDown()) {
-                mode = (mode + 1) % 2;
-                if (mode == 0) {
-                    player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.0"), true);
-                } else {
-                    player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.1"), true);
+                mode = (mode + 1) % 3;
+                switch (mode) {
+                    case 0:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.0"), true);
+                        break;
+                    case 1:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.1"), true);
+                        break;
+                    case 2:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.2"), true);
+                        break;
                 }
                 return InteractionResultHolder.success(itemstack);
             } else {
@@ -61,6 +71,9 @@ public class IceSword extends SwordItem {
                                 ((LivingEntity) target).addEffect(new MobEffectInstance(ModEffects.ICERAIN.get(), 200, 20));
                             }
                             break;
+                        case 2:
+                            createIceField(level, player, target, 12);
+                            break;
                     }
                     player.getCooldowns().addCooldown(this, COOLDOWN);
                     return InteractionResultHolder.success(itemstack);
@@ -73,6 +86,32 @@ public class IceSword extends SwordItem {
         }
         return InteractionResultHolder.pass(itemstack);
 
+    }
+
+    private void createIceField(Level level, Player player, Entity target, int radius){
+        BlockPos center = target.blockPosition();
+
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dz = -radius; dz <= radius; dz++) {
+
+                if (dx * dx + dz * dz > radius * radius) continue;
+                int x = center.getX() + dx;
+                int z = center.getZ() + dz;
+
+                for (int dy = center.getY() + 5; dy >= center.getY() -10 ; dy--) {
+                    BlockPos floorPos = new BlockPos(x, dy, z);
+                    BlockPos abovePos = floorPos.above();
+
+                    BlockState floorState = level.getBlockState(floorPos);
+                    BlockState aboveState = level.getBlockState(abovePos);
+
+                    if (floorState.isSolidRender(level, floorPos) && aboveState.isAir()) {
+                        level.setBlock(abovePos, ModBlocks.ICE_SPIKE.get().defaultBlockState(), 3);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private void spawnProjectiles(Level level, Player player, Entity target) {

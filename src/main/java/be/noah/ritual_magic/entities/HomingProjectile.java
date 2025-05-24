@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.entities;
 
+import be.noah.ritual_magic.block.custom.IceSpikeBlock;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -158,8 +159,10 @@ public class HomingProjectile extends ThrowableProjectile {
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         if (!this.level().isClientSide) {
-            playDestroySound();
-            this.discard();
+            if(!(this.level().getBlockState(result.getBlockPos()).getBlock() instanceof IceSpikeBlock)) {
+                playDestroySound();
+                this.discard();
+            }
         }
     }
 

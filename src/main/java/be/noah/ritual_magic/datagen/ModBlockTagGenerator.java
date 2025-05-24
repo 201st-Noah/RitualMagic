@@ -41,7 +41,8 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.POLISHED_OBSIDIAN.get(),
                         ModBlocks.DWARVEN_STEEL_BLOCK.get(),
                         ModBlocks.ANCIENT_ANVIL.get(),
-                        ModBlocks.FORGE_T2.get());
+                        ModBlocks.FORGE_T2.get(),
+                        ModBlocks.ICE_SPIKE.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.DWARVEN_DEBRIS.get(),
@@ -52,7 +53,8 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.ANCIENT_ANVIL.get(),
                         ModBlocks.FORGE_T0.get(),
                         ModBlocks.FORGE_T1.get(),
-                        ModBlocks.FORGE_T2.get());
+                        ModBlocks.FORGE_T2.get(),
+                        ModBlocks.ICE_SPIKE.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.ATLANTIAN_DEBRIS.get());

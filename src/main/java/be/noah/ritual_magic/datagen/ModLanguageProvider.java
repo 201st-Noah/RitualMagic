@@ -21,6 +21,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.SOUL_BRICKS, "Soul Bricks");
         addBlock(ModBlocks.DWARVEN_STEEL_BLOCK, "Dwarven Steel Block");
         addBlock(ModBlocks.DRAGON_FIRE, "Dragon Fire");
+        addBlock(ModBlocks.ICE_SPIKE, "Ice Spike");
     }
 
     private void blockEntities() {
@@ -62,6 +63,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.BUILDERSTAFF, "Builder's Staff");
         addItem(ModItems.NETHER_SCEPTRE, "Sceptre of the Nether");
         addItem(ModItems.ICE_SWORD, "Eternal Ice Sword");
+        addItem(ModItems.ICE_SHARD, "Ice Shard");
     }
 
     @Override

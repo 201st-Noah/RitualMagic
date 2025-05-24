@@ -26,6 +26,7 @@ public class ModItems {
     public static final RegistryObject<Item> LOST_SOUL = ITEMS.register("lost_soul", ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_STEEL_ARMOR_PLATE = ITEMS.register("dwarven_steel_armor_plate", ()-> new ArmorPlate(ModToolTiers.DWARVEN,new Item.Properties()));
     public static final RegistryObject<Item> PURE_NETHERITE = ITEMS.register("pure_netherite", ()-> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ICE_SHARD = ITEMS.register("ice_shard", ()-> new Item(new Item.Properties()));
 
     //Advanced Items
     public static final RegistryObject<Item> TORCH = ITEMS.register("torch", ()-> new ModTorch(new Item.Properties()));
