@@ -39,6 +39,19 @@ public class Speer extends SwordItem {
         }
 
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+
+        /*
+         Use Mode Ideas:
+         -----------------
+         Void Shield
+         Laser Beam
+         Staff Of Traveling
+         Summoning Energy Dragon
+         No escape Zone: Disables Teleportation in an Area
+         Throwing it with 0 Gravity
+         Reset Y Movement => cancels Fall damage
+         
+         */
     }
 
 }

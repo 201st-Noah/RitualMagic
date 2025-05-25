@@ -2,6 +2,7 @@ package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.ModBlocks;
+import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
 import net.minecraft.data.PackOutput;
@@ -66,12 +67,30 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.ICE_SHARD, "Ice Shard");
     }
 
+    private void effects(){
+        addEffect(ModEffects.ICERAIN, "Ice Rain");
+        addEffect(ModEffects.FROSTAURA, "Frost Aura");
+        addEffect(ModEffects.FIREAURA, "Fire Aura");
+    }
+
+    private void messages(){
+        add("ritual_magic.item.ice_sword.mode.0", "Ice Darts");
+        add("ritual_magic.item.ice_sword.mode.1", "Ice Rain");
+        add("ritual_magic.item.ice_sword.mode.2", "Ice Field");
+        add("ritual_magic.item.ice_sword.mode.3", "Frost Aura.");
+        add("ritual_magic.item.ice_sword.noTarget", "No Target found.");
+        add("ritual_magic.item.nether_scepter.mode.0", "Lava Lake");
+        add("ritual_magic.item.nether_scepter.mode.1", "Fire Aura");
+    }
+
     @Override
     protected void addTranslations() {
         blocks();
         blockEntities();
         creativeTabs();
         items();
+        messages();
+        effects();
     }
 
     public void addCreativeTab(CreativeModeTab key, String name) {

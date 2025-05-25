@@ -22,7 +22,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
@@ -30,13 +29,29 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.network.chat.Component;
 
+import java.util.Random;
+
 public class IceSword extends SwordItem {
     private static final int PROJECTILE_COUNT = 17;
     private static final int COOLDOWN = 30;
     private static final double TARGET_RANGE = 3200.0;
     private int mode = 0;
+    private static final Random random = new Random();
+
     public IceSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+    }
+
+    @Override
+    public int getDamage(ItemStack stack) {
+        return 0;
+    }
+
+    @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 100, 1));
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
+        return super.hurtEnemy(stack, target, attacker);
     }
 
     @Override
@@ -45,7 +60,7 @@ public class IceSword extends SwordItem {
 
         if (!level.isClientSide) {
             if (player.isShiftKeyDown()) {
-                mode = (mode + 1) % 3;
+                mode = (mode + 1) % 4;
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.0"), true);
@@ -55,6 +70,9 @@ public class IceSword extends SwordItem {
                         break;
                     case 2:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.2"), true);
+                        break;
+                    case 3:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.3"), true);
                         break;
                 }
                 return InteractionResultHolder.success(itemstack);
@@ -68,20 +86,30 @@ public class IceSword extends SwordItem {
                             break;
                         case 1:
                             if (target instanceof LivingEntity) {
-                                ((LivingEntity) target).addEffect(new MobEffectInstance(ModEffects.ICERAIN.get(), 200, 20));
+                                ((LivingEntity) target).addEffect(new MobEffectInstance(ModEffects.ICERAIN.get(), 200, 20, false, false, false));
+                                level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F);
                             }
                             break;
                         case 2:
                             createIceField(level, player, target, 8);
+                            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            break;
+                        case 3:
+                            player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), 800, 10, false, false, false));
+                            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
                     }
                     player.getCooldowns().addCooldown(this, COOLDOWN);
                     return InteractionResultHolder.success(itemstack);
                 } else{
-                    player.displayClientMessage(Component.translatable("No Target detected"), true);
-                    return InteractionResultHolder.fail(itemstack);
+                    if (mode == 3){
+                        player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), 800, 10, false, false, false));
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }else {
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.noTarget"), true);
+                        return InteractionResultHolder.fail(itemstack);
+                    }
                 }
-
             }
         }
         return InteractionResultHolder.pass(itemstack);
@@ -90,7 +118,6 @@ public class IceSword extends SwordItem {
 
     private void createIceField(Level level, Player player, Entity target, int radius){
         BlockPos center = target.blockPosition();
-
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dz = -radius; dz <= radius; dz++) {
 

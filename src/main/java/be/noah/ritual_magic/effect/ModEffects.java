@@ -15,6 +15,8 @@ public class ModEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, RitualMagic.MODID);
 
     public static final RegistryObject<MobEffect> ICERAIN = MOB_EFFECTS.register("ice_rain", () -> new IceRain(MobEffectCategory.HARMFUL, Color.lightGray.getBlue()));
+    public static final RegistryObject<MobEffect> FROSTAURA = MOB_EFFECTS.register("frost_aura", () -> new FrostAura(MobEffectCategory.NEUTRAL, Color.lightGray.getBlue()));
+    public static final RegistryObject<MobEffect> FIREAURA = MOB_EFFECTS.register("fire_aura", () -> new FireAura(MobEffectCategory.NEUTRAL, Color.lightGray.getBlue()));
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
