@@ -56,7 +56,7 @@ public class ForgeEvents {
             if(head instanceof DwarvenArmor) {chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.HEAD)));}
             if(legs instanceof DwarvenArmor) {chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.LEGS)));}
 
-            System.out.println(chance);
+            //System.out.println(chance);
             if (attacker instanceof LivingEntity livingAttacker) {
                 if(random.nextInt(101) < chance){
                     livingAttacker.knockback(0.5D, player.getX() - attacker.getX(), player.getZ() - attacker.getZ());
