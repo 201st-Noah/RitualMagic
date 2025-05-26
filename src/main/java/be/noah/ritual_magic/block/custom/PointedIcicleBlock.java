@@ -412,7 +412,7 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
     }
 
     private static boolean canGrow(BlockState pIcicleState, BlockState pState) {
-        return (pIcicleState.is(Blocks.ICE) || pIcicleState.is(Blocks.PACKED_ICE) || pIcicleState.is(Blocks.BLUE_ICE))
+        return (pIcicleState.is(Blocks.PACKED_ICE) || pIcicleState.is(Blocks.BLUE_ICE))
                 && pState.is(Blocks.WATER)
                 && pState.getFluidState().isSource();
     }
