@@ -50,8 +50,8 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
     private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK = 0.02F;
     private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK_IF_UNDER_LIQUID_SOURCE = 0.12F;
     private static final int MAX_SEARCH_LENGTH_BETWEEN_STALACTITE_TIP_AND_CAULDRON = 11;
-    private static final float WATER_TRANSFER_PROBABILITY_PER_RANDOM_TICK = 0.05859375F;
-    private static final double MIN_TRIDENT_VELOCITY_TO_BREAK_ICICLE = 0.6D;
+    private static final float WATER_TRANSFER_PROBABILITY_PER_RANDOM_TICK = 0.17578125F;
+    private static final double MIN_PROJECTILE_VELOCITY_TO_BREAK_ICICLE = 0.6D;
     private static final float STALACTITE_DAMAGE_PER_FALL_DISTANCE_AND_SIZE = 1.0F;
     private static final int STALACTITE_MAX_DAMAGE = 40;
     private static final int MAX_STALACTITE_HEIGHT_FOR_DAMAGE_CALCULATION = 6;
@@ -302,8 +302,11 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
 
     private static boolean isValidPointedIciclePlacement(LevelReader pLevel, BlockPos pPos, Direction pDir) {
         BlockPos blockpos = pPos.relative(pDir.getOpposite());
-        BlockState blockstate = pLevel.getBlockState(blockpos);  // todo: make pointed_icicle only placeable on ice
-        return blockstate.isFaceSturdy(pLevel, blockpos, pDir) || isPointedIcicleWithDirection(blockstate, pDir);
+        BlockState blockstate = pLevel.getBlockState(blockpos);
+        return blockstate.is(Blocks.ICE)
+                || blockstate.is(Blocks.PACKED_ICE)
+                || blockstate.is(Blocks.BLUE_ICE)
+                || isPointedIcicleWithDirection(blockstate, pDir);
     }
 
     private static boolean isTip(BlockState pState, boolean pIsTipMerge) {
@@ -465,11 +468,10 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
 
     @Override
     public void onProjectileHit(Level pLevel, @NotNull BlockState pState, BlockHitResult pHit, @NotNull Projectile pProjectile) {
-        BlockPos blockpos = pHit.getBlockPos();  // todo: make icicle break with every projectile if fast enough
-        if (!pLevel.isClientSide && pProjectile.mayInteract(pLevel, blockpos) && pProjectile instanceof ThrownTrident && pProjectile.getDeltaMovement().length() > 0.6D) {
+        BlockPos blockpos = pHit.getBlockPos();
+        if (!pLevel.isClientSide && pProjectile.mayInteract(pLevel, blockpos) && pProjectile.getDeltaMovement().length() > MIN_PROJECTILE_VELOCITY_TO_BREAK_ICICLE) {
             pLevel.destroyBlock(blockpos, true);
         }
-
     }
 
     @Override
