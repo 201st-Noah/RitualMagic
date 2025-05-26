@@ -3,6 +3,11 @@ package be.noah.ritual_magic.events;
 import be.noah.ritual_magic.RitualMagic;
 
 import be.noah.ritual_magic.item.armor.DwarvenArmor;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,6 +26,8 @@ import static be.noah.ritual_magic.item.armor.DwarvenArmor.getPurity;
 @Mod.EventBusSubscriber(modid = RitualMagic.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvents {
     private static final Random random = new Random();
+    private static final String VOID_SHIELD_TAG = "void_shield";
+
     @SubscribeEvent
     public static void onLivingHurt(LivingAttackEvent event)
     {
@@ -68,5 +75,31 @@ public class ForgeEvents {
             }
         }
         return false;
+    }
+
+    @SubscribeEvent
+    public static void onPlayerHurt(LivingHurtEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        CompoundTag data = player.getPersistentData();
+        if (!data.contains(VOID_SHIELD_TAG)) return;
+
+        int hitsLeft = data.getInt(VOID_SHIELD_TAG);
+
+        if (hitsLeft > 0) {
+            event.setCanceled(true);  // cancel damage
+            data.putInt(VOID_SHIELD_TAG, hitsLeft - 1);
+            //ModMessages.sendToPlayer(new VoidShieldDataSyncSCPacket(hitsLeft), player);
+            // Optional: feedback
+            player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1f, 1f);
+        }
+
+        if (hitsLeft <= 1) {
+            data.remove(VOID_SHIELD_TAG);
+            player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f, 1f);
+            if (!player.level().isClientSide()) {
+                player.displayClientMessage(Component.literal("Void Shield Depleted"), true);
+            }
+        }
     }
 }
