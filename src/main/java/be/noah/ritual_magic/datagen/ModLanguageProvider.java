@@ -22,6 +22,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.DWARVEN_STEEL_BLOCK, "Dwarven Steel Block");
         addBlock(ModBlocks.DRAGON_FIRE, "Dragon Fire");
         addBlock(ModBlocks.ICE_SPIKE, "Ice Spike");
+        addBlock(ModBlocks.POINTED_ICICLE, " Pointed Icicle");
     }
 
     private void blockEntities() {
