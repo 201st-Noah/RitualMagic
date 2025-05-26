@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.block.custom;
 
 import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.mixin.AbstractCauldronBlockMixin;
+import be.noah.ritual_magic.mixin.AbstractCauldronBlockInvoker;
 import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -361,7 +361,7 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
     private static BlockPos findFillableCauldronBelowStalactiteTip(Level pLevel, BlockPos pPos, Fluid pFluid) {
         Predicate<BlockState> predicate =
                 (p_154162_) -> p_154162_.getBlock() instanceof AbstractCauldronBlock cauldron
-                        && ((AbstractCauldronBlockMixin) cauldron).call$canReceiveStalactiteDrip(pFluid);
+                        && ((AbstractCauldronBlockInvoker) cauldron).call$canReceiveStalactiteDrip(pFluid);
         BiPredicate<BlockPos, BlockState> bipredicate =
                 (p_202034_, p_202035_) -> canDripThrough(pLevel, p_202034_, p_202035_);
         return findBlockVertical(
