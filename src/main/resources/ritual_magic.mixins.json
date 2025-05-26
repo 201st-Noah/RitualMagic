@@ -9,6 +9,8 @@
     "AbstractCauldronBlockInvoker"
   ],
   "client": [
+    "LevelRendererAccessor",
+    "LevelRendererInjector"
   ],
   "injectors": {
     "defaultRequire": 1

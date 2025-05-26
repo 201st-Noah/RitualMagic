@@ -45,8 +45,8 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final int MAX_SEARCH_LENGTH_WHEN_CHECKING_DRIP_TYPE = 11;
     private static final int DELAY_BEFORE_FALLING = 2;
-    private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK = 0.02F;
-    private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK_IF_UNDER_LIQUID_SOURCE = 0.12F;
+    private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK = 0.01F;
+    private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK_IF_UNDER_WATER_SOURCE = 0.12F;
     private static final int MAX_SEARCH_LENGTH_BETWEEN_STALACTITE_TIP_AND_CAULDRON = 11;
     private static final float WATER_TRANSFER_PROBABILITY_PER_RANDOM_TICK = 0.17578125F;
     private static final double MIN_PROJECTILE_VELOCITY_TO_BREAK_ICICLE = 0.6D;
@@ -418,10 +418,10 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
     }
 
     private static Fluid getDripFluid(Fluid pFluid) {
-        if (pFluid.isSame(Fluids.WATER) && !pFluid.isSame(Fluids.FLOWING_WATER))
+        if (pFluid.isSame(Fluids.EMPTY))
             return Fluids.WATER;
 
-        return Fluids.EMPTY;
+        return pFluid;
     }
 
     private static Optional<BlockPos> findBlockVertical(LevelAccessor pLevel,
@@ -544,7 +544,7 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
                             @NotNull RandomSource pRandom) {
         if (canDrip(pState)) {
             float f = pRandom.nextFloat();
-            if (f <= DRIP_PROBABILITY_PER_ANIMATE_TICK_IF_UNDER_LIQUID_SOURCE)
+            if (f <= DRIP_PROBABILITY_PER_ANIMATE_TICK_IF_UNDER_WATER_SOURCE)
                 getFluidAboveStalactite(pLevel, pPos, pState).filter(
                         (p_221848_) -> f < DRIP_PROBABILITY_PER_ANIMATE_TICK || canFillCauldron(p_221848_.fluid)
                 ).ifPresent(
