@@ -56,7 +56,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.PURE_NETHERITE, "Pure Netherite");
         addItem(ModItems.TORCH, "Torch");
         addItem(ModItems.SPEER, "Dragon Rider's Speer");
-        addItem(ModItems.DRAWEN_AXE, "Dwarven Axe");
+        addItem(ModItems.DWARVEN_AXE, "Dwarven Axe");
         addItem(ModItems.DWAREN_STEEL_HELMET, "Dwarven Steel Helmet");
         addItem(ModItems.DWAREN_STEEL_CHESTPLATE, "Dwarven Steel Chestplate");
         addItem(ModItems.DWAREN_STEEL_LEGGINGS, "Dwarven Steel Leggings");
@@ -65,6 +65,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.NETHER_SCEPTRE, "Sceptre of the Nether");
         addItem(ModItems.ICE_SWORD, "Eternal Ice Sword");
         addItem(ModItems.ICE_SHARD, "Ice Shard");
+        addItem(ModItems.DWARVEN_PICKAXE, "Dwarven Pickaxe");
     }
 
     private void effects(){
@@ -85,6 +86,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ritual_magic.item.speer.mode.1", "Fire Ball");
         add("ritual_magic.item.speer.mode.0", "Traveling Mode");
         add("ritual_magic.item.speer.mode.2", "Void Shield");
+        add("ritual_magic.item.dwarven_pickaxe.mode.0", "Select Dig AOE");
+        add("ritual_magic.item.dwarven_pickaxe.mode.1", "Beginner's Luck");
+        add("ritual_magic.item.dwarven_pickaxe.aoe", "Size: ");
     }
 
     @Override

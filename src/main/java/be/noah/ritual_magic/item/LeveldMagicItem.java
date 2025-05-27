@@ -1,4 +1,4 @@
-package be.noah.ritual_magic.item.custom;
+package be.noah.ritual_magic.item;
 
 import be.noah.ritual_magic.Mana.ManaType;
 import net.minecraft.nbt.CompoundTag;

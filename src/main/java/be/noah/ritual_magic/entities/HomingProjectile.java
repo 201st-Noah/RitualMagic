@@ -124,6 +124,9 @@ public class HomingProjectile extends ThrowableProjectile {
             // Aktualisiere die Rotation des Projektils
             this.setYRot((float) (Math.atan2(direction.x, direction.z) * 180.0F / Math.PI));
             this.setXRot((float) (Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z)) * 180.0F / Math.PI));
+        } else if (!this.level().isClientSide && target != null && (!target.isAlive())) {
+            this.discard();
+            playDestroySound();
         }
     }
 

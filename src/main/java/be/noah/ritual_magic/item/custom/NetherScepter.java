@@ -3,6 +3,7 @@ package be.noah.ritual_magic.item.custom;
 import be.noah.ritual_magic.Mana.ManaNetworkData;
 import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.Mana.ManaType;
+import be.noah.ritual_magic.item.LeveldMagicItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class NetherScepter extends Item implements LeveldMagicItem{
+public class NetherScepter extends Item implements LeveldMagicItem {
 
     private static final int COOLDOWN = 3;
     private int mode = 0;
@@ -80,11 +81,11 @@ public class NetherScepter extends Item implements LeveldMagicItem{
                         if (player instanceof ServerPlayer serverPlayer) {
                             ServerLevel serverLevel = serverPlayer.serverLevel();
                             ManaNetworkData data = ManaNetworkData.get(serverLevel);
-                            if (data.consume(player.getUUID(), ManaType.HELLISH, 20)) {
+                            if (data.consume(player.getUUID(), this.getType(), 20)) {
                                 // cast spell or attack
                                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
                             } else {
-                                player.displayClientMessage(Component.literal("Not enough Arcane mana!"), true);
+                                player.displayClientMessage(Component.literal("Not enough HELLISH mana!"), true);
                             }
                         }
                         break;

@@ -145,6 +145,6 @@ public class ThrownDwarvenAxe extends AbstractArrow {
     }
 
     protected Item getDefaultItem() {
-        return ModItems.DRAWEN_AXE.get();
+        return ModItems.DWARVEN_AXE.get();
     }
 }

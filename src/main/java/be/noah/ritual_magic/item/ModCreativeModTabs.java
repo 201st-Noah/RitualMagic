@@ -27,7 +27,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DWARVEN_TEMPLATE.get());
                         pOutput.accept(ModItems.DWARVEN_STEEL_ARMOR_PLATE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
-                        pOutput.accept(ModItems.DRAWEN_AXE.get());
+                        pOutput.accept(ModItems.DWARVEN_AXE.get());
+                        pOutput.accept(ModItems.DWARVEN_PICKAXE.get());
                         pOutput.accept(ModItems.TORCH.get());
                         pOutput.accept(ModItems.BUILDERSTAFF.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_HELMET.get());

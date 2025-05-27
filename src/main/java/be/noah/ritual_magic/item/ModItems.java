@@ -31,7 +31,8 @@ public class ModItems {
     //Advanced Items
     public static final RegistryObject<Item> TORCH = ITEMS.register("torch", ()-> new ModTorch(new Item.Properties()));
     public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(ModToolTiers.DRACONIC,80, -3.5f,new Item.Properties()));
-    public static final RegistryObject<Item> DRAWEN_AXE = ITEMS.register("dwarven_axe", ()-> new DwarvenAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_AXE = ITEMS.register("dwarven_axe", ()-> new DwarvenAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_PICKAXE = ITEMS.register("dwarven_pickaxe", ()-> new DwarvenPickAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));
     public static final RegistryObject<Item> BUILDERSTAFF = ITEMS.register("builderstaff", ()-> new BuildersStaff(new Item.Properties()));
     public static final RegistryObject<Item> NETHER_SCEPTRE = ITEMS.register("nether_scepter", ()-> new NetherScepter(new Item.Properties()));
     public static final RegistryObject<Item> ICE_SWORD = ITEMS.register("ice_sword", ()-> new IceSword(ModToolTiers.ATLANTIAN, 20, 1, new Item.Properties()));

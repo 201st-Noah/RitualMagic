@@ -2,6 +2,7 @@ package be.noah.ritual_magic.item.custom;
 
 import be.noah.ritual_magic.entities.ThrownDwarvenAxe;
 import be.noah.ritual_magic.Mana.ManaType;
+import be.noah.ritual_magic.item.LeveldMagicItem;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +16,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
-public class DwarvenAxe extends AxeItem implements LeveldMagicItem{
+public class DwarvenAxe extends AxeItem implements LeveldMagicItem {
     public DwarvenAxe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }

@@ -3,6 +3,7 @@ package be.noah.ritual_magic.item.custom;
 import be.noah.ritual_magic.entities.BallLightning;
 import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.Mana.ManaType;
+import be.noah.ritual_magic.item.LeveldMagicItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class Speer extends SwordItem implements LeveldMagicItem{
+public class Speer extends SwordItem implements LeveldMagicItem {
 
     private final int COOLDOWN = 8;
     private final int MAX_SHIELD_HITS = 8;
