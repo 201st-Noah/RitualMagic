@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.item.custom;
 
 import be.noah.ritual_magic.entities.ThrownDwarvenAxe;
+import be.noah.ritual_magic.Mana.ManaType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -8,15 +9,13 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
-public class DwarvenAxe extends AxeItem {
+public class DwarvenAxe extends AxeItem implements LeveldMagicItem{
     public DwarvenAxe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
@@ -58,5 +57,15 @@ public class DwarvenAxe extends AxeItem {
     }
     public int getUseDuration(ItemStack pStack) {
         return 72000;
+    }
+
+    @Override
+    public ManaType getType() {
+        return ManaType.DWARVEN;
+    }
+
+    @Override
+    public int getItemLevelCap() {
+        return 16;
     }
 }

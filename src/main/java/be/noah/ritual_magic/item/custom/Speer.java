@@ -2,8 +2,10 @@ package be.noah.ritual_magic.item.custom;
 
 import be.noah.ritual_magic.entities.BallLightning;
 import be.noah.ritual_magic.entities.ModEntities;
+import be.noah.ritual_magic.Mana.ManaType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -17,9 +19,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class Speer extends SwordItem {
+public class Speer extends SwordItem implements LeveldMagicItem{
 
     private final int COOLDOWN = 8;
+    private final int MAX_SHIELD_HITS = 8;
+    private static final String VOID_SHIELD_TAG = "void_shield";
+
     private int mode = 0;
 
     public Speer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
@@ -65,7 +70,7 @@ public class Speer extends SwordItem {
                         travel(level, player, 80);
                         break;
                     case 2:
-
+                        avtivateVoidShield(level, player);
                         break;
                 }
                 player.getCooldowns().addCooldown(this, COOLDOWN);
@@ -147,16 +152,35 @@ public class Speer extends SwordItem {
         }
         return new Vec3(player.getX(), player.getY(), player.getZ());
     }
+
+    private void avtivateVoidShield(Level level, Player player){
+        CompoundTag data = player.getPersistentData();
+        data.putInt(VOID_SHIELD_TAG, MAX_SHIELD_HITS);
+        if (!level.isClientSide()) {
+            player.displayClientMessage(Component.literal("Void Shield Activated"), true);
+        }
+    }
+
+    @Override
+    public ManaType getType() {
+        return ManaType.DRACONIC;
+    }
+
+    @Override
+    public int getItemLevelCap() {
+        return 16;
+    }
         /*
          Use Mode Ideas:
          -----------------
-         Void Shield
-         Laser Beam
-         Staff Of Traveling |Check but not perfect
-         Summoning Energy Dragon
-         No escape Zone: Disables Teleportation in an Area
-         Throwing it with 0 Gravity
-         Reset Y Movement => cancels Fall damage
+         ✅ Void Shield function
+         ❌ Void Shield ui + rendering
+         ❌ Laser Beam
+         ✅ Staff Of Traveling || not perfect
+         ❌ Summoning Energy Dragon
+         ❌ No escape Zone: Disables Teleportation in an Area
+         ❌ Throwing it with 0 Gravity
+         ❌ Reset Y Movement => cancels Fall damage
 
          */
 }
