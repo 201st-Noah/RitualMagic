@@ -1,9 +1,12 @@
 package be.noah.ritual_magic.item.custom;
 
+import be.noah.ritual_magic.Mana.ManaNetworkData;
 import be.noah.ritual_magic.effect.ModEffects;
+import be.noah.ritual_magic.Mana.ManaType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -12,17 +15,26 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class NetherScepter extends Item {
+import javax.annotation.Nullable;
+import java.util.List;
 
-    private static final int COOLDOWN = 30;
+public class NetherScepter extends Item implements LeveldMagicItem{
+
+    private static final int COOLDOWN = 3;
     private int mode = 0;
 
     public NetherScepter(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        LeveldMagicItem.super.appendLevelTooltip(stack, tooltip); // call default method
     }
 
     @Override
@@ -31,7 +43,7 @@ public class NetherScepter extends Item {
 
         if (!level.isClientSide) {
             if (player.isShiftKeyDown()) {
-                mode = (mode + 1) % 2;
+                mode = (mode + 1) % 5; //Math.min(this.getItemLevel(itemstack) ,3) //for getting abilities with leveling
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.0"), true);
@@ -45,22 +57,44 @@ public class NetherScepter extends Item {
                     case 3:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.3"), true);
                         break;
+                    case 4:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.4"), true);
+                        break;
                 }
                 return InteractionResultHolder.success(itemstack);
             } else {
                 switch (mode) {
                     case 0:
-                        Lavafield((ServerLevel) level, player.getOnPos(), 6);
+                        Lavafield((ServerLevel) level, player.getOnPos(), this.getItemLevel(itemstack) * 2);
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;
                     case 1:
-                        player.addEffect(new MobEffectInstance(ModEffects.FIREAURA.get(), 800, 10, false, false, false));
+                        player.addEffect(new MobEffectInstance(ModEffects.FIREAURA.get(), 800, this.getItemLevel(itemstack) * 3, false, false, false));
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;
                     case 2:
+                        this.addItemLevel(itemstack, 1);
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;
                     case 3:
+                        if (player instanceof ServerPlayer serverPlayer) {
+                            ServerLevel serverLevel = serverPlayer.serverLevel();
+                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            if (data.consume(player.getUUID(), ManaType.HELLISH, 20)) {
+                                // cast spell or attack
+                                level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            } else {
+                                player.displayClientMessage(Component.literal("Not enough Arcane mana!"), true);
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (player instanceof ServerPlayer serverPlayer) {
+                            ServerLevel serverLevel = serverPlayer.serverLevel();
+                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            data.add(player.getUUID(), ManaType.HELLISH, 30);
+                           // player.displayClientMessage(Component.literal("Not enough Arcane mana!" + data.getOrCreate(player.getUUID())), true);
+                        }
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;
                     }
@@ -96,4 +130,13 @@ public class NetherScepter extends Item {
         }
     }
 
+    @Override
+    public ManaType getType() {
+        return ManaType.HELLISH;
+    }
+
+    @Override
+    public int getItemLevelCap() {
+        return 16;
+    }
 }
