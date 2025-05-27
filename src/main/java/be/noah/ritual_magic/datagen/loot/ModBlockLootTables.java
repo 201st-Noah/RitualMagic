@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -37,8 +38,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1))
                                 .add(LootItem.lootTableItem(ModItems.ICE_SHARD.get()))));
+        this.dropSelf(ModBlocks.POINTED_ICICLE.get());
     }
     @Override
+    @NotNull
     protected Iterable<Block> getKnownBlocks() {
         return ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
     }
