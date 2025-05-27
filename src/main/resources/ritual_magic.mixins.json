@@ -5,8 +5,12 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "ritual_magic.refmap.json",
   "mixins": [
+    "AbstractCauldronBlockInjector",
+    "AbstractCauldronBlockInvoker"
   ],
   "client": [
+    "LevelRendererAccessor",
+    "LevelRendererInjector"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -62,6 +62,7 @@ public class ModCreativeModTabs {
                         //Blocks
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ICE_SPIKE.get());
+                        pOutput.accept(ModBlocks.POINTED_ICICLE.get());
                         //BlockEntities
                     })
                     .build()
