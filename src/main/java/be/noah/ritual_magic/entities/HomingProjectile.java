@@ -144,7 +144,7 @@ public class HomingProjectile extends ThrowableProjectile {
             if (entity instanceof LivingEntity) {
                 ((LivingEntity) entity).addEffect(new MobEffectInstance(
                         MobEffects.MOVEMENT_SLOWDOWN,
-                        200, 1));
+                        200, 1, false, false));
             }
             entity.hurt(this.level().damageSources().playerAttack((Player) this.getOwner()), 8.0F);
             // Remove the projectile

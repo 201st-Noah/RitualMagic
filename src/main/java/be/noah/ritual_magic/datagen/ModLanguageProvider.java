@@ -81,6 +81,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ritual_magic.item.ice_sword.noTarget", "No Target found.");
         add("ritual_magic.item.nether_scepter.mode.0", "Lava Lake");
         add("ritual_magic.item.nether_scepter.mode.1", "Fire Aura");
+        add("ritual_magic.item.nether_scepter.mode.2", "Temp setLevel");
         add("ritual_magic.item.speer.mode.1", "Fire Ball");
         add("ritual_magic.item.speer.mode.0", "Traveling Mode");
         add("ritual_magic.item.speer.mode.2", "Void Shield");

@@ -54,17 +54,43 @@ public class FrostAura extends MobEffect {
         int particles = radius * radius / 6 ; // Snowflake count
 
         for (int i = 0; i < particles; i++) {
-            // Random spherical coordinates
-            double theta = random.nextDouble() * 2 * Math.PI;    // angle around Y axis
-            double phi = random.nextDouble() * Math.PI;          // angle from Y axis
+            // Random point around the player in a spherical shell
+            double theta = random.nextDouble() * 2 * Math.PI;
+            double phi = random.nextDouble() * Math.PI;
             double distance = random.nextDouble() * radius;
 
-            // Convert spherical to Cartesian coordinates
             double x = playerPos.x + distance * Math.sin(phi) * Math.cos(theta);
             double y = playerPos.y + distance * Math.cos(phi);
             double z = playerPos.z + distance * Math.sin(phi) * Math.sin(theta);
 
-            level.addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, -0.000, 0);
+            // Direction from center to particle
+            double dx = x - playerPos.x;
+            double dz = z - playerPos.z;
+
+            // Normalize the radius
+            double length = Math.sqrt(dx * dx + dz * dz);
+            if (length == 0) continue;
+
+            //perpendicular to radius
+            double tangentX = -dz / length * 0.15; // adjust 0.15 for speed
+            double tangentZ = dx / length * 0.15;
+
+            //vertical drift
+            double motionY = (random.nextDouble() - 0.5) * 0.05;
+
+            level.addParticle(ParticleTypes.SNOWFLAKE, x, y, z, tangentX, motionY, tangentZ);
+
+//            // Old Version
+//            double theta = random.nextDouble() * 2 * Math.PI;    // angle around Y axis
+//            double phi = random.nextDouble() * Math.PI;          // angle from Y axis
+//            double distance = random.nextDouble() * radius;
+//
+//            // Convert spherical to Cartesian coordinates
+//            double x = playerPos.x + distance * Math.sin(phi) * Math.cos(theta);
+//            double y = playerPos.y + distance * Math.cos(phi);
+//            double z = playerPos.z + distance * Math.sin(phi) * Math.sin(theta);
+//
+//            level.addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, -0.000, 0);
         }
     }
 }

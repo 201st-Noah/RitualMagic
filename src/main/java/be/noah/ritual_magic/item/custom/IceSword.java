@@ -5,6 +5,7 @@ import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.entities.HomingProjectile;
 import be.noah.ritual_magic.entities.ModEntities;
+import be.noah.ritual_magic.Mana.ManaType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -31,7 +32,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.Random;
 
-public class IceSword extends SwordItem {
+public class IceSword extends SwordItem implements LeveldMagicItem{
     private static final int PROJECTILE_COUNT = 17;
     private static final int COOLDOWN = 30;
     private static final double TARGET_RANGE = 3200.0;
@@ -243,4 +244,13 @@ public class IceSword extends SwordItem {
         return targetEntity;
     }
 
+    @Override
+    public ManaType getType() {
+        return ManaType.ATLANTIAN;
+    }
+
+    @Override
+    public int getItemLevelCap() {
+        return 16;
+    }
 }
