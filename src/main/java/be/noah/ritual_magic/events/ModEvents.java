@@ -1,8 +1,11 @@
 package be.noah.ritual_magic.events;
 
+import be.noah.ritual_magic.Mana.ManaNetworkData;
+import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.item.custom.DwarvenPickAxe;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +28,8 @@ public class ModEvents {
         ItemStack mainHandItem = player.getMainHandItem();
 
         if(mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && player instanceof ServerPlayer serverPlayer) {
+            ServerLevel serverLevel = serverPlayer.serverLevel();
+            ManaNetworkData data = ManaNetworkData.get(serverLevel);
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
                 return;
@@ -34,10 +39,14 @@ public class ModEvents {
                 if(pos == initialBlockPos || !dwarvenPickAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                     continue;
                 }
-
-                HARVESTED_BLOCKS.add(pos);
-                serverPlayer.gameMode.destroyBlock(pos);
-                HARVESTED_BLOCKS.remove(pos);
+                if (data.consume(player.getUUID(), ManaType.DWARVEN, 1) || serverPlayer.isCreative()) {
+                    HARVESTED_BLOCKS.add(pos);
+                    serverPlayer.gameMode.destroyBlock(pos);
+                    HARVESTED_BLOCKS.remove(pos);
+                }
+                else{
+                    break;
+                }
             }
         }
     }

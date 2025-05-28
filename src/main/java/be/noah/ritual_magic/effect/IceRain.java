@@ -1,10 +1,19 @@
 package be.noah.ritual_magic.effect;
 
+import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.entities.HomingProjectile;
 import be.noah.ritual_magic.entities.ModEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
@@ -25,15 +34,18 @@ public class IceRain extends MobEffect {
             randX = random.nextInt(-((int)Math.sqrt(pAmplifier)), (int)Math.sqrt(pAmplifier));
             randZ = random.nextInt(-((int)Math.sqrt(pAmplifier)), (int)Math.sqrt(pAmplifier));
         }
-        Vec3 spikePos = new Vec3(pLivingEntity.getX() + randX, pLivingEntity.getY() + 20, pLivingEntity.getZ() + randZ);
-        HomingProjectile projectile = new HomingProjectile(ModEntities.HOMING_PROJECTILE.get(), pLivingEntity.level());
-        projectile.setPos(spikePos.x, spikePos.y, spikePos.z);
-        projectile.setOwner(null); // might cause weird kill Message
-        projectile.setTarget(pLivingEntity);
-        projectile.setNoGravity(true);
-        projectile.setDelayRange(1000, 1000);
-        projectile.shoot(0, -1, 0, 1.0F, 0.0F);
-        pLivingEntity.level().addFreshEntity(projectile);
+        Vec3i spikePos = new Vec3i((int)Math.round(pLivingEntity.getX()) + randX, (int)Math.round(pLivingEntity.getY()) + 20, (int)Math.round(pLivingEntity.getZ()) + randZ);
+
+        FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
+                pLivingEntity.level(),
+                new BlockPos(spikePos),
+                ModBlocks.POINTED_ICICLE.get().defaultBlockState().
+                        setValue(PointedDripstoneBlock.TIP_DIRECTION, Direction.DOWN)
+        );
+        fallingBlock.setDeltaMovement(new Vec3(0, -0.3, 0));
+        fallingBlock.dropItem = false;
+        fallingBlock.setHurtsEntities(6,40);
+
         super.applyEffectTick(pLivingEntity, pAmplifier);
     }
 

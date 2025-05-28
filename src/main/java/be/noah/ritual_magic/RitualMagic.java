@@ -7,6 +7,7 @@ import be.noah.ritual_magic.entities.client.*;
 import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.networking.ModMessages;
 import be.noah.ritual_magic.screen.AncientAnvilScreen;
 import be.noah.ritual_magic.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
@@ -44,7 +45,7 @@ public class RitualMagic {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        event.enqueueWork(ModMessages::register);
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
