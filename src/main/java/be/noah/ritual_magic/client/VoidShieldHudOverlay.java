@@ -12,7 +12,7 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class VoidShieldHudOverlay {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(RitualMagic.MODID, "textures/gui/void_shield.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(RitualMagic.MODID, "textures/gui/void_shield9.png");
 
     public static final IGuiOverlay HUD_VOID_SHIELD = ((gui, guiGraphics, partialTicks, width, height) -> {
         Minecraft mc = Minecraft.getInstance();
@@ -20,36 +20,36 @@ public class VoidShieldHudOverlay {
         if (player == null) return;
 
         CompoundTag data = player.getPersistentData();
-        //if (!data.contains("void_shield")) return;
-
         int hitsLeft = data.getInt("void_shield");
-        int maxHits = 8;
+        int maxHits = 10;
 
-        // Icon size and spacing
-        int iconSize = 16;
-        int spacing = 4;
+        int iconSize = 9;
+        int spacing = -1;
+        int totalWidth = maxHits * iconSize;
+        int xStart = (width - totalWidth -92) / 2;
 
-        // Position on screen (bottom-center)
-        int totalWidth = maxHits * iconSize + (maxHits - 1) * spacing;
-        int xStart = (width - totalWidth) / 2;
-        int y = height - 80; // move up from armor bar (~60+ pixels from bottom)
+        int baseY = height - 40;
+        if (player.getMaxHealth() > 20) baseY -= 10;
+        if (player.getAbsorptionAmount() > 0) baseY -= 10;
+        if (player.getArmorValue() > 0) baseY -= 10;
+
+        int y = baseY - 10;
 
         RenderSystem.enableBlend();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        // Render one icon per hit left
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             if(hitsLeft > i){
                 int x = xStart + i * (iconSize + spacing);
-                int v = (i < hitsLeft) ? 0 : 16; // top or bottom half of the 16x32 texture
+                int v = (i < hitsLeft) ? 0 : 8; // top or bottom half of the 16x32 texture
                 guiGraphics.blit(
-                        TEXTURE,         // your texture
-                        x, y,            // screen x/y position
-                        0, v,            // texture x/y (u/v)
-                        iconSize, iconSize, // width/height to draw
-                        16, 32           // total texture size (uSize, vSize)
+                        TEXTURE,
+                        x, y,
+                        0, v,
+                        iconSize, iconSize,
+                        9, 9
                 );
             }
         }

@@ -89,8 +89,6 @@ public class ForgeEvents {
         if (hitsLeft > 0) {
             event.setCanceled(true);  // cancel damage
             data.putInt(VOID_SHIELD_TAG, hitsLeft - 1);
-            //ModMessages.sendToPlayer(new VoidShieldDataSyncSCPacket(hitsLeft), player);
-            // Optional: feedback
             player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1f, 1f);
         }
 

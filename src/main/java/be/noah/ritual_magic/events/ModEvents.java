@@ -4,13 +4,18 @@ import be.noah.ritual_magic.Mana.ManaNetworkData;
 import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.item.custom.DwarvenPickAxe;
+import be.noah.ritual_magic.networking.ModMessages;
+import be.noah.ritual_magic.networking.packet.VoidShieldDataSyncS2CPacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashSet;
@@ -48,6 +53,16 @@ public class ModEvents {
                     break;
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer serverPlayer) {
+            CompoundTag tag = serverPlayer.getPersistentData();
+            int hitsLeft = tag.getInt("void_shield");
+
+            ModMessages.sendToPlayer(new VoidShieldDataSyncS2CPacket(hitsLeft), serverPlayer);
         }
     }
 }

@@ -34,7 +34,7 @@ public class BlockHighlightS2CPacket {
 
     public static void handle(BlockHighlightS2CPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ClientHighlightManager.highlightBlocks(msg.positions, 100); // 5 seconds at 20 TPS
+            ClientHighlightManager.highlightBlocks(msg.positions, 400); // 5 seconds at 20 TPS
         });
         ctx.get().setPacketHandled(true);
     }

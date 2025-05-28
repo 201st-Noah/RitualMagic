@@ -21,28 +21,10 @@ import java.util.OptionalDouble;
 
 @Mod.EventBusSubscriber(modid = RitualMagic.MODID, value = Dist.CLIENT)
 public class HighlightRenderer {
-//    @SubscribeEvent  //this one works on the Surface
-//    public static void onRenderLevel(RenderLevelStageEvent event) {
-//        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
-//        if (ClientHighlightManager.HIGHLIGHTED_BLOCKS.isEmpty()) return;
-//
-//        PoseStack poseStack = event.getPoseStack();
-//        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-//        Camera camera = event.getCamera();
-//
-//        Vec3 camPos = camera.getPosition();
-//
-//        for (BlockPos pos : ClientHighlightManager.HIGHLIGHTED_BLOCKS) {
-//            AABB box = AABB.unitCubeFromLowerCorner(Vec3.atLowerCornerOf(pos)).move(-camPos.x, -camPos.y, -camPos.z);
-//            LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.lines()), box, 0f, 0.8f, 1f, 1.0f); // cyan outline
-//        }
-//
-//        buffer.endBatch(RenderType.lines());
-//    }
 
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) return;
         if (ClientHighlightManager.HIGHLIGHTED_BLOCKS.isEmpty()) return;
 
         PoseStack poseStack = event.getPoseStack();
@@ -62,7 +44,7 @@ public class HighlightRenderer {
                     poseStack,
                     buffer.getBuffer(RenderType.lines()),
                     box,
-                    0f, 0.8f, 1f, 1.0f // cyan outline
+                    0f, 0.8f, 1f, 1.0f
             );
         }
 
@@ -74,7 +56,7 @@ public class HighlightRenderer {
         RenderSystem.disableBlend();
     }
 
-    @SubscribeEvent
+   @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             ClientHighlightManager.tick();
