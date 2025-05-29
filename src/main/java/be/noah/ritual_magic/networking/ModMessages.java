@@ -2,6 +2,7 @@ package be.noah.ritual_magic.networking;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.networking.packet.BlockHighlightS2CPacket;
+import be.noah.ritual_magic.networking.packet.ManaDataSyncS2CPacket;
 import be.noah.ritual_magic.networking.packet.VoidShieldDataSyncS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,6 +45,15 @@ public class ModMessages {
                 VoidShieldDataSyncS2CPacket::encode,
                 VoidShieldDataSyncS2CPacket::decode,
                 VoidShieldDataSyncS2CPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+        );
+
+        INSTANCE.registerMessage(
+                id(),
+                ManaDataSyncS2CPacket.class,
+                ManaDataSyncS2CPacket::encode,
+                ManaDataSyncS2CPacket::decode,
+                ManaDataSyncS2CPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
     }
