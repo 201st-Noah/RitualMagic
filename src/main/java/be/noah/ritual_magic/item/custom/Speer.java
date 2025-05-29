@@ -275,13 +275,13 @@ public class Speer extends SwordItem implements LeveldMagicItem {
          Use Mode Ideas:
          -----------------
          ✅ Void Shield function
-         ✅ Void Shield ui + ❌renderingS
+         ✅ Void Shield ui + ❌rendering
          ✅ Laser Beam + ❌rendering
          ✅ Staff Of Traveling || not perfect
-         ❌ Summoning Energy Dragon
-         ❌ No escape Zone: Disables Teleportation in an Area
-         ❌ Throwing it with 0 Gravity
-         ❌ Reset Y Movement => cancels Fall damage
+         ❌ Summoning Energy Dragon (maybe later (and max lv speer required))
+         ❌ No escape Zone: Disables Teleportation in an Area (maybe add to armor)
+         ❌ Throwing it with 0 Gravity (simply not a fan)
+         ❌ Reset Y Movement => cancels Fall damage (useless => voidShield)
 
          */
 }
