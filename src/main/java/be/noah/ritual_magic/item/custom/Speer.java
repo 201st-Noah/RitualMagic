@@ -8,17 +8,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
+
+import java.util.List;
+import java.util.Optional;
 
 public class Speer extends SwordItem implements LeveldMagicItem {
 
@@ -47,7 +52,7 @@ public class Speer extends SwordItem implements LeveldMagicItem {
         ItemStack itemstack = player.getItemInHand(hand);
         if (!level.isClientSide) {
             if(player.isShiftKeyDown()){
-                mode = (mode + 1) % 3;
+                mode = (mode + 1) % 4;
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.speer.mode.0"), true);
@@ -57,6 +62,9 @@ public class Speer extends SwordItem implements LeveldMagicItem {
                         break;
                     case 2:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.speer.mode.2"), true);
+                        break;
+                    case 3:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.speer.mode.3"), true);
                         break;
                 }
 
@@ -73,11 +81,103 @@ public class Speer extends SwordItem implements LeveldMagicItem {
                     case 2:
                         avtivateVoidShield(level, player);
                         break;
+                    case 3:
+                        player.startUsingItem(hand);;
+                        break;
                 }
                 player.getCooldowns().addCooldown(this, COOLDOWN);
             }
         }
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+    }
+
+    @Override
+    public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
+        if(pLivingEntity instanceof ServerPlayer player){
+            if (!player.level().isClientSide()) {
+                shootEnergyBeam((ServerLevel) player.level(), (ServerPlayer) player, 60, 20F);
+                super.onUseTick(pLevel, pLivingEntity, pStack, pRemainingUseDuration);
+            }
+        }
+    }
+
+    @Override
+    public void releaseUsing(ItemStack stack, Level world, LivingEntity entity, int timeLeft) {
+        if (!world.isClientSide() && entity instanceof Player player) {
+            AABB area = player.getBoundingBox().inflate(30); //range
+            List<LivingEntity> nearbyEntities = player.level().getEntitiesOfClass(LivingEntity.class, area);
+
+            for (LivingEntity e : nearbyEntities) {
+                e.getPersistentData().remove("LaserLockTime");
+            }
+        }
+    }
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        return 200; // Keep using
+    }
+
+    @Override
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.SPEAR;
+    }
+
+    private void shootEnergyBeam(ServerLevel world, ServerPlayer player, int range, Float maxDamage) {
+
+        EntityHitResult entityHitResult = getEntityLookingAt(player, range);
+
+        if (entityHitResult != null) {
+            Entity target = entityHitResult.getEntity();
+            if (target instanceof LivingEntity living) {
+
+                float existingTime = living.getPersistentData().getFloat("LaserLockTime");
+                existingTime += 1;
+                living.getPersistentData().putFloat("LaserLockTime", existingTime);
+                float damage = 1.0F + Math.min(existingTime * 0.2F, maxDamage);
+                living.hurt(player.level().damageSources().playerAttack(player), damage);
+            }
+        }
+        // remove LaserLockTime from entities not currently targeted
+        AABB cleanupBox = player.getBoundingBox().inflate(range);
+        List<LivingEntity> nearbyEntities = world.getEntitiesOfClass(LivingEntity.class, cleanupBox, e -> e != player);
+
+        for (LivingEntity e : nearbyEntities) {
+            boolean isCurrentTarget = (entityHitResult != null && entityHitResult.getEntity() == e);
+            if (!isCurrentTarget) {
+                e.getPersistentData().remove("LaserLockTime");
+                //e.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20, 1, false, false, false));
+            }
+        }
+    }
+    public static EntityHitResult getEntityLookingAt(Player player, double range) {
+        Vec3 eyePos = player.getEyePosition();
+        Vec3 lookVec = player.getLookAngle();
+        Vec3 reachVec = eyePos.add(lookVec.scale(range));
+
+        AABB aabb = player.getBoundingBox()
+                .expandTowards(lookVec.scale(range))
+                .inflate(1.0D, 1.0D, 1.0D);
+
+        // Find entities along the path
+        List<Entity> entities = player.level().getEntities(player, aabb, e -> e.isPickable() && e != player);
+
+        EntityHitResult nearestHit = null;
+        double nearestDistance = range;
+
+        for (Entity entity : entities) {
+            AABB entityBox = entity.getBoundingBox().inflate(0.1D); // Slightly bigger hitbox
+            Optional<Vec3> hit = entityBox.clip(eyePos, reachVec);
+
+            if (hit.isPresent()) {
+                double dist = eyePos.distanceTo(hit.get());
+                if (dist < nearestDistance) {
+                    nearestDistance = dist;
+                    nearestHit = new EntityHitResult(entity);
+                }
+            }
+        }
+
+        return nearestHit;
     }
 
     private void travel (Level level, Player player, int range){
@@ -175,8 +275,8 @@ public class Speer extends SwordItem implements LeveldMagicItem {
          Use Mode Ideas:
          -----------------
          ✅ Void Shield function
-         ❌ Void Shield ui + rendering
-         ❌ Laser Beam
+         ✅ Void Shield ui + ❌renderingS
+         ✅ Laser Beam + ❌rendering
          ✅ Staff Of Traveling || not perfect
          ❌ Summoning Energy Dragon
          ❌ No escape Zone: Disables Teleportation in an Area
