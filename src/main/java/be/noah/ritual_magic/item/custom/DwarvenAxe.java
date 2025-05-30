@@ -3,8 +3,13 @@ package be.noah.ritual_magic.item.custom;
 import be.noah.ritual_magic.entities.ThrownDwarvenAxe;
 import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.item.LeveldMagicItem;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,8 +20,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
+import java.util.*;
 
 public class DwarvenAxe extends AxeItem implements LeveldMagicItem {
+
+    private record LeafNode(BlockPos pos, int depth) {}
+
     public DwarvenAxe(Tier pTier, float pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
@@ -56,6 +68,85 @@ public class DwarvenAxe extends AxeItem implements LeveldMagicItem {
             }
         }
     }
+
+    public static List<BlockPos> getLogsToBeDestroyed(int maxLogs, BlockPos initialBlockPos, ServerPlayer player) {
+        ServerLevel level = player.serverLevel();
+        Set<BlockPos> visitedLogs = new HashSet<>();
+        Queue<BlockPos> toVisit = new LinkedList<>();
+        toVisit.add(initialBlockPos);
+        visitedLogs.add(initialBlockPos);
+
+        // 1. Collect logs
+        while (!toVisit.isEmpty() && visitedLogs.size() < maxLogs) {
+            BlockPos current = toVisit.poll();
+            if (!level.getBlockState(current).is(BlockTags.LOGS)) continue;
+
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+
+                        if (dx == 0 && dy == 0 && dz == 0) continue;
+                        BlockPos neighbor = current.offset(dx, dy, dz);
+                        if (!visitedLogs.contains(neighbor)
+                                && level.isLoaded(neighbor)
+                                && level.getBlockState(neighbor).is(BlockTags.LOGS)) {
+                            toVisit.add(neighbor);
+                            visitedLogs.add(neighbor);
+                        }
+                    }
+                }
+            }
+        }
+
+        List<BlockPos> result = new ArrayList<>(visitedLogs);
+        return result;
+    }
+
+    //not Working Correctly Have fun Luka
+    public static List<BlockPos> getLeavesToBeDestroyed(List<BlockPos> destroyedLogs, ServerPlayer player){
+        ServerLevel level = player.serverLevel();
+        Set<BlockPos> result = new HashSet<>();
+        Set<BlockPos> visited = new HashSet<>();
+        Queue<LeafNode> queue = new ArrayDeque<>();
+
+        // Start from non-persistent leaves adjacent to logs
+        for (BlockPos logPos : destroyedLogs) {
+            for (Direction dir : Direction.values()) {
+                BlockPos neighbor = logPos.relative(dir);
+                BlockState state = level.getBlockState(neighbor);
+
+                if (state.is(BlockTags.LEAVES) &&
+                        !state.getOptionalValue(BlockStateProperties.PERSISTENT).orElse(false)) {
+                    queue.add(new LeafNode(neighbor.immutable(), 0));
+                    visited.add(neighbor.immutable());
+                    result.add(neighbor.immutable());
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            LeafNode node = queue.poll();
+            BlockPos current = node.pos();
+            int depth = node.depth();
+
+            if (depth >= 4) continue;
+
+            for (Direction dir : Direction.values()) {
+                BlockPos neighbor = current.relative(dir);
+                if (visited.contains(neighbor)) continue;
+
+                BlockState state = level.getBlockState(neighbor);
+                if (state.is(BlockTags.LEAVES) &&
+                        !state.getOptionalValue(BlockStateProperties.PERSISTENT).orElse(false)) {
+                    visited.add(neighbor.immutable());
+                    result.add(neighbor.immutable());
+                    queue.add(new LeafNode(neighbor.immutable(), depth + 1));
+                }
+            }
+        }
+
+        return new ArrayList<>(result);
+    }
+
     public int getUseDuration(ItemStack pStack) {
         return 72000;
     }
