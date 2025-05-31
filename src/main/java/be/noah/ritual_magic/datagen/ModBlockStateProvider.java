@@ -29,6 +29,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
         blockWithItem(ModBlocks.FORGE_T0);
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(), new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
+        simpleBlockWithItem(ModBlocks.RITUAL_PEDESTAL.get(), new ModelFile.UncheckedModelFile(modLoc("block/ritual_pedestal")));
         fireBlockWithItem(ModBlocks.DRAGON_FIRE);
         simpleBlockWithItem(ModBlocks.ICE_SPIKE.get(), models().cross("ice_spike_block", modLoc("block/ice_spike_block")).renderType("cutout"));
         pointedDripstoneLikeBlockWithItem(ModBlocks.POINTED_ICICLE);

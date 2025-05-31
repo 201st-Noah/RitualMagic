@@ -113,6 +113,7 @@ public class ModCreativeModTabs {
                         //Functional Items (Wapons, Tools, Armor,...)
                         //Blocks
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
+                        pOutput.accept(ModBlocks.RITUAL_PEDESTAL.get());
                         //BlockEntities
                         pOutput.accept(ModBlocks.MINING_CORE.get());
                         pOutput.accept(ModBlocks.MOD_TELEPORTER.get());
