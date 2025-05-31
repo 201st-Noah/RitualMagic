@@ -1,0 +1,92 @@
+name: Bug Report
+title: "[Bug]: "
+description: Report a bug
+labels:
+  - bug
+projects: ["201st-Noah/3"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        We are sorry that you encountered a bug. We will do our best to find a
+        solution as fast as possible. 
+
+        Thank you in advance for taking the time to report the bug.
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What operating system do you use?
+      options:
+        - Windows
+        - MacOS
+        - Linux
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system version/distribution
+      description: Please specify what operating system you are using.
+      placeholder: Windows 11
+  - type: input
+    id: mc-version
+    attributes:
+      label: Minecraft Version
+      description: What Minecraft version did you use?
+      placeholder: Minecraft 1.20.1
+  - type: input
+    id: loader-version
+    attributes:
+      label: Forge Version
+      description: What Forge version did you use?
+      placeholder: 47.4.1
+  - type: input
+    id: first-occurrence
+    attributes:
+      label: First occurrence
+      description: When did the bug first occur?
+      placeholder: Yesterday, 29 Mai 2025
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description and behaviour
+      description: Please provide a description of your bug, please be precise and
+        give as many details as possible. If it is possible for you, please
+        provide screenshots or videos.
+      value: "The sky was yellow. It changed the color to #00FFFF"
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected behaviour
+      description: Please provide a description of what should have happened.
+      value: The sky should have been blue.
+  - type: textarea
+    id: reproducibility
+    attributes:
+      label: Reproducibility
+      description: Is the bug reproducible? If yes, please tell us how and give a step
+        by step guide. Too much detail will not harm.
+      value: |-
+        - Open a window
+        - Unplug your monitor
+        - Drop the monitor out of the window
+        - Close the window
+        - Go downstairs
+        - Pick up your monitor
+        - Plug it back in
+        Voilà, the screen is yellow flickering.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Do you have any logs? If yes, please provide them. They should be
+        generated in your logs folder of your Minecraft instance (on Windows
+        located in `%appdata%/Roaming/.minecraft/logs` if you do not use a
+        custom installation).
+      value: 2025-05-30 23:09:17 [CRITICAL] Low in brain cells!
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: Do you run the mod in a modpack or together with other mods (please
+        specify versions, etc. for reproducibility)? Have you anything else to
+        mention?
