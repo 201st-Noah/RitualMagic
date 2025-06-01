@@ -7,6 +7,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
@@ -85,7 +87,8 @@ public class InfusionBlockEntity extends BlockEntity{
             });
 
             if (recipe.pedestalItemsMatch(pedestalItems)) {
-                itemStackHandler.setStackInSlot(0, recipe.getResultItem(level.registryAccess()).copy());
+                ItemStack result = recipe.assemble(center, level.registryAccess());
+                itemStackHandler.setStackInSlot(0, result);
                 setChanged();
                 level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
 
@@ -97,8 +100,8 @@ public class InfusionBlockEntity extends BlockEntity{
                         level.sendBlockUpdated(pos, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
                     }
                 }
-
-                return;
+                level.playSound(null, worldPosition, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1f, 2f);
+                break;
             }
         }
     }

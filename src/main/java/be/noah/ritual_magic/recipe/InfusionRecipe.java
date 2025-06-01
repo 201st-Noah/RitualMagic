@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.recipe;
 
+import be.noah.ritual_magic.item.LeveldMagicItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,19 +23,35 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
     public final ItemStack input;
     public final List<ItemStack> pedestalItems;
     public final ItemStack output;
+    private final int minLevel;
+    private final int maxLevel;
+    private final int levelGain;
+    private final boolean preserveMainItem;
 
-    public InfusionRecipe(ResourceLocation id, ItemStack input, List<ItemStack> pedestalItems, ItemStack output) {
+    public InfusionRecipe(ResourceLocation id, ItemStack input, List<ItemStack> pedestalItems, ItemStack output, int minLevel, int maxLevel, int levelGain, boolean preserveMainItem) {
         this.id = id;
         this.input = input;
         this.pedestalItems = pedestalItems;
         this.output = output;
+        this.minLevel = minLevel;
+        this.maxLevel = maxLevel;
+        this.levelGain = levelGain;
+        this.preserveMainItem = preserveMainItem;
     }
 
     @Override
     public boolean matches(SimpleContainer container, Level level) {
         if (level.isClientSide()) return false;
         ItemStack centerItem = container.getItem(0);
-        return ItemStack.isSameItemSameTags(centerItem, input);
+
+        if (!centerItem.is(input.getItem())) return false;
+
+        if (centerItem.getItem() instanceof LeveldMagicItem magicItem) {
+            int itemLevel = magicItem.getItemLevel(centerItem);
+            return itemLevel >= minLevel && itemLevel <= maxLevel;
+        }
+
+        return minLevel == 0;
     }
 
     public boolean pedestalItemsMatch(List<ItemStack> actualItems) {
@@ -57,13 +74,23 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
         return found.isEmpty(); // Must be exact
     }
 
-    @Override public ItemStack assemble(SimpleContainer container, RegistryAccess access) { return output.copy(); }
+    @Override public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
+        ItemStack center = container.getItem(0);
+
+        if (preserveMainItem && center.getItem() instanceof LeveldMagicItem magicItem) {
+            ItemStack upgraded = center.copy();
+            magicItem.addItemLevel(upgraded, levelGain);
+            return upgraded;
+        }
+
+        return output.copy();
+    }
     @Override public boolean canCraftInDimensions(int w, int h) { return true; }
     @Override public ItemStack getResultItem(RegistryAccess access) { return output; }
     @Override public ResourceLocation getId() { return id; }
     @Override public RecipeSerializer<?> getSerializer() { return ModRecipes.INFUSION_SERIALIZER.get(); }
     @Override public RecipeType<?> getType() { return ModRecipes.INFUSION_TYPE.get(); }
-
+    //pointer
     public static class Serializer implements RecipeSerializer<InfusionRecipe> {
         @Override
         public InfusionRecipe fromJson(ResourceLocation id,@Nullable JsonObject json) {
@@ -78,8 +105,12 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             for (JsonElement element : array) {
                 pedestalItems.add(ShapedRecipe.itemStackFromJson(element.getAsJsonObject()));
             }
+            int minLevel = json.has("min_level") ? json.get("min_level").getAsInt() : 0;
+            int maxLevel = json.has("max_level") ? json.get("max_level").getAsInt() : Integer.MAX_VALUE;
+            int levelGain = json.has("level_gain") ? json.get("level_gain").getAsInt() : 0;
+            boolean preserve = json.has("preserve_main_item") && json.get("preserve_main_item").getAsBoolean();
 
-            return new InfusionRecipe(id, input, pedestalItems, output);
+            return new InfusionRecipe(id, input, pedestalItems, output, minLevel, maxLevel, levelGain, preserve);
         }
 
         @Override
@@ -89,15 +120,25 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             List<ItemStack> pedestal = new ArrayList<>();
             for (int i = 0; i < count; i++) pedestal.add(buf.readItem());
             ItemStack output = buf.readItem();
-            return new InfusionRecipe(id, input, pedestal, output);
+            int minLevel = buf.readVarInt();
+            int maxLevel = buf.readVarInt();
+            int levelGain = buf.readVarInt();
+            boolean preserve = buf.readBoolean();
+            return new InfusionRecipe(id, input, pedestal, output, minLevel, maxLevel, levelGain, preserve);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, InfusionRecipe recipe) {
             buf.writeItem(recipe.input);
             buf.writeVarInt(recipe.pedestalItems.size());
-            recipe.pedestalItems.forEach(buf::writeItem);
+            for (ItemStack item : recipe.pedestalItems) {
+                buf.writeItem(item);
+            }
             buf.writeItem(recipe.output);
+            buf.writeVarInt(recipe.minLevel);
+            buf.writeVarInt(recipe.maxLevel);
+            buf.writeVarInt(recipe.levelGain);
+            buf.writeBoolean(recipe.preserveMainItem);
         }
     }
 }
