@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -35,7 +36,7 @@ public class InfusionBlock extends BaseEntityBlock {
         this.type = type;
         this.tier = tier;
     }
-    public ManaType getType() {
+    public ManaType getManaType() {
         return type;
     }
     public BlockTier getTier() {
@@ -105,5 +106,16 @@ public class InfusionBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.INFUSION.get(), InfusionBlockEntity::tick);
+    }
+
+    @Override
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        if (!pLevel.isClientSide && pPlacer instanceof Player player) {
+            BlockEntity be = pLevel.getBlockEntity(pPos);
+            if (be instanceof InfusionBlockEntity blockEntity) {
+                blockEntity.setOwner(player.getUUID());
+            }
+        }
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
     }
 }

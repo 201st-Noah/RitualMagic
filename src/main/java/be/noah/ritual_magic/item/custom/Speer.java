@@ -95,7 +95,7 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if(pLivingEntity instanceof ServerPlayer player){
             if (!player.level().isClientSide()) {
-                shootEnergyBeam((ServerLevel) player.level(), (ServerPlayer) player, 60, 20F);
+                shootEnergyBeam((ServerLevel) player.level(), (ServerPlayer) player, 60, 40F);
                 super.onUseTick(pLevel, pLivingEntity, pStack, pRemainingUseDuration);
             }
         }
@@ -134,6 +134,7 @@ public class Speer extends SwordItem implements LeveldMagicItem {
                 existingTime += 1;
                 living.getPersistentData().putFloat("LaserLockTime", existingTime);
                 float damage = 1.0F + Math.min(existingTime * 0.2F, maxDamage);
+                //System.out.println("Damage: " + damage);
                 living.hurt(player.level().damageSources().playerAttack(player), damage);
             }
         }
@@ -263,7 +264,7 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     }
 
     @Override
-    public ManaType getType() {
+    public ManaType getManaType() {
         return ManaType.DRACONIC;
     }
 

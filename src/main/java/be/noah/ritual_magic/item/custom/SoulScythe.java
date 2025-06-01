@@ -20,8 +20,8 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
     }
 
     @Override
-    public ManaType getType() {
-        return null;
+    public ManaType getManaType() {
+        return ManaType.HELLISH;
     }
 
     @Override

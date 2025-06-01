@@ -17,8 +17,8 @@ public class VoidShuriken extends Item implements LeveldMagicItem {
     }
 
     @Override
-    public ManaType getType() {
-        return null;
+    public ManaType getManaType() {
+        return ManaType.DRACONIC;
     }
 
     @Override

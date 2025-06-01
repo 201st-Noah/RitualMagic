@@ -44,7 +44,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
 
         if (!level.isClientSide) {
             if (player.isShiftKeyDown()) {
-                mode = (mode + 1) % 5; //Math.min(this.getItemLevel(itemstack) ,3) //for getting abilities with leveling
+                mode = (mode + 1) % 6; //Math.min(this.getItemLevel(itemstack) ,3) //for getting abilities with leveling
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.0"), true);
@@ -60,6 +60,9 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                         break;
                     case 4:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.4"), true);
+                        break;
+                    case 5:
+                        player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.5"), true);
                         break;
                 }
                 return InteractionResultHolder.success(itemstack);
@@ -81,7 +84,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                         if (player instanceof ServerPlayer serverPlayer) {
                             ServerLevel serverLevel = serverPlayer.serverLevel();
                             ManaNetworkData data = ManaNetworkData.get(serverLevel);
-                            if (data.consume(player.getUUID(), this.getType(), 20)) {
+                            if (data.consume(player.getUUID(), this.getManaType(), 20)) {
                                 // cast spell or attack
                                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
                             } else {
@@ -97,6 +100,14 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                            // player.displayClientMessage(Component.literal("Not enough Arcane mana!" + data.getOrCreate(player.getUUID())), true);
                         }
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        break;
+                    case 5:
+                        if (player instanceof ServerPlayer serverPlayer) {
+                            ServerLevel serverLevel = serverPlayer.serverLevel();
+                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            data.setMax(player.getUUID(), ManaType.HELLISH, 300);
+                        }
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;
                     }
                     player.getCooldowns().addCooldown(this, COOLDOWN);
@@ -132,7 +143,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
     }
 
     @Override
-    public ManaType getType() {
+    public ManaType getManaType() {
         return ManaType.HELLISH;
     }
 

@@ -18,7 +18,7 @@ public class VoidShieldHudOverlay {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
         if (player == null) return;
-
+        if(player.isCreative()) return;
         CompoundTag data = player.getPersistentData();
         int hitsLeft = data.getInt("void_shield");
         int maxHits = 10;
@@ -43,7 +43,7 @@ public class VoidShieldHudOverlay {
         for (int i = 0; i < 8; i++) {
             if(hitsLeft > i){
                 int x = xStart + i * (iconSize + spacing);
-                int v = (i < hitsLeft) ? 0 : 8; // top or bottom half of the 16x32 texture
+                int v = (i < hitsLeft) ? 0 : 8;
                 guiGraphics.blit(
                         TEXTURE,
                         x, y,

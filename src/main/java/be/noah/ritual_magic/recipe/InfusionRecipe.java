@@ -1,5 +1,10 @@
 package be.noah.ritual_magic.recipe;
 
+import be.noah.ritual_magic.Mana.ManaNetworkData;
+import be.noah.ritual_magic.Mana.ManaType;
+import be.noah.ritual_magic.block.BlockTier;
+import be.noah.ritual_magic.block.custom.InfusionBlock;
+import be.noah.ritual_magic.block.entity.InfusionBlockEntity;
 import be.noah.ritual_magic.item.LeveldMagicItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -8,6 +13,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -17,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class InfusionRecipe implements Recipe<SimpleContainer> {
     private final ResourceLocation id;
@@ -27,8 +34,11 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
     private final int maxLevel;
     private final int levelGain;
     private final boolean preserveMainItem;
+    private final int manaCost;
+    private final ManaType manaType;
+    private final BlockTier minBlockTier;
 
-    public InfusionRecipe(ResourceLocation id, ItemStack input, List<ItemStack> pedestalItems, ItemStack output, int minLevel, int maxLevel, int levelGain, boolean preserveMainItem) {
+    public InfusionRecipe(ResourceLocation id, ItemStack input, List<ItemStack> pedestalItems, ItemStack output, int minLevel, int maxLevel, int levelGain, boolean preserveMainItem, int manaCost, ManaType manaType, BlockTier minBlockTier) {
         this.id = id;
         this.input = input;
         this.pedestalItems = pedestalItems;
@@ -37,14 +47,18 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
         this.maxLevel = maxLevel;
         this.levelGain = levelGain;
         this.preserveMainItem = preserveMainItem;
+        this.manaCost = manaCost;
+        this.manaType = manaType;
+        this.minBlockTier = minBlockTier;
     }
 
-    @Override
-    public boolean matches(SimpleContainer container, Level level) {
+
+    public boolean matches(SimpleContainer container, Level level, InfusionBlock infusionBlock) {
         if (level.isClientSide()) return false;
         ItemStack centerItem = container.getItem(0);
-
         if (!centerItem.is(input.getItem())) return false;
+        if (manaType != infusionBlock.getManaType() && infusionBlock.getManaType() != ManaType.NEXUS) return false;
+        if (infusionBlock.getTier().getInt() < minBlockTier.getInt()) return false;
 
         if (centerItem.getItem() instanceof LeveldMagicItem magicItem) {
             int itemLevel = magicItem.getItemLevel(centerItem);
@@ -72,6 +86,17 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             if (!matched) return false;
         }
         return found.isEmpty(); // Must be exact
+    }
+
+    public boolean canConsumeMana(InfusionBlockEntity infusionBlock, ServerLevel serverLevel) {
+        UUID owner = infusionBlock.getOwner();
+        ManaNetworkData data = ManaNetworkData.get(serverLevel);
+        return data.consume(owner, manaType, manaCost);
+    }
+
+    @Override
+    public boolean matches(SimpleContainer pContainer, Level pLevel) {
+        return false;
     }
 
     @Override public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
@@ -108,9 +133,16 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             int minLevel = json.has("min_level") ? json.get("min_level").getAsInt() : 0;
             int maxLevel = json.has("max_level") ? json.get("max_level").getAsInt() : Integer.MAX_VALUE;
             int levelGain = json.has("level_gain") ? json.get("level_gain").getAsInt() : 0;
+            int manaCost = json.has("mana_cost") ? json.get("mana_cost").getAsInt() : 0;
+            ManaType manaType = json.has("mana_type")
+                    ? ManaType.valueOf(json.get("mana_type").getAsString().toUpperCase())
+                    : ManaType.NEXUS;
+            BlockTier minBlockTier = json.has("min_block_tier")
+                    ? BlockTier.valueOf(json.get("min_block_tier").getAsString().toUpperCase())
+                    : BlockTier.BASIC;
             boolean preserve = json.has("preserve_main_item") && json.get("preserve_main_item").getAsBoolean();
 
-            return new InfusionRecipe(id, input, pedestalItems, output, minLevel, maxLevel, levelGain, preserve);
+            return new InfusionRecipe(id, input, pedestalItems, output, minLevel, maxLevel, levelGain, preserve, manaCost, manaType, minBlockTier);
         }
 
         @Override
@@ -123,8 +155,11 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             int minLevel = buf.readVarInt();
             int maxLevel = buf.readVarInt();
             int levelGain = buf.readVarInt();
+            int manaCost = buf.readVarInt();
+            ManaType manaType = ManaType.valueOf(buf.readUtf());
+            BlockTier minBlockTier = BlockTier.valueOf(buf.readUtf());
             boolean preserve = buf.readBoolean();
-            return new InfusionRecipe(id, input, pedestal, output, minLevel, maxLevel, levelGain, preserve);
+            return new InfusionRecipe(id, input, pedestal, output, minLevel, maxLevel, levelGain, preserve, manaCost, manaType, minBlockTier);
         }
 
         @Override
@@ -138,6 +173,9 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             buf.writeVarInt(recipe.minLevel);
             buf.writeVarInt(recipe.maxLevel);
             buf.writeVarInt(recipe.levelGain);
+            buf.writeVarInt(recipe.manaCost);
+            buf.writeUtf(recipe.manaType.name());
+            buf.writeUtf(recipe.minBlockTier.name());
             buf.writeBoolean(recipe.preserveMainItem);
         }
     }

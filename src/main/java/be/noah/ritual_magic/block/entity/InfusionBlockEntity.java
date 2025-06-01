@@ -1,5 +1,7 @@
 package be.noah.ritual_magic.block.entity;
 
+import be.noah.ritual_magic.block.custom.InfusionBlock;
+import be.noah.ritual_magic.block.custom.RitualPedestalBlock;
 import be.noah.ritual_magic.recipe.InfusionRecipe;
 import be.noah.ritual_magic.recipe.ModRecipes;
 import net.minecraft.core.BlockPos;
@@ -7,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
@@ -27,11 +30,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 public class InfusionBlockEntity extends BlockEntity{
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     protected final ContainerData data;
+    private UUID owner;
     private float rotation;
     private BlockPos pos;
     private int progress = 0;
@@ -76,17 +80,18 @@ public class InfusionBlockEntity extends BlockEntity{
 
 
         for (InfusionRecipe recipe : recipes) {
-            if (!recipe.matches(center, level)) continue;
+            if (!recipe.matches(center, level, (InfusionBlock) this.getBlockState().getBlock())) continue;
 
             List<ItemStack> pedestalItems = new ArrayList<>();
             BlockPos.betweenClosedStream(worldPosition.offset(-3, -1, -3), worldPosition.offset(3, 1, 3)).forEach(pos -> {
-                if (level.getBlockEntity(pos) instanceof RitualPedestalBlockEntity pedestal) {
+                if (level.getBlockEntity(pos) instanceof RitualPedestalBlockEntity pedestal &&
+                        (((RitualPedestalBlock) pedestal.getBlockState().getBlock()).getManaType()) == ((InfusionBlock) this.getBlockState().getBlock()).getManaType()) {
                     ItemStack s = pedestal.getItemStackHandler().getStackInSlot(0);
                     if (!s.isEmpty()) pedestalItems.add(s);
                 }
             });
 
-            if (recipe.pedestalItemsMatch(pedestalItems)) {
+            if (recipe.pedestalItemsMatch(pedestalItems) && recipe.canConsumeMana(this,(ServerLevel) this.level)) {
                 ItemStack result = recipe.assemble(center, level.registryAccess());
                 itemStackHandler.setStackInSlot(0, result);
                 setChanged();
@@ -106,7 +111,14 @@ public class InfusionBlockEntity extends BlockEntity{
         }
     }
 
+    public void setOwner(UUID uuid) {
+        this.owner = uuid;
+        setChanged();
+    }
 
+    public UUID getOwner() {
+        return owner;
+    }
     public float getRotation() {
         rotation += 0.5f;
         if(rotation >= 360) {
@@ -144,11 +156,17 @@ public class InfusionBlockEntity extends BlockEntity{
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.put("inventory", itemStackHandler.serializeNBT());
+        if (owner != null) {
+            pTag.putUUID("Owner", owner);
+        }
     }
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
         itemStackHandler.deserializeNBT(pTag.getCompound("inventory"));
+        if (pTag.hasUUID("Owner")) {
+            owner = pTag.getUUID("Owner");
+        }
     }
 
     @Override

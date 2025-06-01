@@ -32,7 +32,7 @@ public class RitualPedestalBlock extends BaseEntityBlock {
         this.type = type;
         this.tier = tier;
     }
-    public ManaType getType() {
+    public ManaType getManaType() {
         return type;
     }
     public BlockTier getTier() {

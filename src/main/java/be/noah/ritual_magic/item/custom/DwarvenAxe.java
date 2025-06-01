@@ -152,7 +152,7 @@ public class DwarvenAxe extends AxeItem implements LeveldMagicItem {
     }
 
     @Override
-    public ManaType getType() {
+    public ManaType getManaType() {
         return ManaType.DWARVEN;
     }
 

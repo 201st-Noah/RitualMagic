@@ -27,8 +27,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.scores.PlayerTeam;
-import net.minecraft.world.scores.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,7 +164,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
 
 
     @Override
-    public ManaType getType() {
+    public ManaType getManaType() {
         return null;
     }
 

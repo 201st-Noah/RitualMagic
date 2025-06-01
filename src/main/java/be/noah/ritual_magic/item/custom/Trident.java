@@ -19,7 +19,7 @@ public class Trident extends SwordItem implements LeveldMagicItem {
     }
 
     @Override
-    public ManaType getType() {
+    public ManaType getManaType() {
         return ManaType.ATLANTIAN;
     }
 
