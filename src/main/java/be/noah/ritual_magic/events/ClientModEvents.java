@@ -2,6 +2,7 @@ package be.noah.ritual_magic.events;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.block.entity.ModBlockEntities;
+import be.noah.ritual_magic.block.entity.renderer.InfusionBlockEntityRenderer;
 import be.noah.ritual_magic.block.entity.renderer.RitualPedestalBlockEntityRenderer;
 import be.noah.ritual_magic.client.ManaHudOverlay;
 import be.noah.ritual_magic.client.VoidShieldHudOverlay;
@@ -26,6 +27,10 @@ public class ClientModEvents {
         event.registerBlockEntityRenderer(
                 ModBlockEntities.RITUAL_PEDESTAL.get(),
                 context -> new RitualPedestalBlockEntityRenderer()
+        );
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.INFUSION.get(),
+                context -> new InfusionBlockEntityRenderer()
         );
     }
 }

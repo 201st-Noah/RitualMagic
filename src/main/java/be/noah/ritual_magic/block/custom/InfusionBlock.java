@@ -2,7 +2,8 @@ package be.noah.ritual_magic.block.custom;
 
 import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.block.BlockTier;
-import be.noah.ritual_magic.block.entity.RitualPedestalBlockEntity;
+import be.noah.ritual_magic.block.entity.InfusionBlockEntity;
+import be.noah.ritual_magic.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,18 +17,20 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class RitualPedestalBlock extends BaseEntityBlock {
+public class InfusionBlock extends BaseEntityBlock {
     private ManaType type;
     private BlockTier tier;
     public static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 13, 14);
 
-    public RitualPedestalBlock(ManaType type, BlockTier tier,Properties pProperties) {
+    public InfusionBlock(ManaType type, BlockTier tier,Properties pProperties) {
         super(pProperties);
         this.type = type;
         this.tier = tier;
@@ -52,15 +55,15 @@ public class RitualPedestalBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new RitualPedestalBlockEntity(pPos, pState);
+        return new InfusionBlockEntity(pPos, pState);
     }
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (pState.getBlock() != pNewState.getBlock()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof RitualPedestalBlockEntity) {
-                ((RitualPedestalBlockEntity) blockEntity).drops();
+            if (blockEntity instanceof InfusionBlockEntity) {
+                ((InfusionBlockEntity) blockEntity).drops();
             }
         }
 
@@ -70,24 +73,24 @@ public class RitualPedestalBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         ItemStack pStack = pPlayer.getItemInHand(pHand);
-        if(pLevel.getBlockEntity(pPos) instanceof RitualPedestalBlockEntity RitualPedestalBlockEntity) {
-            if(RitualPedestalBlockEntity.getItemStackHandler().getStackInSlot(0).isEmpty() && !pStack.isEmpty()) {
+        if(pLevel.getBlockEntity(pPos) instanceof InfusionBlockEntity InfusionBlockEntity) {
+            if(InfusionBlockEntity.getItemStackHandler().getStackInSlot(0).isEmpty() && !pStack.isEmpty()) {
                 ItemStack singleItem = pStack.copy();
                 singleItem.setCount(1);
-                RitualPedestalBlockEntity.getItemStackHandler().insertItem(0, singleItem, false);
+                InfusionBlockEntity.getItemStackHandler().insertItem(0, singleItem, false);
                 pStack.shrink(1);
                 pLevel.playSound(pPlayer, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
             } else if(pStack.isEmpty()) {
-                ItemStack stackOnPedestal = RitualPedestalBlockEntity.getItemStackHandler().extractItem(0, 1, false);
-                pPlayer.setItemInHand(InteractionHand.MAIN_HAND, stackOnPedestal);
-                RitualPedestalBlockEntity.clearContents();
+                ItemStack extracted = InfusionBlockEntity.getItemStackHandler().extractItem(0, 1, false);
+                pPlayer.setItemInHand(InteractionHand.MAIN_HAND, extracted);
+                InfusionBlockEntity.clearContents();
                 pLevel.playSound(pPlayer, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 1f);
             }
-            else if (RitualPedestalBlockEntity.getItemStackHandler().getStackInSlot(0).getItem() == pStack.getItem() && pStack.getItem().getMaxStackSize(pStack) > pStack.getCount()){
-                ItemStack extracted = RitualPedestalBlockEntity.getItemStackHandler().extractItem(0, 1, false);
+            else if (InfusionBlockEntity.getItemStackHandler().getStackInSlot(0).getItem() == pStack.getItem() && pStack.getItem().getMaxStackSize(pStack) > pStack.getCount()){
+                ItemStack extracted = InfusionBlockEntity.getItemStackHandler().extractItem(0, 1, false);
                 if (!extracted.isEmpty()) {
                     pStack.grow(1);
-                    RitualPedestalBlockEntity.clearContents();
+                    InfusionBlockEntity.clearContents();
                     pLevel.playSound(pPlayer, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 1f);
                 }
             }
@@ -97,5 +100,10 @@ public class RitualPedestalBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.INFUSION.get(), InfusionBlockEntity::tick);
     }
 }

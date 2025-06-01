@@ -34,6 +34,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.FORGE_T1.get());
         this.dropSelf(ModBlocks.FORGE_T2.get());
         this.dropSelf(ModBlocks.RITUAL_PEDESTAL.get());
+        this.dropSelf(ModBlocks.INFUSION.get());
         this.add(ModBlocks.ICE_SPIKE.get(),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()

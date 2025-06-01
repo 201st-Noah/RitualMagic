@@ -114,6 +114,7 @@ public class ModCreativeModTabs {
                         //Blocks
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.RITUAL_PEDESTAL.get());
+                        pOutput.accept(ModBlocks.INFUSION.get());
                         //BlockEntities
                         pOutput.accept(ModBlocks.MINING_CORE.get());
                         pOutput.accept(ModBlocks.MOD_TELEPORTER.get());

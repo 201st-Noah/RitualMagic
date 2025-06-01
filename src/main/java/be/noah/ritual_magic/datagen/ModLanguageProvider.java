@@ -34,6 +34,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.FORGE_T1, "Basic Forge");
         addBlock(ModBlocks.FORGE_T2, "Advanced Forge");
         addBlock(ModBlocks.RITUAL_PEDESTAL, "Ritual Pedestal");
+        addBlock(ModBlocks.INFUSION, "Infusion Core");
     }
 
     private void creativeTabs() {

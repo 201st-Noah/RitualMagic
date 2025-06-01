@@ -8,6 +8,7 @@ import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.item.ModCreativeModTabs;
 import be.noah.ritual_magic.item.ModItems;
 import be.noah.ritual_magic.networking.ModMessages;
+import be.noah.ritual_magic.recipe.ModRecipes;
 import be.noah.ritual_magic.screen.AncientAnvilScreen;
 import be.noah.ritual_magic.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
@@ -38,6 +39,7 @@ public class RitualMagic {
         ModEffects.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
+        ModRecipes.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
 
