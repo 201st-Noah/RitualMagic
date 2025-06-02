@@ -1,6 +1,7 @@
 
 package be.noah.ritual_magic.item.custom;
 
+import be.noah.ritual_magic.Mana.ManaNetworkData;
 import be.noah.ritual_magic.block.ModBlocks;
 import be.noah.ritual_magic.effect.ModEffects;
 import be.noah.ritual_magic.entities.HomingProjectile;
@@ -8,6 +9,8 @@ import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.item.LeveldMagicItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -39,6 +42,7 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
     private static final int COOLDOWN = 30;
     private static final double TARGET_RANGE = 3200.0;
     private int mode = 0;
+    private final boolean noManaConsumtion = true; //for debugging
 
     public IceSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -87,23 +91,29 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
                 return InteractionResultHolder.success(itemstack);
             } else {
                 Entity target = findTargetInLineOfSight(player);
+                ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
+                ManaNetworkData data = ManaNetworkData.get(serverLevel);
                 if (target != null) {
                     switch (mode) {
                         case 1:
+                            if(!(noManaConsumtion || !data.consume(player.getUUID(), this.getManaType(), 10))) break;
                             spawnProjectiles(level, player, target, lvlLinear(itemstack, 4.0F,20), this.getItemLevel(itemstack)/5);
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
                         case 3:
                             if (target instanceof LivingEntity) {
+                                if(!(noManaConsumtion || !data.consume(player.getUUID(), this.getManaType(), 10))) break;
                                 ((LivingEntity) target).addEffect(new MobEffectInstance(ModEffects.ICERAIN.get(), 200, 20, false, false, false));
                                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F);
                             }
                             break;
                         case 2:
+                            if(!(noManaConsumtion || !data.consume(player.getUUID(), this.getManaType(), 10))) break;
                             createIceField(level, player, target, lvlLinear(itemstack, 10.0F));
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
                         case 0:
+                            if(!(noManaConsumtion || !data.consume(player.getUUID(), this.getManaType(), 10))) break;
                             player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), lvlLinear(itemstack, 0.05F,1000), lvlLinear(itemstack, 2.0F), false, false, false));
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
@@ -112,6 +122,7 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
                     return InteractionResultHolder.success(itemstack);
                 } else{
                     if (mode == 0){
+                        if(!(noManaConsumtion || !data.consume(player.getUUID(), this.getManaType(), 10))) return InteractionResultHolder.fail(itemstack);
                         player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), lvlLinear(itemstack, 0.05F,1000, 100), lvlLinear(itemstack, 2.0F), false, false, false));
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }else {

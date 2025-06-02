@@ -5,6 +5,7 @@ import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.item.LeveldMagicItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -18,11 +19,13 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class DwarvenAxe extends AxeItem implements LeveldMagicItem {
@@ -149,6 +152,11 @@ public class DwarvenAxe extends AxeItem implements LeveldMagicItem {
 
     public int getUseDuration(ItemStack pStack) {
         return 72000;
+    }
+    
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        LeveldMagicItem.super.appendLevelTooltip(stack, tooltip);
     }
 
     @Override

@@ -69,11 +69,12 @@ public class ModEvents {
                     return;
                 }
                 List<BlockPos> logList = new ArrayList<>();
-                for(BlockPos pos : DwarvenAxe.getLogsToBeDestroyed(200, initialBlockPos, serverPlayer)) {
+                int maxLogs = (dwarvenAxe.getItemLevel(mainHandItem) * 3) + 15;
+                for(BlockPos pos : DwarvenAxe.getLogsToBeDestroyed(maxLogs, initialBlockPos, serverPlayer)) {
                     if(pos == initialBlockPos || !dwarvenAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                         continue;
                     }
-                    if (data.consume(player.getUUID(), ManaType.DWARVEN, 1) || serverPlayer.isCreative()) {
+                    if (serverPlayer.isCreative() || data.consume(player.getUUID(), ManaType.DWARVEN, 1)) {
                         HARVESTED_WOOD_BLOCKS.add(pos);
                         serverPlayer.gameMode.destroyBlock(pos);
                         HARVESTED_WOOD_BLOCKS.remove(pos);

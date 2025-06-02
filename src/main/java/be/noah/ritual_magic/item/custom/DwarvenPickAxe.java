@@ -5,7 +5,6 @@ import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.item.LeveldMagicItem;
 import be.noah.ritual_magic.networking.ModMessages;
 import be.noah.ritual_magic.networking.packet.BlockHighlightS2CPacket;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -20,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
             } else {
                     switch (mode) {
                         case 0:
-                            digAOE = (digAOE + 1) % 5;
+                            digAOE = (digAOE + 1) % lvlLinear(itemstack, 10.0F,5);
                             int holeSize = (digAOE * 2) + 1;
                             player.displayClientMessage(Component.translatable("ritual_magic.item.dwarven_pickaxe.aoe").append(holeSize + "x" + holeSize), true);
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -101,13 +102,14 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
         Player player = pContext.getPlayer();
         Level level = pContext.getLevel();
         BlockPos clicked = pContext.getClickedPos();
+        ItemStack stack = pContext.getItemInHand();
 
         if (level.isClientSide) return InteractionResult.SUCCESS; // skip client side
 
         BlockState clickedState = level.getBlockState(clicked);
 
         // Search for all nearby same blocks (adjust radius as needed)
-        int radius = 50;
+        int radius =  ((LeveldMagicItem)stack.getItem()).getItemLevel(stack);
         List<BlockPos> matching = new ArrayList<>();
 
         Block blockToMatch = clickedState.getBlock();
@@ -117,7 +119,9 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
                         matching.add(pos.immutable());
                     }
                 });
-
+        ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
+        ManaNetworkData data = ManaNetworkData.get(serverLevel);
+        if(!data.consume(player.getUUID(), this.getManaType(), matching.size() * 50)) return InteractionResult.FAIL;
         // Send positions to the player who used the item
         ModMessages.sendToPlayer(new BlockHighlightS2CPacket(matching), (ServerPlayer) player);
         return InteractionResult.SUCCESS;
@@ -162,6 +166,10 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
         return positions;
     }
 
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        LeveldMagicItem.super.appendLevelTooltip(stack, tooltip);
+    }
 
     @Override
     public ManaType getManaType() {
