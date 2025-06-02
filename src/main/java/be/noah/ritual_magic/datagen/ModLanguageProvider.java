@@ -33,7 +33,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.FORGE_T0, "Beginner Forge");
         addBlock(ModBlocks.FORGE_T1, "Basic Forge");
         addBlock(ModBlocks.FORGE_T2, "Advanced Forge");
-        addBlock(ModBlocks.RITUAL_PEDESTAL, "Ritual Pedestal");
+        addBlock(ModBlocks.B_NEXUS_PEDESTAL, "Basic Nexus Pedestal");
         addBlock(ModBlocks.INFUSION, "Infusion Core");
     }
 
@@ -68,6 +68,8 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.NETHER_SCEPTRE, "Sceptre of the Nether");
         addItem(ModItems.ICE_SWORD, "Eternal Ice Sword");
         addItem(ModItems.ICE_SHARD, "Ice Shard");
+        addItem(ModItems.SHARP_ICE_SHARD, "Sharp Ice Shard");
+        addItem(ModItems.ICE_SWORD_HILT, "Ice Sword Hilt");
         addItem(ModItems.DWARVEN_PICKAXE, "Dwarven Pickaxe");
     }
 

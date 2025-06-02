@@ -27,6 +27,8 @@ public class ModItems {
     public static final RegistryObject<Item> DWARVEN_STEEL_ARMOR_PLATE = ITEMS.register("dwarven_steel_armor_plate", ()-> new ArmorPlate(ModToolTiers.DWARVEN,new Item.Properties()));
     public static final RegistryObject<Item> PURE_NETHERITE = ITEMS.register("pure_netherite", ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ICE_SHARD = ITEMS.register("ice_shard", ()-> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ICE_SWORD_HILT = ITEMS.register("ice_sword_hilt", ()-> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SHARP_ICE_SHARD = ITEMS.register("sharp_ice_shard", ()-> new Item(new Item.Properties()));
 
     //Advanced Items
     public static final RegistryObject<Item> TORCH = ITEMS.register("torch", ()-> new ModTorch(new Item.Properties()));
@@ -35,7 +37,7 @@ public class ModItems {
     public static final RegistryObject<Item> DWARVEN_PICKAXE = ITEMS.register("dwarven_pickaxe", ()-> new DwarvenPickAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));
     public static final RegistryObject<Item> BUILDERSTAFF = ITEMS.register("builderstaff", ()-> new BuildersStaff(new Item.Properties()));
     public static final RegistryObject<Item> NETHER_SCEPTRE = ITEMS.register("nether_scepter", ()-> new NetherScepter(new Item.Properties()));
-    public static final RegistryObject<Item> ICE_SWORD = ITEMS.register("ice_sword", ()-> new IceSword(ModToolTiers.ATLANTIAN, 20, 1, new Item.Properties()));
+    public static final RegistryObject<Item> ICE_SWORD = ITEMS.register("ice_sword", ()-> new IceSword(ModToolTiers.ATLANTIAN, 3, 1, new Item.Properties()));
 
     //Armors
     public static final RegistryObject<Item> DWAREN_STEEL_HELMET = ITEMS.register("dwarven_steel_helmet", ()-> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));

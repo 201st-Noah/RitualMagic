@@ -32,4 +32,15 @@ public interface LeveldMagicItem {
     default void appendLevelTooltip(ItemStack stack, List<Component> tooltip) {
         tooltip.add(Component.literal("Level: " + getItemLevel(stack)));
     }
+
+
+    default int lvlLinear(ItemStack stack, float variable){
+        return Math.round(this.getItemLevel(stack) / variable);
+    }
+    default int lvlLinear(ItemStack stack, float variable, int max){
+        return Math.min(Math.round(this.getItemLevel(stack) / variable),max);
+    }
+    default int lvlLinear(ItemStack stack, float variable, int max, int startVal){
+        return Math.max(Math.round(this.getItemLevel(stack) / variable) + startVal,max);
+    }
 }

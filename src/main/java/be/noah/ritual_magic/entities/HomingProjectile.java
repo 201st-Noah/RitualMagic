@@ -29,6 +29,7 @@ public class HomingProjectile extends ThrowableProjectile {
     private static final Random random = new Random();
     private int minDelay; // Minimale Verzögerung
     private int maxDelay;
+    private int damage;
 
     public HomingProjectile(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -67,6 +68,10 @@ public class HomingProjectile extends ThrowableProjectile {
         this.minDelay = minDelay;
         this.maxDelay = maxDelay;
         this.delayTicks = random.nextInt(maxDelay - minDelay + 1) + minDelay;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     private void playDestroySound() {
@@ -149,7 +154,7 @@ public class HomingProjectile extends ThrowableProjectile {
                         MobEffects.MOVEMENT_SLOWDOWN,
                         200, 1, false, false));
             }
-            entity.hurt(this.level().damageSources().playerAttack((Player) this.getOwner()), 8.0F);
+            entity.hurt(this.level().damageSources().playerAttack((Player) this.getOwner()), damage);
             // Remove the projectile
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
                     SoundEvents.TRIDENT_HIT, SoundSource.PLAYERS, 0.7F, 1.0F);

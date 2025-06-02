@@ -1,16 +1,16 @@
 {
   "type": "ritual_magic:infusion",
   "input": {
-    "item": "ritual_magic:ice_sword_hilt"
+    "item": "ritual_magic:atlantian_steel_ingot"
   },
   "pedestal_items": [
-    { "item": "ritual_magic:sharp_ice_shard" },
-    { "item": "ritual_magic:sharp_ice_shard" },
-    { "item": "ritual_magic:sharp_ice_shard" },
+    { "item": "ritual_magic:atlantian_steel_ingot" },
+    { "item": "ritual_magic:atlantian_steel_ingot" },
+    { "item": "ritual_magic:atlantian_steel_ingot" },
     { "item": "ritual_magic:sharp_ice_shard" }
   ],
   "result": {
-    "item": "ritual_magic:ice_sword"
+    "item": "ritual_magic:ice_sword_hilt"
   },
   "min_level": 0,
   "max_level": 0,

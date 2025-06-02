@@ -23,6 +23,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -31,14 +32,13 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.network.chat.Component;
 
-import java.util.Random;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class IceSword extends SwordItem implements LeveldMagicItem {
-    private static final int PROJECTILE_COUNT = 17;
     private static final int COOLDOWN = 30;
     private static final double TARGET_RANGE = 3200.0;
     private int mode = 0;
-    private static final Random random = new Random();
 
     public IceSword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -51,9 +51,16 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (attacker.level().isClientSide) return super.hurtEnemy(stack, target, attacker);
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 100, 1));
         target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
+        target.hurt(target.damageSources().playerAttack((Player) attacker), getItemLevel(stack));
         return super.hurtEnemy(stack, target, attacker);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        LeveldMagicItem.super.appendLevelTooltip(stack, tooltip);
     }
 
     @Override
@@ -62,18 +69,18 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
 
         if (!level.isClientSide) {
             if (player.isShiftKeyDown()) {
-                mode = (mode + 1) % 4;
+                mode = (mode + 1) % lvlLinear(itemstack, 10.0F,4);
                 switch (mode) {
-                    case 0:
+                    case 1:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.0"), true);
                         break;
-                    case 1:
+                    case 3:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.1"), true);
                         break;
                     case 2:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.2"), true);
                         break;
-                    case 3:
+                    case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.3"), true);
                         break;
                 }
@@ -82,30 +89,30 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
                 Entity target = findTargetInLineOfSight(player);
                 if (target != null) {
                     switch (mode) {
-                        case 0:
-                            spawnProjectiles(level, player, target,17);
+                        case 1:
+                            spawnProjectiles(level, player, target, lvlLinear(itemstack, 4.0F,20), this.getItemLevel(itemstack)/5);
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
-                        case 1:
+                        case 3:
                             if (target instanceof LivingEntity) {
                                 ((LivingEntity) target).addEffect(new MobEffectInstance(ModEffects.ICERAIN.get(), 200, 20, false, false, false));
                                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F);
                             }
                             break;
                         case 2:
-                            createIceField(level, player, target, 8);
+                            createIceField(level, player, target, lvlLinear(itemstack, 10.0F));
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
-                        case 3:
-                            player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), 800, 10, false, false, false));
+                        case 0:
+                            player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), lvlLinear(itemstack, 0.05F,1000), lvlLinear(itemstack, 2.0F), false, false, false));
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
                             break;
                     }
                     player.getCooldowns().addCooldown(this, COOLDOWN);
                     return InteractionResultHolder.success(itemstack);
                 } else{
-                    if (mode == 3){
-                        player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), 800, 10, false, false, false));
+                    if (mode == 0){
+                        player.addEffect(new MobEffectInstance(ModEffects.FROSTAURA.get(), lvlLinear(itemstack, 0.05F,1000, 100), lvlLinear(itemstack, 2.0F), false, false, false));
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }else {
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.noTarget"), true);
@@ -143,7 +150,7 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
         }
     }
 
-    private void spawnProjectiles(Level level, Player player, Entity target, int amount) {
+    private void spawnProjectiles(Level level, Player player, Entity target, int amount, int damage) {
         // Berechne die Basis-Vektoren für das Portal-ähnliche Spawn-Muster
         Vec3 lookVec = player.getViewVector(1.0F);
         Vec3 upVec = new Vec3(0, 1, 0);
@@ -178,6 +185,7 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
             projectile.setTarget(target);
             projectile.setNoGravity(true);
             projectile.setDelayRange(10, 80);
+            projectile.setDamage(damage);
 
             // Richtung zum Ziel
             Vec3 direction = new Vec3(
@@ -252,6 +260,6 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
 
     @Override
     public int getItemLevelCap() {
-        return 16;
+        return 100;
     }
 }

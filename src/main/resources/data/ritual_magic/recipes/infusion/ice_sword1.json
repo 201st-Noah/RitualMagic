@@ -1,0 +1,19 @@
+{
+  "type": "ritual_magic:infusion",
+  "input": {
+    "item": "ritual_magic:ice_sword"
+  },
+  "pedestal_items": [
+    { "item": "ritual_magic:ice_shard" }
+  ],
+  "result": {
+    "item": "ritual_magic:ice_sword"
+  },
+  "min_level": 0,
+  "max_level": 100,
+  "level_gain": 1,
+  "mana_cost": 0,
+  "mana_type": "ATLANTIAN",
+  "min_block_tier": "BASIC",
+  "preserve_main_item": true
+}

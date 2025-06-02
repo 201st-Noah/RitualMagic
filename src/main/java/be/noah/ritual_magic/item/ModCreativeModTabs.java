@@ -57,6 +57,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ATLANTIAN_SCRAP.get());
                         pOutput.accept(ModItems.ATLANTIAN_STEEL_INGOT.get());
                         pOutput.accept(ModItems.ICE_SHARD.get());
+                        pOutput.accept(ModItems.SHARP_ICE_SHARD.get());
+                        pOutput.accept(ModItems.ICE_SWORD_HILT.get());
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.ICE_SWORD.get());
                         //Blocks
@@ -113,7 +115,7 @@ public class ModCreativeModTabs {
                         //Functional Items (Wapons, Tools, Armor,...)
                         //Blocks
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
-                        pOutput.accept(ModBlocks.RITUAL_PEDESTAL.get());
+                        pOutput.accept(ModBlocks.B_NEXUS_PEDESTAL.get());
                         pOutput.accept(ModBlocks.INFUSION.get());
                         //BlockEntities
                         pOutput.accept(ModBlocks.MINING_CORE.get());

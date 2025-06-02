@@ -33,8 +33,50 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.FORGE_T0.get());
         this.dropSelf(ModBlocks.FORGE_T1.get());
         this.dropSelf(ModBlocks.FORGE_T2.get());
-        this.dropSelf(ModBlocks.RITUAL_PEDESTAL.get());
+
+        this.dropSelf(ModBlocks.B_NEXUS_PEDESTAL.get());
+        this.dropSelf(ModBlocks.I_NEXUS_PEDESTAL.get());
+        this.dropSelf(ModBlocks.A_NEXUS_PEDESTAL.get());
+        this.dropSelf(ModBlocks.U_NEXUS_PEDESTAL.get());
+        this.dropSelf(ModBlocks.B_DWARVEN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.I_DWARVEN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.A_DWARVEN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.U_DWARVEN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.B_ATLANTIAN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.I_ATLANTIAN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.A_ATLANTIAN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.U_ATLANTIAN_PEDESTAL.get());
+        this.dropSelf(ModBlocks.B_HELLISH_PEDESTAL.get());
+        this.dropSelf(ModBlocks.I_HELLISH_PEDESTAL.get());
+        this.dropSelf(ModBlocks.A_HELLISH_PEDESTAL.get());
+        this.dropSelf(ModBlocks.U_HELLISH_PEDESTAL.get());
+        this.dropSelf(ModBlocks.B_DRACONIC_PEDESTAL.get());
+        this.dropSelf(ModBlocks.I_DRACONIC_PEDESTAL.get());
+        this.dropSelf(ModBlocks.A_DRACONIC_PEDESTAL.get());
+        this.dropSelf(ModBlocks.U_DRACONIC_PEDESTAL.get());
+        this.dropSelf(ModBlocks.B_NEXUS_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.I_NEXUS_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.A_NEXUS_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.U_NEXUS_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.B_DWARVEN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.I_DWARVEN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.A_DWARVEN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.U_DWARVEN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.B_ATLANTIAN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.I_ATLANTIAN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.A_ATLANTIAN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.U_ATLANTIAN_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.B_HELLISH_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.I_HELLISH_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.A_HELLISH_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.U_HELLISH_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.B_DRACONIC_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.I_DRACONIC_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.A_DRACONIC_INFUSION_CORE.get());
+        this.dropSelf(ModBlocks.U_DRACONIC_INFUSION_CORE.get());
+
         this.dropSelf(ModBlocks.INFUSION.get());
+
         this.add(ModBlocks.ICE_SPIKE.get(),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
