@@ -32,22 +32,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class InfusionBlockEntity extends BlockEntity{
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    protected final ContainerData data;
-    private UUID owner;
-    private float rotation;
-    private BlockPos pos;
-    private int progress = 0;
-    private int maxProgress = 78;
+public class InfusionBlockEntity extends BlockEntity {
     private static final int SLOT = 0;
-
+    protected final ContainerData data;
     private final ItemStackHandler itemStackHandler = new ItemStackHandler(1) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged(); // Mark the block entity as dirty when inventory changes
         }
     };
+    private final BlockPos pos;
+    private final int progress = 0;
+    private final int maxProgress = 78;
+    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+    private UUID owner;
+    private float rotation;
 
     public InfusionBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.INFUSION.get(), pPos, pBlockState);
@@ -68,6 +67,11 @@ public class InfusionBlockEntity extends BlockEntity{
                 return 0;
             }
         };
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, InfusionBlockEntity be) {
+        if (level.isClientSide()) return;
+        be.tryCraft();
     }
 
     public void tryCraft() {
@@ -91,7 +95,7 @@ public class InfusionBlockEntity extends BlockEntity{
                 }
             });
 
-            if (recipe.pedestalItemsMatch(pedestalItems) && recipe.canConsumeMana(this,(ServerLevel) this.level)) {
+            if (recipe.pedestalItemsMatch(pedestalItems) && recipe.canConsumeMana(this, (ServerLevel) this.level)) {
                 ItemStack result = recipe.assemble(center, level.registryAccess());
                 itemStackHandler.setStackInSlot(0, result);
                 setChanged();
@@ -111,17 +115,18 @@ public class InfusionBlockEntity extends BlockEntity{
         }
     }
 
+    public UUID getOwner() {
+        return owner;
+    }
+
     public void setOwner(UUID uuid) {
         this.owner = uuid;
         setChanged();
     }
 
-    public UUID getOwner() {
-        return owner;
-    }
     public float getRotation() {
         rotation += 0.5f;
-        if(rotation >= 360) {
+        if (rotation >= 360) {
             rotation = 0;
         }
         return rotation;
@@ -130,14 +135,17 @@ public class InfusionBlockEntity extends BlockEntity{
     public ItemStackHandler getItemStackHandler() {
         return itemStackHandler;
     }
+
     public void clearContents() {
         itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
     }
+
     @Override
     public void onLoad() {
         super.onLoad();
         lazyItemHandler = LazyOptional.of(() -> itemStackHandler);
     }
+
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
@@ -146,22 +154,24 @@ public class InfusionBlockEntity extends BlockEntity{
 
     public void drops() {
         SimpleContainer inventory = new SimpleContainer(itemStackHandler.getSlots());
-        for(int i = 0; i < itemStackHandler.getSlots(); i++) {
+        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
             inventory.setItem(i, itemStackHandler.getStackInSlot(i));
         }
+        assert this.level != null;
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    protected void saveAdditional(@NotNull CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.put("inventory", itemStackHandler.serializeNBT());
         if (owner != null) {
             pTag.putUUID("Owner", owner);
         }
     }
+
     @Override
-    public void load(CompoundTag pTag) {
+    public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
         itemStackHandler.deserializeNBT(pTag.getCompound("inventory"));
         if (pTag.hasUUID("Owner")) {
@@ -171,7 +181,7 @@ public class InfusionBlockEntity extends BlockEntity{
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ITEM_HANDLER) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
         }
 
@@ -180,11 +190,13 @@ public class InfusionBlockEntity extends BlockEntity{
     }
 
     @Override
+    @NotNull
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
         saveAdditional(tag);
         return tag;
     }
+
     @Nullable
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
@@ -193,11 +205,7 @@ public class InfusionBlockEntity extends BlockEntity{
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        assert pkt.getTag() != null;
         load(pkt.getTag());
-    }
-
-    public static void tick(Level level, BlockPos pos, BlockState state, InfusionBlockEntity be) {
-        if (level.isClientSide()) return;
-        be.tryCraft();
     }
 }

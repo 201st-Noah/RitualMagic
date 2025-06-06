@@ -16,8 +16,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -26,10 +30,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class InfusionRecipe implements Recipe<SimpleContainer> {
-    private final ResourceLocation id;
     public final ItemStack input;
     public final List<ItemStack> pedestalItems;
     public final ItemStack output;
+    private final ResourceLocation id;
     private final int minLevel;
     private final int maxLevel;
     private final int levelGain;
@@ -38,7 +42,16 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
     private final ManaType manaType;
     private final BlockTier minBlockTier;
 
-    public InfusionRecipe(ResourceLocation id, ItemStack input, List<ItemStack> pedestalItems, ItemStack output, int minLevel, int maxLevel, int levelGain, boolean preserveMainItem, int manaCost, ManaType manaType, BlockTier minBlockTier) {
+    public InfusionRecipe(ResourceLocation id,
+                          ItemStack input,
+                          List<ItemStack> pedestalItems,
+                          ItemStack output, int minLevel,
+                          int maxLevel,
+                          int levelGain,
+                          boolean preserveMainItem,
+                          int manaCost,
+                          ManaType manaType,
+                          BlockTier minBlockTier) {
         this.id = id;
         this.input = input;
         this.pedestalItems = pedestalItems;
@@ -95,11 +108,13 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public boolean matches(SimpleContainer pContainer, Level pLevel) {
+    public boolean matches(@NotNull SimpleContainer pContainer, @NotNull Level pLevel) {
         return false;
     }
 
-    @Override public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
+    @Override
+    @NotNull
+    public ItemStack assemble(SimpleContainer container, @NotNull RegistryAccess access) {
         ItemStack center = container.getItem(0);
 
         if (preserveMainItem && center.getItem() instanceof LeveldMagicItem magicItem) {
@@ -110,15 +125,41 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
 
         return output.copy();
     }
-    @Override public boolean canCraftInDimensions(int w, int h) { return true; }
-    @Override public ItemStack getResultItem(RegistryAccess access) { return output; }
-    @Override public ResourceLocation getId() { return id; }
-    @Override public RecipeSerializer<?> getSerializer() { return ModRecipes.INFUSION_SERIALIZER.get(); }
-    @Override public RecipeType<?> getType() { return ModRecipes.INFUSION_TYPE.get(); }
+
+    @Override
+    public boolean canCraftInDimensions(int w, int h) {
+        return true;
+    }
+
+    @Override
+    @NotNull
+    public ItemStack getResultItem(@NotNull RegistryAccess access) {
+        return output;
+    }
+
+    @Override
+    @NotNull
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    @Override
+    @NotNull
+    public RecipeSerializer<?> getSerializer() {
+        return ModRecipes.INFUSION_SERIALIZER.get();
+    }
+
+    @Override
+    @NotNull
+    public RecipeType<?> getType() {
+        return ModRecipes.INFUSION_TYPE.get();
+    }
+
     //pointer
-    public static class Serializer implements RecipeSerializer<InfusionRecipe> {
+    public static class InfusionRecipeSerializer implements RecipeSerializer<InfusionRecipe> {
         @Override
-        public InfusionRecipe fromJson(ResourceLocation id,@Nullable JsonObject json) {
+        @NotNull
+        public InfusionRecipe fromJson(@NotNull ResourceLocation id, @Nullable JsonObject json) {
             if (json == null) {
                 throw new JsonParseException("Infusion recipe JSON is null for: " + id);
             }
@@ -142,11 +183,23 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
                     : BlockTier.BASIC;
             boolean preserve = json.has("preserve_main_item") && json.get("preserve_main_item").getAsBoolean();
 
-            return new InfusionRecipe(id, input, pedestalItems, output, minLevel, maxLevel, levelGain, preserve, manaCost, manaType, minBlockTier);
+            return new InfusionRecipe(
+                    id,
+                    input,
+                    pedestalItems,
+                    output,
+                    minLevel,
+                    maxLevel,
+                    levelGain,
+                    preserve,
+                    manaCost,
+                    manaType,
+                    minBlockTier
+            );
         }
 
         @Override
-        public @Nullable InfusionRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+        public @Nullable InfusionRecipe fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
             ItemStack input = buf.readItem();
             int count = buf.readVarInt();
             List<ItemStack> pedestal = new ArrayList<>();
@@ -159,7 +212,19 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
             ManaType manaType = ManaType.valueOf(buf.readUtf());
             BlockTier minBlockTier = BlockTier.valueOf(buf.readUtf());
             boolean preserve = buf.readBoolean();
-            return new InfusionRecipe(id, input, pedestal, output, minLevel, maxLevel, levelGain, preserve, manaCost, manaType, minBlockTier);
+            return new InfusionRecipe(
+                    id,
+                    input,
+                    pedestal,
+                    output,
+                    minLevel,
+                    maxLevel,
+                    levelGain,
+                    preserve,
+                    manaCost,
+                    manaType,
+                    minBlockTier
+            );
         }
 
         @Override
