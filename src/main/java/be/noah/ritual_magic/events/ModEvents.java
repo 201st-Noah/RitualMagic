@@ -1,11 +1,11 @@
 package be.noah.ritual_magic.events;
 
-import be.noah.ritual_magic.Mana.ManaNetworkData;
-import be.noah.ritual_magic.Mana.ManaPool;
-import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.item.custom.DwarvenAxe;
-import be.noah.ritual_magic.item.custom.DwarvenPickAxe;
+import be.noah.ritual_magic.items.custom.DwarvenAxe;
+import be.noah.ritual_magic.items.custom.DwarvenPickAxe;
+import be.noah.ritual_magic.mana.ManaNetworkData;
+import be.noah.ritual_magic.mana.ManaPool;
+import be.noah.ritual_magic.mana.ManaType;
 import be.noah.ritual_magic.networking.ModMessages;
 import be.noah.ritual_magic.networking.packet.ManaDataSyncS2CPacket;
 import be.noah.ritual_magic.networking.packet.VoidShieldDataSyncS2CPacket;
@@ -39,39 +39,38 @@ public class ModEvents {
     public static void onDiggerToolUsage(BlockEvent.BreakEvent event) {
         Player player = event.getPlayer();
         ItemStack mainHandItem = player.getMainHandItem();
-        if (player instanceof ServerPlayer serverPlayer){
+        if (player instanceof ServerPlayer serverPlayer) {
             ServerLevel serverLevel = serverPlayer.serverLevel();
 
-            if(mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe() != 0) {
+            if (mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe() != 0) {
                 ManaNetworkData data = ManaNetworkData.get(serverLevel);
                 BlockPos initialBlockPos = event.getPos();
-                if(HARVESTED_STONE_BLOCKS.contains(initialBlockPos)) {
+                if (HARVESTED_STONE_BLOCKS.contains(initialBlockPos)) {
                     return;
                 }
 
-                for(BlockPos pos : DwarvenPickAxe.getBlocksToBeDestroyed(dwarvenPickAxe.getDigAoe(), initialBlockPos, serverPlayer)) {
-                    if(pos == initialBlockPos || !dwarvenPickAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                for (BlockPos pos : DwarvenPickAxe.getBlocksToBeDestroyed(dwarvenPickAxe.getDigAoe(), initialBlockPos, serverPlayer)) {
+                    if (pos == initialBlockPos || !dwarvenPickAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                         continue;
                     }
                     if (data.consume(player.getUUID(), ManaType.DWARVEN, 1) || serverPlayer.isCreative()) {
                         HARVESTED_STONE_BLOCKS.add(pos);
                         serverPlayer.gameMode.destroyBlock(pos);
                         HARVESTED_STONE_BLOCKS.remove(pos);
-                    }
-                    else{
+                    } else {
                         break;
                     }
                 }
-            } else if(mainHandItem.getItem() instanceof DwarvenAxe dwarvenAxe && player.isShiftKeyDown()) {
+            } else if (mainHandItem.getItem() instanceof DwarvenAxe dwarvenAxe && player.isShiftKeyDown()) {
                 ManaNetworkData data = ManaNetworkData.get(serverLevel);
                 BlockPos initialBlockPos = event.getPos();
-                if(HARVESTED_WOOD_BLOCKS.contains(initialBlockPos)) {
+                if (HARVESTED_WOOD_BLOCKS.contains(initialBlockPos)) {
                     return;
                 }
                 List<BlockPos> logList = new ArrayList<>();
                 int maxLogs = (dwarvenAxe.getItemLevel(mainHandItem) * 3) + 15;
-                for(BlockPos pos : DwarvenAxe.getLogsToBeDestroyed(maxLogs, initialBlockPos, serverPlayer)) {
-                    if(pos == initialBlockPos || !dwarvenAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                for (BlockPos pos : DwarvenAxe.getLogsToBeDestroyed(maxLogs, initialBlockPos, serverPlayer)) {
+                    if (pos == initialBlockPos || !dwarvenAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                         continue;
                     }
                     if (serverPlayer.isCreative() || data.consume(player.getUUID(), ManaType.DWARVEN, 1)) {
@@ -79,8 +78,7 @@ public class ModEvents {
                         serverPlayer.gameMode.destroyBlock(pos);
                         HARVESTED_WOOD_BLOCKS.remove(pos);
                         logList.add(pos);
-                    }
-                    else{
+                    } else {
                         break;
                     }
                 }

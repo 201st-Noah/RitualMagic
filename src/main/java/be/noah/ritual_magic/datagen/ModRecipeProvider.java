@@ -1,9 +1,9 @@
 package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.block.ModBlocks;
+import be.noah.ritual_magic.blocks.ModBlocks;
 import be.noah.ritual_magic.datagen.recipe.InfusionRecipeBuilder;
-import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;

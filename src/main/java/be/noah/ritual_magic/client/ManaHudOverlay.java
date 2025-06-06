@@ -1,6 +1,6 @@
 package be.noah.ritual_magic.client;
 
-import be.noah.ritual_magic.Mana.ManaType;
+import be.noah.ritual_magic.mana.ManaType;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class ManaHudOverlay {

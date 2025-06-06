@@ -1,9 +1,9 @@
 package be.noah.ritual_magic.events;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.block.entity.ModBlockEntities;
-import be.noah.ritual_magic.block.entity.renderer.InfusionBlockEntityRenderer;
-import be.noah.ritual_magic.block.entity.renderer.RitualPedestalBlockEntityRenderer;
+import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
+import be.noah.ritual_magic.blocks.entity.renderer.InfusionBlockEntityRenderer;
+import be.noah.ritual_magic.blocks.entity.renderer.RitualPedestalBlockEntityRenderer;
 import be.noah.ritual_magic.client.ManaHudOverlay;
 import be.noah.ritual_magic.client.VoidShieldHudOverlay;
 import net.minecraftforge.api.distmarker.Dist;

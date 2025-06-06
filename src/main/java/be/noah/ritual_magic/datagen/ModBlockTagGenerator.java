@@ -1,8 +1,8 @@
 package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.util.ModTags;
+import be.noah.ritual_magic.blocks.ModBlocks;
+import be.noah.ritual_magic.utils.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;

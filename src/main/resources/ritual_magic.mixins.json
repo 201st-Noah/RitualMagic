@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "be.noah.ritual_magic.mixin",
+  "package": "be.noah.ritual_magic.mixins",
   "compatibilityLevel": "JAVA_8",
   "refmap": "ritual_magic.refmap.json",
   "mixins": [

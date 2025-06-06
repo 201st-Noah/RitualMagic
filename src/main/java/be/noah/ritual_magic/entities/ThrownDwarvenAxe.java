@@ -1,6 +1,6 @@
 package be.noah.ritual_magic.entities;
 
-import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.items.ModItems;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -50,7 +50,7 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         }
 
         Entity entity = this.getOwner();
-        if ( (this.dealtDamage || this.isNoPhysics()) && entity != null) {
+        if ((this.dealtDamage || this.isNoPhysics()) && entity != null) {
             if (!this.isAcceptableReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation(this.getPickupItem(), 0.1F);
@@ -133,15 +133,15 @@ public class ThrownDwarvenAxe extends AbstractArrow {
         this.entityData.define(DATA_ITEM_STACK, ItemStack.EMPTY);
     }
 
+    public ItemStack getItem() {
+        ItemStack itemstack = this.entityData.get(DATA_ITEM_STACK);
+        return itemstack.isEmpty() ? new ItemStack(this.getDefaultItem()) : itemstack;
+    }
+
     public void setItem(@NotNull ItemStack pStack) {
         if (!pStack.is(this.getDefaultItem()) || pStack.hasTag()) {
             this.entityData.set(DATA_ITEM_STACK, pStack.copy());
         }
-    }
-
-    public ItemStack getItem() {
-        ItemStack itemstack = this.entityData.get(DATA_ITEM_STACK);
-        return itemstack.isEmpty() ? new ItemStack(this.getDefaultItem()) : itemstack;
     }
 
     protected Item getDefaultItem() {

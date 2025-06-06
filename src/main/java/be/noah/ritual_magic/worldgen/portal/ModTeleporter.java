@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.worldgen.portal;
 
-import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.block.custom.ModTeleporterBlock;
+import be.noah.ritual_magic.blocks.ModBlocks;
+import be.noah.ritual_magic.blocks.custom.ModTeleporterBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +35,7 @@ public class ModTeleporter implements ITeleporter {
         int tries = 0;
         while ((destinationWorld.getBlockState(destinationPos).getBlock() != Blocks.AIR) &&
                 !destinationWorld.getBlockState(destinationPos).canBeReplaced(Fluids.WATER) &&
-                (destinationWorld.getBlockState(destinationPos.above()).getBlock()  != Blocks.AIR) &&
+                (destinationWorld.getBlockState(destinationPos.above()).getBlock() != Blocks.AIR) &&
                 !destinationWorld.getBlockState(destinationPos.above()).canBeReplaced(Fluids.WATER) && (tries < 25)) {
             destinationPos = destinationPos.above(2);
             tries++;

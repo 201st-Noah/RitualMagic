@@ -1,8 +1,7 @@
 package be.noah.ritual_magic.events;
 
 import be.noah.ritual_magic.RitualMagic;
-
-import be.noah.ritual_magic.item.armor.DwarvenArmor;
+import be.noah.ritual_magic.items.armor.DwarvenArmor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.Random;
 
-import static be.noah.ritual_magic.item.armor.DwarvenArmor.getPurity;
+import static be.noah.ritual_magic.items.armor.DwarvenArmor.getPurity;
 
 @Mod.EventBusSubscriber(modid = RitualMagic.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvents {
@@ -29,8 +28,7 @@ public class ForgeEvents {
     private static final String VOID_SHIELD_TAG = "void_shield";
 
     @SubscribeEvent
-    public static void onLivingHurt(LivingAttackEvent event)
-    {
+    public static void onLivingHurt(LivingAttackEvent event) {
         Entity entity = event.getEntity();
         Entity attacker = event.getSource().getDirectEntity();
         float damage = event.getAmount();
@@ -38,8 +36,7 @@ public class ForgeEvents {
     }
 
     @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event)
-    {
+    public static void onLivingHurt(LivingHurtEvent event) {
         Entity entity = event.getEntity();
         Entity attacker = event.getSource().getDirectEntity();
         float damage = event.getAmount();
@@ -47,10 +44,8 @@ public class ForgeEvents {
         event.setCanceled(onAttackOrHurt(entity, attacker, damage));
     }
 
-    private static boolean onAttackOrHurt(Entity entity, Entity attacker, float damage)
-    {
-        if(entity instanceof Player player)
-        {
+    private static boolean onAttackOrHurt(Entity entity, Entity attacker, float damage) {
+        if (entity instanceof Player player) {
             Item head = player.getItemBySlot(EquipmentSlot.HEAD).getItem();
             Item chest = player.getItemBySlot(EquipmentSlot.CHEST).getItem();
             Item legs = player.getItemBySlot(EquipmentSlot.LEGS).getItem();
@@ -58,19 +53,27 @@ public class ForgeEvents {
             //((DwarvenArmor) feet).setPurity(player.getItemBySlot(EquipmentSlot.FEET),32);
 
             int chance = 0;
-            if(chest instanceof DwarvenArmor) {chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.CHEST)));}
-            if(feet instanceof DwarvenArmor) {chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.FEET)));}
-            if(head instanceof DwarvenArmor) {chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.HEAD)));}
-            if(legs instanceof DwarvenArmor) {chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.LEGS)));}
+            if (chest instanceof DwarvenArmor) {
+                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.CHEST)));
+            }
+            if (feet instanceof DwarvenArmor) {
+                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.FEET)));
+            }
+            if (head instanceof DwarvenArmor) {
+                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.HEAD)));
+            }
+            if (legs instanceof DwarvenArmor) {
+                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.LEGS)));
+            }
 
             //System.out.println(chance);
             if (attacker instanceof LivingEntity livingAttacker) {
-                if(random.nextInt(101) < chance){
+                if (random.nextInt(101) < chance) {
                     livingAttacker.knockback(0.5D, player.getX() - attacker.getX(), player.getZ() - attacker.getZ());
                     return true;
                 }
             }
-            if (attacker instanceof Arrow){
+            if (attacker instanceof Arrow) {
                 return random.nextInt(101) < 2 * chance;
             }
         }

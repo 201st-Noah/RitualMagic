@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.datagen.recipe;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.recipe.ModRecipes;
+import be.noah.ritual_magic.recipes.ModRecipes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;

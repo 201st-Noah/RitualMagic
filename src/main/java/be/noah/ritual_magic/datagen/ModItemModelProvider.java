@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -41,9 +41,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         // - ritual_magic:item/dwarven_axe
         // - ritual_magic:item/nether_scepter
     }
+
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(RitualMagic.MODID,"item/" + item.getId().getPath()));
+                new ResourceLocation(RitualMagic.MODID, "item/" + item.getId().getPath()));
     }
 }

@@ -1,16 +1,18 @@
 package be.noah.ritual_magic;
 
-import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.block.entity.ModBlockEntities;
-import be.noah.ritual_magic.effect.ModEffects;
-import be.noah.ritual_magic.entities.client.*;
+import be.noah.ritual_magic.blocks.ModBlocks;
+import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
+import be.noah.ritual_magic.effects.ModEffects;
 import be.noah.ritual_magic.entities.ModEntities;
-import be.noah.ritual_magic.item.ModCreativeModTabs;
-import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.entities.client.BallLightningRenderer;
+import be.noah.ritual_magic.entities.client.HomingProjectileRenderer;
+import be.noah.ritual_magic.entities.client.ThrownDwarvenAxeRenderer;
+import be.noah.ritual_magic.items.ModCreativeModTabs;
+import be.noah.ritual_magic.items.ModItems;
 import be.noah.ritual_magic.networking.ModMessages;
-import be.noah.ritual_magic.recipe.ModRecipes;
-import be.noah.ritual_magic.screen.AncientAnvilScreen;
-import be.noah.ritual_magic.screen.ModMenuTypes;
+import be.noah.ritual_magic.recipes.ModRecipes;
+import be.noah.ritual_magic.screens.AncientAnvilScreen;
+import be.noah.ritual_magic.screens.ModMenuTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -29,6 +31,7 @@ import org.slf4j.Logger;
 public class RitualMagic {
     public static final String MODID = "ritual_magic";
     private static final Logger LOGGER = LogUtils.getLogger();
+
     public RitualMagic() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -50,6 +53,10 @@ public class RitualMagic {
         event.enqueueWork(ModMessages::register);
     }
 
+    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+
+    }
+
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
@@ -59,9 +66,6 @@ public class RitualMagic {
             EntityRenderers.register(ModEntities.HOMING_PROJECTILE.get(), HomingProjectileRenderer::new);
             MenuScreens.register(ModMenuTypes.ANCIENT_ANVIL_MENU.get(), AncientAnvilScreen::new);
         }
-    }
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
     }
 
 }

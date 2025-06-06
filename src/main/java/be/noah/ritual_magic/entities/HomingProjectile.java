@@ -1,6 +1,6 @@
 package be.noah.ritual_magic.entities;
 
-import be.noah.ritual_magic.block.custom.IceSpikeBlock;
+import be.noah.ritual_magic.blocks.custom.IceSpikeBlock;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,14 +19,14 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Random;
 
 public class HomingProjectile extends ThrowableProjectile {
-    private Entity target;
     private static final float SPEED = 1.4F;
     private static final float MAX_LIFE_TICKS = 400;
+    private static final Random random = new Random();
+    private Entity target;
     private int lifeTicks = 0;
     private Vec3 direction;
     private int delayTicks;
     private boolean isDelayed = true;
-    private static final Random random = new Random();
     private int minDelay; // Minimale Verzögerung
     private int maxDelay;
     private int damage;
@@ -85,7 +85,8 @@ public class HomingProjectile extends ThrowableProjectile {
 
     @Override
     public void setNoGravity(boolean noGravity) {
-        super.setNoGravity(true);}
+        super.setNoGravity(true);
+    }
 
     @Override
     public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
@@ -167,7 +168,7 @@ public class HomingProjectile extends ThrowableProjectile {
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         if (!this.level().isClientSide) {
-            if(!(this.level().getBlockState(result.getBlockPos()).getBlock() instanceof IceSpikeBlock)) {
+            if (!(this.level().getBlockState(result.getBlockPos()).getBlock() instanceof IceSpikeBlock)) {
                 playDestroySound();
                 this.discard();
             }

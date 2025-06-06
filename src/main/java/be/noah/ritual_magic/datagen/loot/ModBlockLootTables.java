@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.datagen.loot;
 
-import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.blocks.ModBlocks;
+import be.noah.ritual_magic.items.ModItems;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
@@ -84,6 +84,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                                 .add(LootItem.lootTableItem(ModItems.ICE_SHARD.get()))));
         this.dropSelf(ModBlocks.POINTED_ICICLE.get());
     }
+
     @Override
     @NotNull
     protected Iterable<Block> getKnownBlocks() {

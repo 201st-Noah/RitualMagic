@@ -1,10 +1,10 @@
 package be.noah.ritual_magic.datagen;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.block.ModBlocks;
-import be.noah.ritual_magic.effect.ModEffects;
-import be.noah.ritual_magic.item.ModCreativeModTabs;
-import be.noah.ritual_magic.item.ModItems;
+import be.noah.ritual_magic.blocks.ModBlocks;
+import be.noah.ritual_magic.effects.ModEffects;
+import be.noah.ritual_magic.items.ModCreativeModTabs;
+import be.noah.ritual_magic.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -78,13 +78,13 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.NEXUS_MANA_RUNE, "Nexus Mana Rune");
     }
 
-    private void effects(){
+    private void effects() {
         addEffect(ModEffects.ICERAIN, "Ice Rain");
         addEffect(ModEffects.FROSTAURA, "Frost Aura");
         addEffect(ModEffects.FIREAURA, "Fire Aura");
     }
 
-    private void messages(){
+    private void messages() {
         add("ritual_magic.item.ice_sword.mode.0", "Ice Darts");
         add("ritual_magic.item.ice_sword.mode.1", "Ice Rain");
         add("ritual_magic.item.ice_sword.mode.2", "Ice Field");

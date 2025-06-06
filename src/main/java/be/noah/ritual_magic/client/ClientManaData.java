@@ -1,14 +1,15 @@
 package be.noah.ritual_magic.client;
 
-import be.noah.ritual_magic.Mana.ManaPool;
-import be.noah.ritual_magic.Mana.ManaType;
+import be.noah.ritual_magic.mana.ManaPool;
+import be.noah.ritual_magic.mana.ManaType;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ClientManaData { private static final Map<ManaType, Integer> currentMana = new EnumMap<>(ManaType.class);
+public class ClientManaData {
+    private static final Map<ManaType, Integer> currentMana = new EnumMap<>(ManaType.class);
     private static final Map<ManaType, Integer> maxMana = new EnumMap<>(ManaType.class);
 
     public static void set(UUID playerId, CompoundTag tag) {
