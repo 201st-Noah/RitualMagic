@@ -71,6 +71,11 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.SHARP_ICE_SHARD, "Sharp Ice Shard");
         addItem(ModItems.ICE_SWORD_HILT, "Ice Sword Hilt");
         addItem(ModItems.DWARVEN_PICKAXE, "Dwarven Pickaxe");
+        addItem(ModItems.ATLANTIAN_MANA_RUNE, "Atlantian Mana Rune");
+        addItem(ModItems.DRACONIC_MANA_RUNE, "Draconic Mana Rune");
+        addItem(ModItems.DWARVEN_MANA_RUNE, "Dwarven Mana Rune");
+        addItem(ModItems.HELLISH_MANA_RUNE, "Hellish Mana Rune");
+        addItem(ModItems.NEXUS_MANA_RUNE, "Nexus Mana Rune");
     }
 
     private void effects(){

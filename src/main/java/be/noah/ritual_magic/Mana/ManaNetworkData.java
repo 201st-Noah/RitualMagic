@@ -51,6 +51,12 @@ public class ManaNetworkData extends SavedData {
         setDirty();
     }
 
+    public void increaseMax(UUID playerId, ManaType type, int amount) {
+        getOrCreate(playerId).increaseMax(type, amount);
+        dirtyPlayers.add(playerId);
+        setDirty();
+    }
+
     public void syncDirty(ServerLevel level) {
         Iterator<UUID> iterator = dirtyPlayers.iterator();
         while (iterator.hasNext()) {

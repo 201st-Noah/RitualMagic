@@ -37,6 +37,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
     private static final int COOLDOWN = 8;
     private int mode = 0;
     private int digAOE = 0;
+    private boolean noMana = false;
 
     public DwarvenPickAxe(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -71,7 +72,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
             } else {
                     switch (mode) {
                         case 0:
-                            digAOE = (digAOE + 1) % lvlLinear(itemstack, 10.0F,5);
+                            digAOE = (digAOE + 1) % lvlLinear(itemstack, 10.0F,5,1);
                             int holeSize = (digAOE * 2) + 1;
                             player.displayClientMessage(Component.translatable("ritual_magic.item.dwarven_pickaxe.aoe").append(holeSize + "x" + holeSize), true);
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -121,7 +122,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
                 });
         ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
         ManaNetworkData data = ManaNetworkData.get(serverLevel);
-        if(!data.consume(player.getUUID(), this.getManaType(), matching.size() * 50)) return InteractionResult.FAIL;
+        if(noMana && !data.consume(player.getUUID(), this.getManaType(), matching.size() * 50)) return InteractionResult.FAIL;
         // Send positions to the player who used the item
         ModMessages.sendToPlayer(new BlockHighlightS2CPacket(matching), (ServerPlayer) player);
         return InteractionResult.SUCCESS;

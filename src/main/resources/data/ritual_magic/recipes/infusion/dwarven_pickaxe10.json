@@ -1,0 +1,19 @@
+{
+  "type": "ritual_magic:infusion",
+  "input": {
+    "item": "ritual_magic:dwarven_pickaxe"
+  },
+  "pedestal_items": [
+    { "item": "ritual_magic:dwarven_steel_ingot" }
+  ],
+  "result": {
+    "item": "ritual_magic:dwarven_pickaxe"
+  },
+  "min_level": 0,
+  "max_level": 90,
+  "level_gain": 10,
+  "mana_cost": 0,
+  "mana_type": "DWARVEN",
+  "min_block_tier": "BASIC",
+  "preserve_main_item": true
+}

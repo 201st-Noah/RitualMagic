@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.item;
 
+import be.noah.ritual_magic.Mana.ManaType;
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.item.armor.DwarvenArmor;
 import be.noah.ritual_magic.item.armor.ModArmorMaterials;
@@ -31,6 +32,11 @@ public class ModItems {
     public static final RegistryObject<Item> SHARP_ICE_SHARD = ITEMS.register("sharp_ice_shard", ()-> new Item(new Item.Properties()));
 
     //Advanced Items
+    public static final RegistryObject<Item> NEXUS_MANA_RUNE = ITEMS.register("nexus_mana_rune", ()-> new ManaRune(new Item.Properties(), ManaType.NEXUS, 100));
+    public static final RegistryObject<Item> DWARVEN_MANA_RUNE = ITEMS.register("dwarven_mana_rune", ()-> new ManaRune(new Item.Properties(), ManaType.DWARVEN, 100));
+    public static final RegistryObject<Item> DRACONIC_MANA_RUNE = ITEMS.register("draconic_mana_rune", ()-> new ManaRune(new Item.Properties(), ManaType.DRACONIC, 100));
+    public static final RegistryObject<Item> ATLANTIAN_MANA_RUNE = ITEMS.register("atlantian_mana_rune", ()-> new ManaRune(new Item.Properties(), ManaType.ATLANTIAN, 100));
+    public static final RegistryObject<Item> HELLISH_MANA_RUNE = ITEMS.register("hellish_mana_rune", ()-> new ManaRune(new Item.Properties(), ManaType.HELLISH, 100));
     public static final RegistryObject<Item> TORCH = ITEMS.register("torch", ()-> new ModTorch(new Item.Properties()));
     public static final RegistryObject<Item> SPEER = ITEMS.register("speer", ()-> new Speer(ModToolTiers.DRACONIC,80, -3.5f,new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_AXE = ITEMS.register("dwarven_axe", ()-> new DwarvenAxe(ModToolTiers.DWARVEN,80,-3.5f,new Item.Properties()));

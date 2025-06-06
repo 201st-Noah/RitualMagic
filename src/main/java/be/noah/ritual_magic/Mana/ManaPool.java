@@ -47,9 +47,9 @@ public class ManaPool {
             set(type, max);
         }
     }
-//    public void increaseMax(ManaType type, int amount) {
-//        setMax(type, getMax(type) + amount);
-//    }
+    public void increaseMax(ManaType type, int amount) {
+        setMax(type, getMax(type) + amount);
+    }
 
     //data
     public CompoundTag serialize() {

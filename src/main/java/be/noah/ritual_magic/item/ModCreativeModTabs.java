@@ -35,6 +35,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DWAREN_STEEL_CHESTPLATE.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_LEGGINGS.get());
                         pOutput.accept(ModItems.DWAREN_STEEL_BOOTS.get());
+                        pOutput.accept(ModItems.DWARVEN_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());
                         pOutput.accept(ModBlocks.DWARVEN_STEEL_BLOCK.get());
@@ -61,6 +62,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ICE_SWORD_HILT.get());
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.ICE_SWORD.get());
+                        pOutput.accept(ModItems.ATLANTIAN_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ICE_SPIKE.get());
@@ -81,6 +83,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DRAGON_SCALE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.SPEER.get());
+                        pOutput.accept(ModItems.DRACONIC_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
                         pOutput.accept(ModBlocks.DRAGON_FIRE.get()); // Remove later just here for testing
@@ -98,6 +101,7 @@ public class ModCreativeModTabs {
                         //Basic Items
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.NETHER_SCEPTRE.get());
+                        pOutput.accept(ModItems.HELLISH_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
                         //BlockEntities
@@ -113,6 +117,7 @@ public class ModCreativeModTabs {
                     .displayItems((pParameters, pOutput) -> {
                         //Basic Items
                         //Functional Items (Wapons, Tools, Armor,...)
+                        pOutput.accept(ModItems.NEXUS_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.B_NEXUS_PEDESTAL.get());
