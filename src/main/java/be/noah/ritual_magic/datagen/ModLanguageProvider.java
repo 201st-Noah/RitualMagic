@@ -76,6 +76,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DWARVEN_MANA_RUNE, "Dwarven Mana Rune");
         addItem(ModItems.HELLISH_MANA_RUNE, "Hellish Mana Rune");
         addItem(ModItems.NEXUS_MANA_RUNE, "Nexus Mana Rune");
+        addItem(ModItems.SOUL_SCYTHE, "Soul Scythe");
     }
 
     private void effects() {

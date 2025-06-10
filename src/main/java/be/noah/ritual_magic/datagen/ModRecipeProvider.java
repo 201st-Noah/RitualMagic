@@ -257,5 +257,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .manaType("ATLANTIAN")
                 .minBlockTier("BASIC")
                 .save(pWriter);
+        new InfusionRecipeBuilder().input(ModItems.SOUL_SCYTHE.get())
+                .pedestalItems(ModItems.PURE_NETHERITE.get())
+                .result(ModItems.SOUL_SCYTHE.get())
+                .minLevel(0)
+                .maxLevel(90)
+                .levelGain(10)
+                .manaCost(0)
+                .manaType("HELLISH")
+                .minBlockTier("BASIC")
+                .preserveMainItem(true)
+                .save(pWriter);
     }
 }

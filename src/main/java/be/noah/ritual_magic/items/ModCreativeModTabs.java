@@ -99,8 +99,11 @@ public class ModCreativeModTabs {
                     .title(Component.translatable("creativetab.ritual_magic_souleater_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         //Basic Items
+                        pOutput.accept(ModItems.PURE_NETHERITE.get());
+
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.NETHER_SCEPTRE.get());
+                        pOutput.accept(ModItems.SOUL_SCYTHE.get());
                         pOutput.accept(ModItems.HELLISH_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
