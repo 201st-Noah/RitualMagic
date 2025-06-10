@@ -28,6 +28,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.POLISHED_OBSIDIAN);
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
         blockWithItem(ModBlocks.FORGE_T0);
+        blockWithItem(ModBlocks.SOUL_FARMLAND);
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(), new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
         simpleBlockWithItem(ModBlocks.B_NEXUS_PEDESTAL.get(), new ModelFile.UncheckedModelFile(modLoc("block/b_nexus_pedestal")));
         simpleBlockWithItem(ModBlocks.INFUSION.get(), new ModelFile.UncheckedModelFile(modLoc("block/infusion")));
@@ -270,4 +271,5 @@ public class ModBlockStateProvider extends BlockStateProvider {
         fireBlock(blockRegistryObject);
         fireBlockItem(blockRegistryObject);
     }
+
 }

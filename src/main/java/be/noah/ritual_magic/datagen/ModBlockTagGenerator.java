@@ -42,6 +42,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.DWARVEN_STEEL_BLOCK.get(),
                         ModBlocks.ANCIENT_ANVIL.get(),
                         ModBlocks.FORGE_T2.get(),
+                        ModBlocks.SOUL_FARMLAND.get(),
                         ModBlocks.ICE_SPIKE.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -57,11 +58,18 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.ICE_SPIKE.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
-                .add(ModBlocks.ATLANTIAN_DEBRIS.get());
+                .add(ModBlocks.ATLANTIAN_DEBRIS.get(),
+                        ModBlocks.SOUL_FARMLAND.get());
 
         this.tag(ModTags.Blocks.DRAGON_FIRE_BASE_BLOCK)
                 .add(Blocks.END_STONE,
                         Blocks.END_STONE_BRICKS,
                         ModBlocks.PETRIFIED_DRAGON_SCALE.get());
+
+        this.tag(BlockTags.SOUL_SPEED_BLOCKS)
+                .add(ModBlocks.SOUL_FARMLAND.get());
+
+        this.tag(BlockTags.SOUL_FIRE_BASE_BLOCKS)
+                .add(ModBlocks.SOUL_FARMLAND.get());
     }
 }

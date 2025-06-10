@@ -4,6 +4,7 @@ import be.noah.ritual_magic.blocks.ModBlocks;
 import be.noah.ritual_magic.items.ModItems;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -82,6 +83,11 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1))
                                 .add(LootItem.lootTableItem(ModItems.ICE_SHARD.get()))));
+        this.add(ModBlocks.SOUL_FARMLAND.get(),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(Items.SOUL_SOIL))));
         this.dropSelf(ModBlocks.POINTED_ICICLE.get());
     }
 
