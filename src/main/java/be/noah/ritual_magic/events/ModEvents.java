@@ -11,6 +11,7 @@ import be.noah.ritual_magic.networking.packet.ManaDataSyncS2CPacket;
 import be.noah.ritual_magic.networking.packet.VoidShieldDataSyncS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -40,10 +41,10 @@ public class ModEvents {
         Player player = event.getPlayer();
         ItemStack mainHandItem = player.getMainHandItem();
         if (player instanceof ServerPlayer serverPlayer) {
-            ServerLevel serverLevel = serverPlayer.serverLevel();
+            MinecraftServer minecraftServer = serverPlayer.getServer();
 
             if (mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe() != 0) {
-                ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                ManaNetworkData data = ManaNetworkData.get(minecraftServer);
                 BlockPos initialBlockPos = event.getPos();
                 if (HARVESTED_STONE_BLOCKS.contains(initialBlockPos)) {
                     return;
@@ -62,7 +63,7 @@ public class ModEvents {
                     }
                 }
             } else if (mainHandItem.getItem() instanceof DwarvenAxe dwarvenAxe && player.isShiftKeyDown()) {
-                ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                ManaNetworkData data = ManaNetworkData.get(minecraftServer);
                 BlockPos initialBlockPos = event.getPos();
                 if (HARVESTED_WOOD_BLOCKS.contains(initialBlockPos)) {
                     return;
@@ -102,7 +103,7 @@ public class ModEvents {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             for (ServerLevel level : event.getServer().getAllLevels()) {
-                ManaNetworkData.get(level).syncDirty(level);
+                ManaNetworkData.get(level.getServer()).syncDirty(level);
             }
         }
     }
@@ -111,8 +112,8 @@ public class ModEvents {
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        ServerLevel level = player.serverLevel();
-        ManaNetworkData data = ManaNetworkData.get(level);
+        MinecraftServer minecraftServer = player.getServer();
+        ManaNetworkData data = ManaNetworkData.get(minecraftServer);
         ManaPool pool = data.getOrCreate(player.getUUID());
 
         CompoundTag tag = pool.serialize();

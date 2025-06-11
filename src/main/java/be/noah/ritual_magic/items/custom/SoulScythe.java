@@ -79,7 +79,7 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
 
         if (!pTarget.level().isClientSide && pAttacker instanceof ServerPlayer player && pTarget.isDeadOrDying()) {
             ServerLevel serverLevel = player.serverLevel();
-            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
             int extraMana = 0;
             if (this.getItemLevel(pStack) == 0){extraMana = 1;}
             data.add(player.getUUID(), getManaType(), ((int) pTarget.getMaxHealth()/2 * this.getItemLevel(pStack)) + extraMana);

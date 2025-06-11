@@ -103,7 +103,7 @@ public class InfusionRecipe implements Recipe<SimpleContainer> {
 
     public boolean canConsumeMana(InfusionBlockEntity infusionBlock, ServerLevel serverLevel) {
         UUID owner = infusionBlock.getOwner();
-        ManaNetworkData data = ManaNetworkData.get(serverLevel);
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
         return data.consume(owner, manaType, manaCost);
     }
 

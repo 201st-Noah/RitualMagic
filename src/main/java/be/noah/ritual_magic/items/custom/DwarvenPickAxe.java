@@ -8,6 +8,7 @@ import be.noah.ritual_magic.networking.packet.BlockHighlightS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -122,8 +123,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
                         break;
                     case 2:
                         if (player instanceof ServerPlayer serverPlayer) {
-                            ServerLevel serverLevel = serverPlayer.serverLevel();
-                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            ManaNetworkData data = ManaNetworkData.get(serverPlayer.serverLevel().getServer());
                             data.add(player.getUUID(), ManaType.DWARVEN, 20);
                             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
                         }
@@ -162,7 +162,7 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
                     }
                 });
         ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
-        ManaNetworkData data = ManaNetworkData.get(serverLevel);
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
         if (noMana && !data.consume(player.getUUID(), this.getManaType(), matching.size() * 50))
             return InteractionResult.FAIL;
         // Send positions to the player who used the item

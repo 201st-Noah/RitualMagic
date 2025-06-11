@@ -91,7 +91,7 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
             } else {
                 Entity target = findTargetInLineOfSight(player);
                 ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
-                ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
                 if (target != null) {
                     switch (mode) {
                         case 1:

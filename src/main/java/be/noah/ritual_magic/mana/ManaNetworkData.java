@@ -5,8 +5,10 @@ import be.noah.ritual_magic.networking.packet.ManaDataSyncS2CPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.*;
@@ -34,8 +36,10 @@ public class ManaNetworkData extends SavedData {
         }
     }
 
-    public static ManaNetworkData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(
+    public static ManaNetworkData get(MinecraftServer server) {
+        ServerLevel overworld = server.getLevel(Level.OVERWORLD);
+        assert overworld != null;
+        return overworld.getDataStorage().computeIfAbsent(
                 ManaNetworkData::new,
                 ManaNetworkData::new,
                 DATA_NAME

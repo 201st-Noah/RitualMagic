@@ -26,7 +26,7 @@ public class ManaRune extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
         if (pLevel.isClientSide()) return InteractionResultHolder.fail(itemstack);
         ServerLevel serverLevel = (ServerLevel) pLevel;
-        ManaNetworkData data = ManaNetworkData.get(serverLevel);
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
         data.increaseMax(pPlayer.getUUID(), MANA_TYPE, AMOUNT);
         itemstack.shrink(1);
         return InteractionResultHolder.success(itemstack);

@@ -83,7 +83,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                     case 3:
                         if (player instanceof ServerPlayer serverPlayer) {
                             ServerLevel serverLevel = serverPlayer.serverLevel();
-                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
                             if (data.consume(player.getUUID(), this.getManaType(), 20)) {
                                 // cast spell or attack
                                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -95,7 +95,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                     case 4:
                         if (player instanceof ServerPlayer serverPlayer) {
                             ServerLevel serverLevel = serverPlayer.serverLevel();
-                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
                             data.add(player.getUUID(), ManaType.HELLISH, 30);
                             // player.displayClientMessage(Component.literal("Not enough Arcane mana!" + data.getOrCreate(player.getUUID())), true);
                         }
@@ -104,7 +104,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                     case 5:
                         if (player instanceof ServerPlayer serverPlayer) {
                             ServerLevel serverLevel = serverPlayer.serverLevel();
-                            ManaNetworkData data = ManaNetworkData.get(serverLevel);
+                            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
                             data.setMax(player.getUUID(), ManaType.HELLISH, 300);
                         }
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
