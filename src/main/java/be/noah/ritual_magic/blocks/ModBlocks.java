@@ -34,7 +34,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> DRAGON_FIRE = registerBlock("dragon_fire_block", () -> new DragonFireBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).replaceable().noCollission().instabreak().lightLevel((p_152605_) -> 15).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY).noLootTable()));
     public static final RegistryObject<Block> ICE_SPIKE = registerBlock("ice_spike_block", () -> new IceSpikeBlock(BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).strength(5f, 3.0f).requiresCorrectToolForDrops().noCollission()));
     public static final RegistryObject<Block> POINTED_ICICLE = registerBlock("pointed_icicle", () -> new PointedIcicleBlock(BlockBehaviour.Properties.copy(Blocks.POINTED_DRIPSTONE)));
-    public static final RegistryObject<Block> SOUL_FARMLAND = registerBlock("soul_farmland", () -> new SoulFarmlandBlock(BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
+    public static final RegistryObject<Block> B_SOUL_FARMLAND = registerBlock("b_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
+    public static final RegistryObject<Block> I_SOUL_FARMLAND = registerBlock("i_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
+    public static final RegistryObject<Block> A_SOUL_FARMLAND = registerBlock("a_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
+    public static final RegistryObject<Block> U_SOUL_FARMLAND = registerBlock("u_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
 
     //Block Entities
     public static final RegistryObject<Block> FORGE_T0 = registerBlock("forge_t0", () -> new ForgeBlock(ForgeBlock.Tier.BEGINNER, BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICKS).strength(5f, 1200.0f).requiresCorrectToolForDrops()));

@@ -6,10 +6,6 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,20 +71,14 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.I_DRACONIC_INFUSION_CORE.get());
         this.dropSelf(ModBlocks.A_DRACONIC_INFUSION_CORE.get());
         this.dropSelf(ModBlocks.U_DRACONIC_INFUSION_CORE.get());
-
         this.dropSelf(ModBlocks.INFUSION.get());
-
-        this.add(ModBlocks.ICE_SPIKE.get(),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1))
-                                .add(LootItem.lootTableItem(ModItems.ICE_SHARD.get()))));
-        this.add(ModBlocks.SOUL_FARMLAND.get(),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1))
-                                .add(LootItem.lootTableItem(Items.SOUL_SOIL))));
         this.dropSelf(ModBlocks.POINTED_ICICLE.get());
+
+        this.dropOther(ModBlocks.ICE_SPIKE.get(), ModItems.ICE_SHARD.get());
+        this.dropOther(ModBlocks.B_SOUL_FARMLAND.get(), Items.SOUL_SOIL);
+        this.dropOther(ModBlocks.I_SOUL_FARMLAND.get(), Items.SOUL_SOIL);
+        this.dropOther(ModBlocks.A_SOUL_FARMLAND.get(), Items.SOUL_SOIL);
+        this.dropOther(ModBlocks.U_SOUL_FARMLAND.get(), Items.SOUL_SOIL);
     }
 
     @Override

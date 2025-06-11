@@ -24,7 +24,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.DRAGON_FIRE, "Dragon Fire");
         addBlock(ModBlocks.ICE_SPIKE, "Ice Spike");
         addBlock(ModBlocks.POINTED_ICICLE, " Pointed Icicle");
-        addBlock(ModBlocks.SOUL_FARMLAND, " Soul Farmland");
+        addBlock(ModBlocks.B_SOUL_FARMLAND, "Basic Soul Farmland");
+        addBlock(ModBlocks.I_SOUL_FARMLAND, "Intermediate Soul Farmland");
+        addBlock(ModBlocks.A_SOUL_FARMLAND, "Advanced Soul Farmland");
+        addBlock(ModBlocks.U_SOUL_FARMLAND, "Ultimate Soul Farmland");
     }
 
     private void blockEntities() {

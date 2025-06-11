@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.blocks.custom;
 
+import be.noah.ritual_magic.blocks.BlockTier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.piston.MovingPistonBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,9 +26,15 @@ import javax.annotation.Nullable;
 
 public class SoulFarmlandBlock extends Block {
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    private final BlockTier tier;
 
-    public SoulFarmlandBlock(Properties pProperties) {
+    public SoulFarmlandBlock(BlockTier tier, Properties pProperties) {
         super(pProperties);
+        this.tier = tier;
+    }
+
+    public BlockTier getTier() {
+        return tier;
     }
 
     @Override
@@ -72,13 +80,31 @@ public class SoulFarmlandBlock extends Block {
 
     @Override
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (!pState.canSurvive(pLevel, pPos)) {
-            turnToSoulSoil((Entity)null, pState, pLevel, pPos);
+        BlockPos abovePos = pPos.above();
+        BlockState aboveState = pLevel.getBlockState(abovePos);
+        if (aboveState.getBlock() instanceof BonemealableBlock) {
+            aboveState.randomTick(pLevel, abovePos, pRandom);
         }
+        pLevel.scheduleTick(pPos, this, getTickRate());
     }
 
     @Override
     public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
         return true;
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        level.scheduleTick(pos, this, getTickRate());
+    }
+
+    private int getTickRate() {
+        switch (this.tier){
+            case BASIC: return 40;
+            case INTERMEDIATE: return 20;
+            case ADVANCED: return 10;
+            case ULTIMATE: return 2;
+            default: return 40;
+        }
     }
 }

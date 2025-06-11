@@ -8,7 +8,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -134,9 +133,18 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
                 for (int dz = -radius; dz <= radius; dz++) {
                     BlockPos targetPos = pos.offset(dx, 0, dz);
                     Block block = level.getBlockState(targetPos).getBlock();
+                    int itemLevel = getItemLevel(stack);
+                    if (block == Blocks.SOUL_SOIL && ifAirAbove(targetPos, level) && data.consume(context.getPlayer().getUUID(), getManaType(),Math.max(1, itemLevel * 10))) {
+                        if (itemLevel >= 90){
+                            level.setBlock(targetPos, ModBlocks.U_SOUL_FARMLAND.get().defaultBlockState(), 3);
+                        } else if (itemLevel >= 65) {
+                            level.setBlock(targetPos, ModBlocks.A_SOUL_FARMLAND.get().defaultBlockState(), 3);
+                        }else if (itemLevel >= 30) {
+                            level.setBlock(targetPos, ModBlocks.I_SOUL_FARMLAND.get().defaultBlockState(), 3);
+                        }else {
+                            level.setBlock(targetPos, ModBlocks.B_SOUL_FARMLAND.get().defaultBlockState(), 3);
+                        }
 
-                    if (block == Blocks.SOUL_SOIL && ifAirAbove(targetPos, level) && data.consume(context.getPlayer().getUUID(), getManaType(), getItemLevel(stack) * 10)) {
-                        level.setBlock(targetPos, ModBlocks.SOUL_FARMLAND.get().defaultBlockState(), 3);
                         level.playSound(null, targetPos, SoundEvents.SOUL_SAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
                         changed = true;
                     } else if ((block == Blocks.GRASS_BLOCK || block == Blocks.DIRT) && ifAirAbove(targetPos, level)&& data.consume(context.getPlayer().getUUID(), getManaType(), 1)) {
