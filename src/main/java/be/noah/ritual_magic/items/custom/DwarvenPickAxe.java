@@ -8,7 +8,6 @@ import be.noah.ritual_magic.networking.packet.BlockHighlightS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -37,8 +36,6 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
 
     private static final int COOLDOWN = 8;
     private final boolean noMana = false;
-    private int mode = 0;
-    private int digAOE = 0;
 
     public DwarvenPickAxe(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -85,8 +82,8 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
         return positions;
     }
 
-    public int getDigAoe() {
-        return digAOE;
+    public int getDigAoe(ItemStack itemStack) {
+        return getItemAoe(itemStack);
     }
 
     @Override
@@ -94,8 +91,10 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
+            int mode = getItemMode(itemstack);
             if (player.isShiftKeyDown()) {
                 mode = (mode + 1) % 3;
+                setItemMode(itemstack, mode);
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.dwarven_pickaxe.mode.0"), true);
@@ -114,8 +113,10 @@ public class DwarvenPickAxe extends PickaxeItem implements LeveldMagicItem {
             } else {
                 switch (mode) {
                     case 0:
-                        digAOE = (digAOE + 1) % lvlLinear(itemstack, 10.0F, 5, 1);
-                        int holeSize = (digAOE * 2) + 1;
+                        int aoe = getItemAoe(itemstack);
+                        aoe = (aoe + 1) % lvlLinear(itemstack, 10.0F, 5, 1);
+                        setItemAoe(itemstack, aoe);
+                        int holeSize = (aoe * 2) + 1;
                         player.displayClientMessage(Component.translatable("ritual_magic.item.dwarven_pickaxe.aoe").append(holeSize + "x" + holeSize), true);
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;

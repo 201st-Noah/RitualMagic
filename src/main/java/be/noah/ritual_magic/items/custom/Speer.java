@@ -33,7 +33,6 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     private static final String VOID_SHIELD_TAG = "void_shield";
     private final int COOLDOWN = 8;
     private final int MAX_SHIELD_HITS = 8;
-    private int mode = 0;
 
     public Speer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -85,8 +84,10 @@ public class Speer extends SwordItem implements LeveldMagicItem {
 
         ItemStack itemstack = player.getItemInHand(hand);
         if (!level.isClientSide) {
+            int mode = getItemMode(itemstack);
             if (player.isShiftKeyDown()) {
                 mode = (mode + 1) % 4;
+                setItemMode(itemstack, mode);
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.speer.mode.0"), true);

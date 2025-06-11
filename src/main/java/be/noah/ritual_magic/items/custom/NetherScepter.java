@@ -27,7 +27,6 @@ import java.util.List;
 public class NetherScepter extends Item implements LeveldMagicItem {
 
     private static final int COOLDOWN = 3;
-    private int mode = 0;
 
     public NetherScepter(Properties pProperties) {
         super(pProperties);
@@ -43,8 +42,10 @@ public class NetherScepter extends Item implements LeveldMagicItem {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
+            int mode = getItemMode(itemstack);
             if (player.isShiftKeyDown()) {
                 mode = (mode + 1) % 6; //Math.min(this.getItemLevel(itemstack) ,3) //for getting abilities with leveling
+                setItemMode(itemstack, mode);
                 switch (mode) {
                     case 0:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.nether_scepter.mode.0"), true);
@@ -134,7 +135,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                     BlockState aboveState = level.getBlockState(abovePos);
 
                     if (floorState.isSolidRender(level, floorPos) && aboveState.isAir()) {
-                        level.setBlock(floorPos, Blocks.LAVA.defaultBlockState(), 3);
+                        level.setBlock(floorPos, Blocks.FIRE.defaultBlockState(), 3);
                         break;
                     }
                 }

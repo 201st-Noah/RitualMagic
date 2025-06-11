@@ -43,14 +43,14 @@ public class ModEvents {
         if (player instanceof ServerPlayer serverPlayer) {
             MinecraftServer minecraftServer = serverPlayer.getServer();
 
-            if (mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe() != 0) {
+            if (mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe(mainHandItem) != 0) {
                 ManaNetworkData data = ManaNetworkData.get(minecraftServer);
                 BlockPos initialBlockPos = event.getPos();
                 if (HARVESTED_STONE_BLOCKS.contains(initialBlockPos)) {
                     return;
                 }
 
-                for (BlockPos pos : DwarvenPickAxe.getBlocksToBeDestroyed(dwarvenPickAxe.getDigAoe(), initialBlockPos, serverPlayer)) {
+                for (BlockPos pos : DwarvenPickAxe.getBlocksToBeDestroyed(dwarvenPickAxe.getDigAoe(mainHandItem), initialBlockPos, serverPlayer)) {
                     if (pos == initialBlockPos || !dwarvenPickAxe.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                         continue;
                     }
