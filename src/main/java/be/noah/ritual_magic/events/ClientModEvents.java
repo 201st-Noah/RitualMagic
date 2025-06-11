@@ -4,8 +4,8 @@ import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
 import be.noah.ritual_magic.blocks.entity.renderer.InfusionBlockEntityRenderer;
 import be.noah.ritual_magic.blocks.entity.renderer.RitualPedestalBlockEntityRenderer;
-import be.noah.ritual_magic.client.ManaHudOverlay;
-import be.noah.ritual_magic.client.VoidShieldHudOverlay;
+import be.noah.ritual_magic.client.*;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -32,5 +32,13 @@ public class ClientModEvents {
                 ModBlockEntities.INFUSION.get(),
                 context -> new InfusionBlockEntityRenderer()
         );
+    }
+
+    @SubscribeEvent
+    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
+        for (String skin : event.getSkins()) {
+            PlayerRenderer renderer = event.getSkin(skin);
+            renderer.addLayer(new OrbitingIceShieldLayer<>(renderer));
+        }
     }
 }

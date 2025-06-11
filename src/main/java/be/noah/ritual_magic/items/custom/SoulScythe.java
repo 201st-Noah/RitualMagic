@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class SoulScythe extends HoeItem implements LeveldMagicItem {
-    private static final String AOE_KEY = "aoe_mode";
 
     public SoulScythe(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);

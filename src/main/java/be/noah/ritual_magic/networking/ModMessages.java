@@ -3,6 +3,7 @@ package be.noah.ritual_magic.networking;
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.networking.packet.BlockHighlightS2CPacket;
 import be.noah.ritual_magic.networking.packet.ManaDataSyncS2CPacket;
+import be.noah.ritual_magic.networking.packet.IceShieldUpdatePacket;
 import be.noah.ritual_magic.networking.packet.VoidShieldDataSyncS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -56,9 +57,22 @@ public class ModMessages {
                 ManaDataSyncS2CPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
+
+        INSTANCE.registerMessage(
+                id(),
+                IceShieldUpdatePacket.class,
+                IceShieldUpdatePacket::encode,
+                IceShieldUpdatePacket::decode,
+                IceShieldUpdatePacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+        );
     }
 
     public static void sendToPlayer(Object msg, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msg);
+    }
+
+    public static void sendToAllTracking(Object message, ServerPlayer player) {
+        INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), message);
     }
 }

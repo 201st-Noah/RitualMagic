@@ -71,7 +71,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                 switch (mode) {
                     case 0:
                         Lavafield((ServerLevel) level, player.getOnPos(), this.getItemLevel(itemstack) * 2);
-                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
                         break;
                     case 1:
                         player.addEffect(new MobEffectInstance(ModEffects.FIREAURA.get(), 800, this.getItemLevel(itemstack) * 3, false, false, false));
@@ -135,7 +135,7 @@ public class NetherScepter extends Item implements LeveldMagicItem {
                     BlockState aboveState = level.getBlockState(abovePos);
 
                     if (floorState.isSolidRender(level, floorPos) && aboveState.isAir()) {
-                        level.setBlock(floorPos, Blocks.FIRE.defaultBlockState(), 3);
+                        level.setBlock(abovePos, Blocks.FIRE.defaultBlockState(), 3);
                         break;
                     }
                 }

@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 public class SoulFarmlandBlock extends Block {
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     private final BlockTier tier;
-
+    //TODO fix conversion to dirt if Tree grows
     public SoulFarmlandBlock(BlockTier tier, Properties pProperties) {
         super(pProperties);
         this.tier = tier;
@@ -45,7 +45,7 @@ public class SoulFarmlandBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return !this.defaultBlockState().canSurvive(pContext.getLevel(), pContext.getClickedPos()) ? Blocks.DIRT.defaultBlockState() : super.getStateForPlacement(pContext);
+        return !this.defaultBlockState().canSurvive(pContext.getLevel(), pContext.getClickedPos()) ? Blocks.SOUL_SOIL.defaultBlockState() : super.getStateForPlacement(pContext);
     }
 
     @Override

@@ -70,10 +70,10 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
-            int mode = getItemLevel(itemstack);
+            int mode = getItemMode(itemstack);
             if (player.isShiftKeyDown()) {
                 mode = (mode + 1) % lvlLinear(itemstack, 10.0F, 4);
-                setItemLevel(itemstack, mode);
+                setItemMode(itemstack, mode);
                 switch (mode) {
                     case 1:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.ice_sword.mode.0"), true);
