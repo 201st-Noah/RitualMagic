@@ -1,24 +1,36 @@
 package be.noah.ritual_magic.items.custom;
 
+import be.noah.ritual_magic.blocks.ModBlocks;
 import be.noah.ritual_magic.items.LeveldMagicItem;
 import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaType;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +39,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SoulScythe extends HoeItem implements LeveldMagicItem {
+    private static final String AOE_KEY = "aoe_mode";
 
     public SoulScythe(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -105,5 +118,57 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
                 );
             }
         }
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        ItemStack stack = context.getItemInHand();
+
+        int radius = getItemAoe(stack);
+        boolean changed = false;
+        if (!level.isClientSide && level instanceof ServerLevel serverLevel) {
+            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+            for (int dx = -radius; dx <= radius; dx++) {
+                for (int dz = -radius; dz <= radius; dz++) {
+                    BlockPos targetPos = pos.offset(dx, 0, dz);
+                    Block block = level.getBlockState(targetPos).getBlock();
+
+                    if (block == Blocks.SOUL_SOIL && ifAirAbove(targetPos, level) && data.consume(context.getPlayer().getUUID(), getManaType(), getItemLevel(stack) * 10)) {
+                        level.setBlock(targetPos, ModBlocks.SOUL_FARMLAND.get().defaultBlockState(), 3);
+                        level.playSound(null, targetPos, SoundEvents.SOUL_SAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        changed = true;
+                    } else if ((block == Blocks.GRASS_BLOCK || block == Blocks.DIRT) && ifAirAbove(targetPos, level)&& data.consume(context.getPlayer().getUUID(), getManaType(), 1)) {
+                        level.setBlock(targetPos, Blocks.FARMLAND.defaultBlockState(), 3);
+                        level.playSound(null, targetPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        changed = true;
+                    }
+                }
+            }
+        }
+        if (changed && !level.isClientSide) {
+            stack.hurtAndBreak(1, context.getPlayer(), (player) -> player.broadcastBreakEvent(context.getHand()));
+        }
+        return changed ? InteractionResult.SUCCESS : InteractionResult.PASS;
+    }
+
+    private boolean ifAirAbove(BlockPos targetPos, Level level) {
+        return level.getBlockState(targetPos.above()).isAir();
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (!level.isClientSide && player.isShiftKeyDown()) {
+            int aoe = getItemAoe(stack);
+            aoe = (aoe + 1) % lvlLinear(stack, 10);
+            setItemAoe(stack, aoe);
+            int hoeAoe = (aoe * 2) + 1;
+            player.displayClientMessage(Component.translatable("ritual_magic.item.soul_scythe.aoe").append(hoeAoe + "x" + hoeAoe), true);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+            return InteractionResultHolder.success(stack);
+        }
+        return InteractionResultHolder.pass(stack);
     }
 }

@@ -102,6 +102,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ritual_magic.item.dwarven_pickaxe.mode.0", "Select Dig AOE");
         add("ritual_magic.item.dwarven_pickaxe.mode.1", "Beginner's Luck");
         add("ritual_magic.item.dwarven_pickaxe.aoe", "Size: ");
+        add("ritual_magic.item.soul_scythe.aoe", "Size: ");
     }
 
     @Override

@@ -23,6 +23,25 @@ public interface LeveldMagicItem {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putInt("item_level", level);
     }
+    default int getItemMode(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        return tag.getInt("item_mode");
+    }
+
+    default void setItemMode(ItemStack stack, int level) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("item_mode", level);
+    }
+
+    default int getItemAoe(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        return tag.getInt("item_aoe");
+    }
+
+    default void setItemAoe(ItemStack stack, int level) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("item_aoe", level);
+    }
 
     default void addItemLevel(ItemStack stack, int amount) {
         int current = getItemLevel(stack);
@@ -35,7 +54,7 @@ public interface LeveldMagicItem {
 
 
     default int lvlLinear(ItemStack stack, float variable) {
-        return Math.round(this.getItemLevel(stack) / variable);
+        return (int)(this.getItemLevel(stack) / variable);
     }
 
     default int lvlLinear(ItemStack stack, float variable, int max) {

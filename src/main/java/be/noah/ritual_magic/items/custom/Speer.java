@@ -80,6 +80,7 @@ public class Speer extends SwordItem implements LeveldMagicItem {
         return 0;
     }
 
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 
         ItemStack itemstack = player.getItemInHand(hand);
