@@ -2,6 +2,7 @@ package be.noah.ritual_magic.events;
 
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.items.armor.DwarvenArmor;
+import be.noah.ritual_magic.items.armor.IceArmorItem;
 import be.noah.ritual_magic.items.custom.DwarvenAxe;
 import be.noah.ritual_magic.items.custom.DwarvenPickAxe;
 import be.noah.ritual_magic.mana.ManaNetworkData;
@@ -18,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -158,9 +160,13 @@ public class ForgeEvents {
     public static void onPlayerHurt(LivingHurtEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
+        if (player.getInventory().getArmor(2).getItem() instanceof IceArmorItem iceArmorItem && event.getSource().is(DamageTypes.FREEZE)) {
+            event.setCanceled(iceArmorItem.hasFullSet(player));
+            return;
+        }
+
         CompoundTag data = player.getPersistentData();
         if (!data.contains(VOID_SHIELD_TAG)) return;
-
         int hitsLeft = data.getInt(VOID_SHIELD_TAG);
 
         if (hitsLeft > 0) {
