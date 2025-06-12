@@ -13,7 +13,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -30,10 +34,12 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class IceArmorItem extends ArmorItem implements GeoItem, LeveldMagicArmor {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final UUID ICE_SPEED_BOOST_UUID = UUID.fromString("11111111-2222-3333-4444-555555555555");
     private boolean NOMANA = true;
 
     public IceArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
@@ -77,18 +83,53 @@ public class IceArmorItem extends ArmorItem implements GeoItem, LeveldMagicArmor
         if (pEntity instanceof Player player) {
             if (!pLevel.isClientSide()) {
 
+                // Boots give Frostwaker on Steroids
                 if (this.hasBoots(player)) {
                     BlockPos pos = pEntity.blockPosition();
                     FrostWalkerEnchantment.onEntityMoved(player, pLevel, pos, bootLevel(player) / 10);
                 }
 
+                // Legings gives up to 100% movementSpeed boost
+                if (this.hasLeggings(player)) {
+                    AttributeInstance movementSpeed = player.getAttribute(Attributes.MOVEMENT_SPEED);
+
+                    if (movementSpeed != null && movementSpeed.getModifier(ICE_SPEED_BOOST_UUID) == null) {
+                        AttributeModifier speedModifier = new AttributeModifier(
+                                ICE_SPEED_BOOST_UUID,
+                                "IceArmorSpeedBoost",
+                                (float)leggingsLevel(player)/100,
+                                AttributeModifier.Operation.MULTIPLY_TOTAL
+                        );
+                        movementSpeed.addPermanentModifier(speedModifier);
+                    }
+                } else {
+                    AttributeInstance movementSpeed = player.getAttribute(Attributes.MOVEMENT_SPEED);
+                    if (movementSpeed != null && movementSpeed.getModifier(ICE_SPEED_BOOST_UUID) != null) {
+                        movementSpeed.removeModifier(ICE_SPEED_BOOST_UUID);
+                    }
+                }
+                // you get slower Hunger
+                if(this.hasHelmet(player)) {
+                    int level = helmetLevel(player);
+                    float scaling = 0.0002f;
+                    float totalReduction = scaling * level;
+
+                    FoodData food = player.getFoodData();
+                    float exhaustion = food.getExhaustionLevel();
+
+                    if (exhaustion > 0f) {
+                        food.setExhaustion(Math.max(0f, exhaustion - totalReduction));
+                    }
+                }
+
+                // Fullset Effect = IceShield previous VoidShield (level depends on Chestplate)
                 if(this.hasFullSet(player) && this.type == Type.CHESTPLATE){
                     CompoundTag persistentData = player.getPersistentData();
                     int timer = persistentData.getInt("ice_shield_timer");
                     persistentData.putInt("ice_shield_timer", timer + 1);
                     int chestplateLevel = chestPlateLevel(player);
 
-                    if (timer >= 48000 / Math.max(chestplateLevel, 1)) { // 1200 ticks = 1 minute
+                    if (timer >= 48000 / Math.max(chestplateLevel, 1)) { // 1200 ticks = 1 min
                         persistentData.putInt("ice_shield_timer", 0);
 
                         int shield = persistentData.getInt("void_shield");

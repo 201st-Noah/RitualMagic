@@ -35,6 +35,12 @@ public interface LeveldMagicArmor extends LeveldMagicItem {
     default int bootLevel(Player player) {
         return getItemLevel(player.getInventory().getArmor(0));
     }
+    default int chestplateLevel(Player player) {
+        return getItemLevel(player.getInventory().getArmor(2));
+    }
+    default int helmetLevel(Player player) {
+        return getItemLevel(player.getInventory().getArmor(3));
+    }
     default int leggingsLevel(Player player) {
         return getItemLevel(player.getInventory().getArmor(1));
     }
