@@ -60,38 +60,15 @@ public class OrbitingIceShieldLayer<T extends Player, M extends PlayerModel<T>> 
         float w = 0.4f;
         float h = 0.6f;
 
-        // Triangle 1
-        consumer.vertex(matrix, -w, -h, 0f)
-                .color(1f, 1f, 1f, 0.8f)
-                .uv(0, 1)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 0, -1)
-                .endVertex();
+        // FRONT FACE
+        consumer.vertex(matrix, -w, -h, 0f).color(1f, 1f, 1f, 0.8f).uv(0, 1)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 0, -1).endVertex();
+        consumer.vertex(matrix, w, -h, 0f).color(1f, 1f, 1f, 0.8f).uv(1, 1)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 0, -1).endVertex();
+        consumer.vertex(matrix, w, h, 0f).color(1f, 1f, 1f, 0.8f).uv(1, 0)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 0, -1).endVertex();
+        consumer.vertex(matrix, -w, h, 0f).color(1f, 1f, 1f, 0.8f).uv(0, 0)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 0, -1).endVertex();
 
-        consumer.vertex(matrix, w, -h, 0f)
-                .color(1f, 1f, 1f, 0.8f)
-                .uv(1, 1)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 0, -1)
-                .endVertex();
-
-        consumer.vertex(matrix, w, h, 0f)
-                .color(1f, 1f, 1f, 0.8f)
-                .uv(1, 0)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 0, -1)
-                .endVertex();
-
-        // Triangle 2
-        consumer.vertex(matrix, -w, h, 0f)
-                .color(1f, 1f, 1f, 0.8f)
-                .uv(0, 0)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 0, -1)
-                .endVertex();
     }
 }

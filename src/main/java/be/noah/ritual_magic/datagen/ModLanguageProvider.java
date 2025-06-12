@@ -81,6 +81,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.HELLISH_MANA_RUNE, "Hellish Mana Rune");
         addItem(ModItems.NEXUS_MANA_RUNE, "Nexus Mana Rune");
         addItem(ModItems.SOUL_SCYTHE, "Soul Scythe");
+        addItem(ModItems.ICE_HELMET, "Ice Helmet");
+        addItem(ModItems.ICE_CHESTPLATE, "Ice Chestplate");
+        addItem(ModItems.ICE_LEGGINGS, "Ice Leggings");
+        addItem(ModItems.ICE_BOOTS, "Ice Boots");
     }
 
     private void effects() {

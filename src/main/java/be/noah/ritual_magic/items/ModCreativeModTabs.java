@@ -61,6 +61,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SHARP_ICE_SHARD.get());
                         pOutput.accept(ModItems.ICE_SWORD_HILT.get());
                         //Functional Items (Wapons, Tools, Armor,...)
+                        pOutput.accept(ModItems.ICE_HELMET.get());
+                        pOutput.accept(ModItems.ICE_CHESTPLATE.get());
+                        pOutput.accept(ModItems.ICE_LEGGINGS.get());
+                        pOutput.accept(ModItems.ICE_BOOTS.get());
                         pOutput.accept(ModItems.ICE_SWORD.get());
                         pOutput.accept(ModItems.ATLANTIAN_MANA_RUNE.get());
                         //Blocks

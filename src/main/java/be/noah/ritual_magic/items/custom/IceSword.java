@@ -7,6 +7,8 @@ import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.items.LeveldMagicItem;
 import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaType;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,8 +20,12 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -49,6 +55,26 @@ public class IceSword extends SwordItem implements LeveldMagicItem {
     @Override
     public int getDamage(ItemStack stack) {
         return 0;
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+
+        if (slot == EquipmentSlot.MAINHAND) {
+            int level = 0;
+            if (stack.getItem() instanceof LeveldMagicItem magicItem) {
+                level = magicItem.getItemLevel(stack);
+            }
+
+            double baseDamage = 7D;
+            double dynamicDamage = baseDamage + level;
+
+            builder.put(Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", dynamicDamage, AttributeModifier.Operation.ADDITION));
+        }
+
+        return builder.build();
     }
 
     @Override

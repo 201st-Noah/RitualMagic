@@ -40,7 +40,7 @@ public class VoidShieldHudOverlay {
         RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < maxHits; i++) {
             if(hitsLeft > i){
                 int x = xStart + i * (iconSize + spacing);
                 int v = (i < hitsLeft) ? 0 : 8;
