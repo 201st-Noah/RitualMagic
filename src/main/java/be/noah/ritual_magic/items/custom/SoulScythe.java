@@ -2,7 +2,6 @@ package be.noah.ritual_magic.items.custom;
 
 import be.noah.ritual_magic.blocks.ModBlocks;
 import be.noah.ritual_magic.items.LeveldMagicItem;
-import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaType;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -89,11 +88,9 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
         boolean didDamage = super.hurtEnemy(pStack, pTarget, pAttacker);
 
         if (!pTarget.level().isClientSide && pAttacker instanceof ServerPlayer player && pTarget.isDeadOrDying()) {
-            ServerLevel serverLevel = player.serverLevel();
-            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
             int extraMana = 0;
             if (this.getItemLevel(pStack) == 0){extraMana = 1;}
-            data.add(player.getUUID(), getManaType(), ((int) pTarget.getMaxHealth()/2 * this.getItemLevel(pStack)) + extraMana);
+            addMana(player, ((int) pTarget.getMaxHealth()/2 * this.getItemLevel(pStack)) + extraMana);
             spawnSoulParticles(pTarget);
         }
         return didDamage;
@@ -126,14 +123,13 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
 
         int radius = getItemAoe(stack);
         boolean changed = false;
-        if (!level.isClientSide && level instanceof ServerLevel serverLevel) {
-            ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+        if (!level.isClientSide && context.getPlayer() != null) {
             for (int dx = -radius; dx <= radius; dx++) {
                 for (int dz = -radius; dz <= radius; dz++) {
                     BlockPos targetPos = pos.offset(dx, 0, dz);
                     Block block = level.getBlockState(targetPos).getBlock();
                     int itemLevel = getItemLevel(stack);
-                    if (block == Blocks.SOUL_SOIL && ifAirAbove(targetPos, level) && data.consume(context.getPlayer().getUUID(), getManaType(),Math.max(1, itemLevel * 10))) {
+                    if (block == Blocks.SOUL_SOIL && ifAirAbove(targetPos, level) && consumeMana(context.getPlayer(),Math.max(1, itemLevel * 10))) {
                         if (itemLevel >= 90){
                             level.setBlock(targetPos, ModBlocks.U_SOUL_FARMLAND.get().defaultBlockState(), 3);
                         } else if (itemLevel >= 65) {
@@ -146,7 +142,7 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
 
                         level.playSound(null, targetPos, SoundEvents.SOUL_SAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
                         changed = true;
-                    } else if ((block == Blocks.GRASS_BLOCK || block == Blocks.DIRT) && ifAirAbove(targetPos, level)&& data.consume(context.getPlayer().getUUID(), getManaType(), 1)) {
+                    } else if ((block == Blocks.GRASS_BLOCK || block == Blocks.DIRT) && ifAirAbove(targetPos, level)&& consumeMana(context.getPlayer(), 1)) {
                         level.setBlock(targetPos, Blocks.FARMLAND.defaultBlockState(), 3);
                         level.playSound(null, targetPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                         changed = true;
