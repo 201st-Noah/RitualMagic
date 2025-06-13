@@ -52,10 +52,10 @@ public class ModItems {
     public static final RegistryObject<Item> ICE_CHESTPLATE = ITEMS.register("ice_chestplate", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> ICE_LEGGINGS = ITEMS.register("ice_leggings", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> ICE_BOOTS = ITEMS.register("ice_boots", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
-    public static final RegistryObject<Item> DWAREN_STEEL_HELMET = ITEMS.register("dwarven_steel_helmet", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));
-    public static final RegistryObject<Item> DWAREN_STEEL_CHESTPLATE = ITEMS.register("dwarven_steel_chestplate", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final RegistryObject<Item> DWAREN_STEEL_LEGGINGS = ITEMS.register("dwarven_steel_leggings", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-    public static final RegistryObject<Item> DWAREN_STEEL_BOOTS = ITEMS.register("dwarven_steel_boots", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_STEEL_HELMET = ITEMS.register("dwarven_steel_helmet", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_STEEL_CHESTPLATE = ITEMS.register("dwarven_steel_chestplate", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_STEEL_LEGGINGS = ITEMS.register("dwarven_steel_leggings", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_STEEL_BOOTS = ITEMS.register("dwarven_steel_boots", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

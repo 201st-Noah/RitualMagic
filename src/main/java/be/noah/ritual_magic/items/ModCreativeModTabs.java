@@ -31,10 +31,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DWARVEN_PICKAXE.get());
                         pOutput.accept(ModItems.TORCH.get());
                         pOutput.accept(ModItems.BUILDERSTAFF.get());
-                        pOutput.accept(ModItems.DWAREN_STEEL_HELMET.get());
-                        pOutput.accept(ModItems.DWAREN_STEEL_CHESTPLATE.get());
-                        pOutput.accept(ModItems.DWAREN_STEEL_LEGGINGS.get());
-                        pOutput.accept(ModItems.DWAREN_STEEL_BOOTS.get());
+                        pOutput.accept(ModItems.DWARVEN_STEEL_HELMET.get());
+                        pOutput.accept(ModItems.DWARVEN_STEEL_CHESTPLATE.get());
+                        pOutput.accept(ModItems.DWARVEN_STEEL_LEGGINGS.get());
+                        pOutput.accept(ModItems.DWARVEN_STEEL_BOOTS.get());
                         pOutput.accept(ModItems.DWARVEN_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.DWARVEN_DEBRIS.get());

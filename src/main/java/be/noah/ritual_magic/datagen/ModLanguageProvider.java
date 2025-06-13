@@ -64,10 +64,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.TORCH, "Torch");
         addItem(ModItems.SPEER, "Dragon Rider's Speer");
         addItem(ModItems.DWARVEN_AXE, "Dwarven Axe");
-        addItem(ModItems.DWAREN_STEEL_HELMET, "Dwarven Steel Helmet");
-        addItem(ModItems.DWAREN_STEEL_CHESTPLATE, "Dwarven Steel Chestplate");
-        addItem(ModItems.DWAREN_STEEL_LEGGINGS, "Dwarven Steel Leggings");
-        addItem(ModItems.DWAREN_STEEL_BOOTS, "Dwarven Steel Boots");
+        addItem(ModItems.DWARVEN_STEEL_HELMET, "Dwarven Steel Helmet");
+        addItem(ModItems.DWARVEN_STEEL_CHESTPLATE, "Dwarven Steel Chestplate");
+        addItem(ModItems.DWARVEN_STEEL_LEGGINGS, "Dwarven Steel Leggings");
+        addItem(ModItems.DWARVEN_STEEL_BOOTS, "Dwarven Steel Boots");
         addItem(ModItems.BUILDERSTAFF, "Builder's Staff");
         addItem(ModItems.NETHER_SCEPTRE, "Sceptre of the Nether");
         addItem(ModItems.ICE_SWORD, "Eternal Ice Sword");
