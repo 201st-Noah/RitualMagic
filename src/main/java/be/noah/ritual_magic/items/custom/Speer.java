@@ -3,6 +3,8 @@ package be.noah.ritual_magic.items.custom;
 import be.noah.ritual_magic.events.TelekinesisHandler;
 import be.noah.ritual_magic.items.LeveldMagicItem;
 import be.noah.ritual_magic.mana.ManaType;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -13,7 +15,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
@@ -77,6 +83,28 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         LeveldMagicItem.super.appendLevelTooltip(stack, tooltip);
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+
+        if (slot == EquipmentSlot.MAINHAND) {
+            int level = 0;
+            if (stack.getItem() instanceof LeveldMagicItem magicItem) {
+                level = magicItem.getItemLevel(stack);
+            }
+
+            double baseDamage = 13D;
+            double dynamicDamage = baseDamage + (float)level*1.3;
+
+            builder.put(Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon damage modifier", dynamicDamage, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED,
+                    new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon speed modifier", -3.5f, AttributeModifier.Operation.ADDITION));
+        }
+
+        return builder.build();
     }
 
     @Override

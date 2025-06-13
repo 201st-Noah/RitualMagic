@@ -3,6 +3,7 @@ package be.noah.ritual_magic.events;
 import be.noah.ritual_magic.items.LeveldMagicItem;
 import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaType;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class TelekinesisHandler {
-    public static final Map<UUID, GrabbedEntity> grabbedEntities = new HashMap<>();
+    public static final Map<ResourceKey<Level>, Map<UUID, GrabbedEntity>> grabbedEntitiesPerDimension = new HashMap<>();
     public record GrabbedEntity(LivingEntity target, double distance) { }
     private static boolean NOMANA = true;
 
@@ -25,19 +26,24 @@ public class TelekinesisHandler {
         Vec3 playerEyePos = player.position().add(0, player.getEyeHeight(), 0);
         Vec3 targetCenter = target.position().add(0, target.getBbHeight() / 2.0, 0);
         double distance = playerEyePos.distanceTo(targetCenter);
-        grabbedEntities.put(player.getUUID(), new GrabbedEntity(target, distance));
+        ResourceKey<Level> dimension = player.level().dimension();
+        grabbedEntitiesPerDimension
+                .computeIfAbsent(dimension, k -> new HashMap<>())
+                .put(player.getUUID(), new GrabbedEntity(target, distance));
     }
 
     public static void endGrab(Player player) {
-        grabbedEntities.remove(player.getUUID());
+        grabbedEntitiesPerDimension.remove(player.getUUID());
     }
 
     public static boolean isGrabbing(Player player) {
-        return grabbedEntities.containsKey(player.getUUID());
+        return grabbedEntitiesPerDimension.containsKey(player.getUUID());
     }
 
     public static void tickAll(Level level) {
-        Iterator<Map.Entry<UUID, GrabbedEntity>> iterator = grabbedEntities.entrySet().iterator();
+        Map<UUID, GrabbedEntity> grabbedInThisLevel = grabbedEntitiesPerDimension.get(level.dimension());
+        if (grabbedInThisLevel == null) return;
+        Iterator<Map.Entry<UUID, GrabbedEntity>> iterator = grabbedInThisLevel.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Map.Entry<UUID, GrabbedEntity> entry = iterator.next();
@@ -79,7 +85,7 @@ public class TelekinesisHandler {
             // Apply velocity towards target with strength factor
             double maxSpeed = 2;  // Max speed per tick
             if(player.getMainHandItem().getItem() instanceof LeveldMagicItem leveldMagicItem) {
-                maxSpeed = leveldMagicItem.getItemLevel(player.getMainHandItem());
+                maxSpeed = (double) leveldMagicItem.getItemLevel(player.getMainHandItem()) /10;
             }
             Vec3 motion = toTarget.normalize().scale(Math.min(toTarget.length(), maxSpeed));
 

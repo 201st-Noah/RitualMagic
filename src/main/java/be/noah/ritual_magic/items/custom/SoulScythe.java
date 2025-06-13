@@ -29,6 +29,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,7 +71,7 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
             double baseReach = 0D;
             double baseDamage = 7D;
             double dynamicReach = baseReach + (level * 0.1);
-            double dynamicDamage = baseDamage + (level * 0.5);
+            double dynamicDamage = baseDamage + (level * 0.4);
 
             builder.put(Attributes.ATTACK_DAMAGE,
                     new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", dynamicDamage, AttributeModifier.Operation.ADDITION));
@@ -86,7 +87,10 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
     @Override
     public boolean hurtEnemy(@NotNull ItemStack pStack, @NotNull LivingEntity pTarget, @NotNull LivingEntity pAttacker) {
         boolean didDamage = super.hurtEnemy(pStack, pTarget, pAttacker);
-
+        if (pAttacker instanceof Player player) {
+            // Apply sweeping attack
+            applyAOEAttack(player, pTarget, pStack);
+        }
         if (!pTarget.level().isClientSide && pAttacker instanceof ServerPlayer player && pTarget.isDeadOrDying()) {
             int extraMana = 0;
             if (this.getItemLevel(pStack) == 0){extraMana = 1;}
@@ -94,6 +98,42 @@ public class SoulScythe extends HoeItem implements LeveldMagicItem {
             spawnSoulParticles(pTarget);
         }
         return didDamage;
+    }
+
+    private void applyAOEAttack(Player player, LivingEntity mainTarget, ItemStack pStack) {
+        int itemLevel = getItemLevel(pStack);
+        double aoeRadius = 1.0 + (itemLevel * 0.1);
+
+        List<LivingEntity> nearby = player.level().getEntitiesOfClass(
+                LivingEntity.class,
+                player.getBoundingBox().inflate(aoeRadius, 1.0, aoeRadius),
+                e -> e != player && e != mainTarget && e.isAlive() && player.hasLineOfSight(e)
+        );
+
+        float aoeDamage = (itemLevel * 0.4f) + 7f;
+        for (LivingEntity entity : nearby) {
+            entity.hurt(player.level().damageSources().playerAttack(player), aoeDamage);
+            if (!entity.isAlive()) {
+                addMana(player, (int) entity.getMaxHealth()/2 * this.getItemLevel(pStack));
+            }
+        }
+
+        // sound & particles
+        player.level().playSound(null, player.blockPosition(),
+                SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS,
+                1.0F, 1.0F);
+        Vec3 playerPos = player.position().add(0, player.getBbHeight() * 0.5, 0);
+        Vec3 targetPos = mainTarget.position().add(0, mainTarget.getBbHeight() * 0.5, 0);
+        Vec3 midpoint = playerPos.add(targetPos).scale(0.5);
+        if (player.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(
+                    ParticleTypes.SWEEP_ATTACK,
+                    midpoint.x, midpoint.y, midpoint.z,
+                    1,
+                    0.2, 0.2, 0.2,
+                    0.0
+            );
+        }
     }
 
     private void spawnSoulParticles(LivingEntity entity) {
