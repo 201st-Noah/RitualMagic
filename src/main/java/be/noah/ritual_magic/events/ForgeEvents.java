@@ -198,6 +198,7 @@ public class ForgeEvents {
         if (event.phase == TickEvent.Phase.END) {
             for (ServerLevel level : event.getServer().getAllLevels()) {
                 ManaNetworkData.get(level.getServer()).syncDirty(level);
+                TelekinesisHandler.tickAll(level);
             }
         }
     }

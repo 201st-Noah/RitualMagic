@@ -312,5 +312,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .minBlockTier("BASIC")
                 .preserveMainItem(true)
                 .save(pWriter);
+        new InfusionRecipeBuilder().input(ModItems.SPEER.get())
+                .pedestalItems(ModItems.DRAGON_PLATE.get())
+                .result(ModItems.SPEER.get())
+                .minLevel(0)
+                .maxLevel(90)
+                .levelGain(10)
+                .manaCost(0)
+                .manaType("DRACONIC")
+                .minBlockTier("BASIC")
+                .preserveMainItem(true)
+                .save(pWriter);
     }
 }

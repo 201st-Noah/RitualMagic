@@ -1,12 +1,10 @@
 package be.noah.ritual_magic.items.custom;
 
-import be.noah.ritual_magic.entities.BallLightning;
-import be.noah.ritual_magic.entities.ModEntities;
+import be.noah.ritual_magic.events.TelekinesisHandler;
 import be.noah.ritual_magic.items.LeveldMagicItem;
 import be.noah.ritual_magic.mana.ManaType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,22 +15,19 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
 public class Speer extends SwordItem implements LeveldMagicItem {
 
-    private static final String VOID_SHIELD_TAG = "void_shield";
     private final int COOLDOWN = 8;
-    private final int MAX_SHIELD_HITS = 8;
+    private boolean NOMANA = true;
 
     public Speer(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
@@ -80,13 +75,18 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     }
 
     @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        LeveldMagicItem.super.appendLevelTooltip(stack, tooltip);
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 
         ItemStack itemstack = player.getItemInHand(hand);
         if (!level.isClientSide) {
             int mode = getItemMode(itemstack);
             if (player.isShiftKeyDown()) {
-                mode = (mode + 1) % 4;
+                mode = (mode + 1) % 3;
                 setItemMode(itemstack, mode);
                 switch (mode) {
                     case 0:
@@ -98,25 +98,14 @@ public class Speer extends SwordItem implements LeveldMagicItem {
                     case 2:
                         player.displayClientMessage(Component.translatable("ritual_magic.item.speer.mode.2"), true);
                         break;
-                    case 3:
-                        player.displayClientMessage(Component.translatable("ritual_magic.item.speer.mode.3"), true);
-                        break;
                 }
 
             } else {
                 switch (mode) {
-                    case 1:
-                        BallLightning ballLightning = new BallLightning(ModEntities.BALL_LIGHTNING.get(), player, level);
-                        ballLightning.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 5.0F, 0F);
-                        level.addFreshEntity(ballLightning);
-                        break;
                     case 0:
-                        travel(level, player, 80);
+                        travel(level, player, Math.max(1,getItemLevel(itemstack)));
                         break;
-                    case 2:
-                        avtivateVoidShield(level, player);
-                        break;
-                    case 3:
+                    case 1, 2:
                         player.startUsingItem(hand);
                         break;
                 }
@@ -130,7 +119,19 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof ServerPlayer player) {
             if (!player.level().isClientSide()) {
-                shootEnergyBeam((ServerLevel) player.level(), player, 60, 40F);
+                switch (getItemMode(pStack)){
+                    case 1:
+                        if (!TelekinesisHandler.isGrabbing(player)) {
+                            EntityHitResult entityHitResult = getEntityLookingAt(player, getItemLevel(pStack));
+                            if (entityHitResult  != null && entityHitResult.getEntity() instanceof LivingEntity livingEntity) {
+                                TelekinesisHandler.startGrab(player, livingEntity);
+                            }
+                        }
+                        break;
+                    case 2:
+                        shootEnergyBeam((ServerLevel) player.level(), player, Math.max(1,getItemLevel(pStack)), (float)Math.max(1,getItemLevel(pStack))/2);
+                        break;
+                }
                 super.onUseTick(pLevel, pLivingEntity, pStack, pRemainingUseDuration);
             }
         }
@@ -145,12 +146,18 @@ public class Speer extends SwordItem implements LeveldMagicItem {
             for (LivingEntity e : nearbyEntities) {
                 e.getPersistentData().remove("LaserLockTime");
             }
+            TelekinesisHandler.endGrab(player);
+            player.getCooldowns().addCooldown(this, COOLDOWN);
         }
     }
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 200; // Keep using
+        return switch (getItemMode(stack)) {
+            case 2 -> 200;
+            case 3 -> 1200;
+            default -> 100;
+        };
     }
 
     @Override
@@ -170,8 +177,11 @@ public class Speer extends SwordItem implements LeveldMagicItem {
                 existingTime += 1;
                 living.getPersistentData().putFloat("LaserLockTime", existingTime);
                 float damage = 1.0F + Math.min(existingTime * 0.2F, maxDamage);
-                //System.out.println("Damage: " + damage);
-                living.hurt(player.level().damageSources().playerAttack(player), damage);
+                System.out.println("Damage: " + damage);
+
+                if(NOMANA || consumeMana(player, (int) damage)){
+                    living.hurt(player.level().damageSources().playerAttack(player), damage);
+                }
             }
         }
         // remove LaserLockTime from entities not currently targeted
@@ -190,13 +200,15 @@ public class Speer extends SwordItem implements LeveldMagicItem {
     private void travel(Level level, Player player, int range) {
         Vec3 dest = getDestiation(level, player, range);
         Vec3 playerPos = new Vec3(player.getX(), player.getY(), player.getZ());
-        if (playerPos.distanceTo(dest) > 2) {
-            player.teleportTo(dest.x, dest.y, dest.z);
-        } else {
-            dest = getNextAirBlockBehindHit(level, player, range / 2);
-            player.teleportTo(dest.x, dest.y, dest.z);
+        if (NOMANA || consumeMana(player, range)) {
+            if (playerPos.distanceTo(dest) > 2) {
+                player.teleportTo(dest.x, dest.y, dest.z);
+            } else {
+                dest = getNextAirBlockBehindHit(level, player, range / 2);
+                player.teleportTo(dest.x, dest.y, dest.z);
+            }
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 
     private Vec3 getDestiation(Level level, Player player, int range) {
@@ -261,14 +273,6 @@ public class Speer extends SwordItem implements LeveldMagicItem {
         return new Vec3(player.getX(), player.getY(), player.getZ());
     }
 
-    private void avtivateVoidShield(Level level, Player player) {
-        CompoundTag data = player.getPersistentData();
-        data.putInt(VOID_SHIELD_TAG, MAX_SHIELD_HITS);
-        if (!level.isClientSide()) {
-            player.displayClientMessage(Component.literal("Void Shield Activated"), true);
-        }
-    }
-
     @Override
     public ManaType getManaType() {
         return ManaType.DRACONIC;
@@ -276,15 +280,16 @@ public class Speer extends SwordItem implements LeveldMagicItem {
 
     @Override
     public int getItemLevelCap() {
-        return 16;
+        return 100;
     }
         /*
          Use Mode Ideas:
          -----------------
-         ✅ Void Shield function
-         ✅ Void Shield ui + ❌rendering
+         ❌ Void Shield function
+         ❌ Void Shield ui + ❌rendering
          ✅ Laser Beam + ❌rendering
          ✅ Staff Of Traveling || not perfect
+         ✅ Telekinesis
          ❌ Summoning Energy Dragon (maybe later (and max lv speer required))
          ❌ No escape Zone: Disables Teleportation in an Area (maybe add to armor)
          ❌ Throwing it with 0 Gravity (simply not a fan)

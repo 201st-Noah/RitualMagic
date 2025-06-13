@@ -1,8 +1,12 @@
 package be.noah.ritual_magic.items;
 
+import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -13,6 +17,17 @@ public interface LeveldMagicItem {
     ManaType getManaType();
 
     int getItemLevelCap();
+
+    default boolean consumeMana(Player player, int amount) {
+        ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+        return data.consume(player.getUUID(), getManaType(), amount);
+    }
+    default void addMana(Player player, int amount) {
+        ServerLevel serverLevel = ((ServerPlayer) player).serverLevel();
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+        data.add(player.getUUID(), getManaType(), amount);
+    }
 
     default int getItemLevel(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();

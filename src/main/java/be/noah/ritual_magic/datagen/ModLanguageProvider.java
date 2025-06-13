@@ -102,10 +102,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ritual_magic.item.nether_scepter.mode.0", "Lava Lake");
         add("ritual_magic.item.nether_scepter.mode.1", "Fire Aura");
         add("ritual_magic.item.nether_scepter.mode.2", "Temp setLevel");
-        add("ritual_magic.item.speer.mode.1", "Fire Ball");
         add("ritual_magic.item.speer.mode.0", "Traveling Mode");
-        add("ritual_magic.item.speer.mode.2", "Void Shield");
-        add("ritual_magic.item.speer.mode.3", "Void Energy Beam");
+        add("ritual_magic.item.speer.mode.1", "Telekinesis");
+        add("ritual_magic.item.speer.mode.2", "Void Energy Beam");
         add("ritual_magic.item.dwarven_pickaxe.mode.0", "Select Dig AOE");
         add("ritual_magic.item.dwarven_pickaxe.mode.1", "Beginner's Luck");
         add("ritual_magic.item.dwarven_pickaxe.aoe", "Size: ");
