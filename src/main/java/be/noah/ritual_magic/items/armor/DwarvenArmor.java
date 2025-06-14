@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -37,6 +38,7 @@ import java.util.function.Consumer;
 public class DwarvenArmor extends ArmorItem implements GeoItem, LeveldMagicArmor {
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final UUID MOVMENT_SLOWDOWN_UUID = UUID.fromString("11111111-2222-3333-4444-555555555556");
     private static final UUID[] ARMOR_UUIDS = new UUID[]{
             UUID.fromString("00000000-0000-0000-0000-000000000001"), // HEAD
             UUID.fromString("00000000-0000-0000-0000-000000000002"), // CHEST
@@ -69,6 +71,31 @@ public class DwarvenArmor extends ArmorItem implements GeoItem, LeveldMagicArmor
                 // Helmet gives Saturation
                 if (this.hasHelmet(player) && this.helmetLevel(player) >= 50) {
                     player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 0, false, false));
+                }
+                // 10% Slower for each ArmorPiece
+                int pieceCount = 0;
+                if (this.hasHelmet(player)) pieceCount++;
+                if (this.hasChestplate(player)) pieceCount++;
+                if (this.hasLeggings(player)) pieceCount++;
+                if (this.hasBoots(player)) pieceCount++;
+
+                AttributeInstance movementSpeed = player.getAttribute(Attributes.MOVEMENT_SPEED);
+
+                if (movementSpeed != null) {
+                    if (movementSpeed.getModifier(MOVMENT_SLOWDOWN_UUID) != null) {
+                        movementSpeed.removeModifier(MOVMENT_SLOWDOWN_UUID);
+                    }
+
+                    if (pieceCount > 0) {
+                        double modifierValue = -0.15 * pieceCount;  // -20% per armor piece
+                        AttributeModifier slowModifier = new AttributeModifier(
+                                MOVMENT_SLOWDOWN_UUID,
+                                "HeavyArmorSpeedDebuff",
+                                modifierValue,
+                                AttributeModifier.Operation.MULTIPLY_TOTAL
+                        );
+                        movementSpeed.addPermanentModifier(slowModifier);
+                    }
                 }
             }
         }

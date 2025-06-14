@@ -154,9 +154,9 @@ public class ForgeEvents {
                     !event.getSource().is(DamageTypes.STARVE)) {
                 float fullSetLevel = dwarvenArmor.fullSetLevel(player);
                 event.setCanceled(damage <= fullSetLevel/2);
-                damage = damage * (Math.min(100, (102 - fullSetLevel))/100); // start: lv2 -> lv 100 each lv 1% less damage => max 98% damage reduction;
+                //damage = damage * (Math.min(100, (102 - fullSetLevel))/100);
+                damage = damage * ((100 - (fullSetLevel * 0.98f))/100);
             }
-
             event.setAmount(damage);
         }
 
