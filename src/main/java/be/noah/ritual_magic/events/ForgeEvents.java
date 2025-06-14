@@ -20,11 +20,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
@@ -38,7 +38,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.*;
 
-import static be.noah.ritual_magic.items.armor.DwarvenArmor.getPurity;
 
 @Mod.EventBusSubscriber(modid = RitualMagic.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvents {
@@ -108,7 +107,7 @@ public class ForgeEvents {
         Entity entity = event.getEntity();
         Entity attacker = event.getSource().getDirectEntity();
         float damage = event.getAmount();
-        event.setCanceled(onAttackOrHurt(entity, attacker, damage));
+        event.setCanceled(false);
     }
 
     @SubscribeEvent
@@ -116,66 +115,66 @@ public class ForgeEvents {
         Entity entity = event.getEntity();
         Entity attacker = event.getSource().getDirectEntity();
         float damage = event.getAmount();
-
-        event.setCanceled(onAttackOrHurt(entity, attacker, damage));
-    }
-
-    private static boolean onAttackOrHurt(Entity entity, Entity attacker, float damage) {
-        if (entity instanceof Player player) {
-            Item head = player.getItemBySlot(EquipmentSlot.HEAD).getItem();
-            Item chest = player.getItemBySlot(EquipmentSlot.CHEST).getItem();
-            Item legs = player.getItemBySlot(EquipmentSlot.LEGS).getItem();
-            Item feet = player.getItemBySlot(EquipmentSlot.FEET).getItem();
-            //((DwarvenArmor) feet).setPurity(player.getItemBySlot(EquipmentSlot.FEET),32);
-
-            int chance = 0;
-            if (chest instanceof DwarvenArmor) {
-                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.CHEST)));
-            }
-            if (feet instanceof DwarvenArmor) {
-                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.FEET)));
-            }
-            if (head instanceof DwarvenArmor) {
-                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.HEAD)));
-            }
-            if (legs instanceof DwarvenArmor) {
-                chance = chance + (getPurity(player.getItemBySlot(EquipmentSlot.LEGS)));
-            }
-
-            //System.out.println(chance);
-            if (attacker instanceof LivingEntity livingAttacker) {
-                if (random.nextInt(101) < chance) {
-                    livingAttacker.knockback(0.5D, player.getX() - attacker.getX(), player.getZ() - attacker.getZ());
-                    return true;
-                }
-            }
-            if (attacker instanceof Arrow) {
-                return random.nextInt(101) < 2 * chance;
-            }
+        //Debuging (und nein kein Bock das mit Breakpoints etc. zu machen)
+        if (entity instanceof Player player && false){
+            double defensePoints = player.getAttribute(Attributes.ARMOR).getValue();
+            double toughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue();
+            double rec = damage * (1-((Math.min(20, Math.max((defensePoints/2), defensePoints - (damage/(2+(toughness/4))))))/25));
+            System.out.println("defensePoints: " + defensePoints );
+            System.out.println("toughness: " + toughness);
+            System.out.println("damage dealt: " + damage + " |damage recieved " + rec);
+            System.out.println("-------------------------------------------");
         }
-        return false;
+        event.setCanceled(false);
     }
+
 
     @SubscribeEvent
     public static void onPlayerHurt(LivingHurtEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        if (player.getInventory().getArmor(2).getItem() instanceof IceArmorItem iceArmorItem && event.getSource().is(DamageTypes.FREEZE)) {
+        CompoundTag data = player.getPersistentData();
+        int hitsLeft = data.getInt(VOID_SHIELD_TAG);
+        Item boots = player.getInventory().getArmor(0).getItem();
+        Item leggings = player.getInventory().getArmor(1).getItem();
+        Item chesplate = player.getInventory().getArmor(2).getItem();
+        Item helmet = player.getInventory().getArmor(3).getItem();
+
+
+        // ----- DwarvenArmor Logic -----
+        if(chesplate instanceof DwarvenArmor dwarvenArmor) {
+            float damage  = event.getAmount();
+            if(dwarvenArmor.hasFullSet(player) &&
+                    !event.getSource().is(DamageTypes.FREEZE) &&
+                    !event.getSource().is(DamageTypes.DROWN) &&
+                    !event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD) &&
+                    !event.getSource().is(DamageTypes.IN_FIRE) &&
+                    !event.getSource().is(DamageTypes.ON_FIRE) &&
+                    !event.getSource().is(DamageTypes.LAVA) &&
+                    !event.getSource().is(DamageTypes.STARVE)) {
+                float fullSetLevel = dwarvenArmor.fullSetLevel(player);
+                event.setCanceled(damage <= fullSetLevel/2);
+                damage = damage * (Math.min(100, (102 - fullSetLevel))/100); // start: lv2 -> lv 100 each lv 1% less damage => max 98% damage reduction;
+            }
+
+            event.setAmount(damage);
+        }
+
+        // ----- IceArmor Logic -----
+        if(helmet instanceof IceArmorItem iceArmorItem && hitsLeft == 0){
+            player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, iceArmorItem.helmetLevel(player)*10, 0, false, false));
+        }
+        if (chesplate instanceof IceArmorItem iceArmorItem && event.getSource().is(DamageTypes.FREEZE)) {
             event.setCanceled(iceArmorItem.hasFullSet(player));
             return;
         }
 
-        CompoundTag data = player.getPersistentData();
-        if (!data.contains(VOID_SHIELD_TAG)) return;
-        int hitsLeft = data.getInt(VOID_SHIELD_TAG);
-
-        if (hitsLeft > 0) {
+        if (hitsLeft > 0 && event.getAmount() != Float.MAX_VALUE) {
             event.setCanceled(true);  // cancel damage
             data.putInt(VOID_SHIELD_TAG, hitsLeft - 1);
             player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1f, 1f);
         }
-
-        if (hitsLeft <= 1) {
+        if (hitsLeft == 1 && event.getAmount() != Float.MAX_VALUE) {
             data.remove(VOID_SHIELD_TAG);
             player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f, 1f);
             if (!player.level().isClientSide()) {

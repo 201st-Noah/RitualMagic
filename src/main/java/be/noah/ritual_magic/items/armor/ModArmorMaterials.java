@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
     DWARVEN_STEEL("dwarven_steel", 64, new int[]{5, 7, 5, 4}, 12,
-            SoundEvents.ARMOR_EQUIP_IRON, 7f, 0.4f, () -> Ingredient.of(ModItems.DWARVEN_STEEL_INGOT.get())),
+            SoundEvents.ARMOR_EQUIP_IRON, 7f, 0.1f, () -> Ingredient.of(ModItems.DWARVEN_STEEL_INGOT.get())),
     ATLANTIAN_STEEL("atlantian_steel", 50, new int[]{5, 7, 5, 4}, 24,
             SoundEvents.ARMOR_EQUIP_IRON, 5f, 0.1f, () -> Ingredient.of(ModItems.ATLANTIAN_STEEL_INGOT.get())),
     PURE_NETHERITE("pure_netherite", 50, new int[]{5, 7, 5, 4}, 32,

@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.items.armor;
 
+import be.noah.ritual_magic.client.IceArmorModel;
 import be.noah.ritual_magic.client.IceArmorRenderer;
 import be.noah.ritual_magic.items.LeveldMagicArmor;
 import be.noah.ritual_magic.mana.ManaNetworkData;
@@ -17,7 +18,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -69,7 +69,7 @@ public class IceArmorItem extends ArmorItem implements GeoItem, LeveldMagicArmor
                 // This prepares our GeoArmorRenderer for the current render frame.
                 // These parameters may be null however, so we don't do anything further with them
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-
+                ((IceArmorModel)this.renderer.getGeoModel()).setWearingEntity(livingEntity);
                 return this.renderer;
             }
         });
@@ -106,19 +106,6 @@ public class IceArmorItem extends ArmorItem implements GeoItem, LeveldMagicArmor
                     AttributeInstance movementSpeed = player.getAttribute(Attributes.MOVEMENT_SPEED);
                     if (movementSpeed != null && movementSpeed.getModifier(ICE_SPEED_BOOST_UUID) != null) {
                         movementSpeed.removeModifier(ICE_SPEED_BOOST_UUID);
-                    }
-                }
-                // you get slower Hunger
-                if(this.hasHelmet(player)) {
-                    int level = helmetLevel(player);
-                    float scaling = 0.0002f;
-                    float totalReduction = scaling * level;
-
-                    FoodData food = player.getFoodData();
-                    float exhaustion = food.getExhaustionLevel();
-
-                    if (exhaustion > 0f) {
-                        food.setExhaustion(Math.max(0f, exhaustion - totalReduction));
                     }
                 }
 

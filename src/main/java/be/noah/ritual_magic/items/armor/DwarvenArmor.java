@@ -1,7 +1,10 @@
 package be.noah.ritual_magic.items.armor;
 
 import be.noah.ritual_magic.client.DwarvenArmorRenderer;
-import com.google.common.collect.ImmutableMap;
+import be.noah.ritual_magic.items.LeveldMagicArmor;
+import be.noah.ritual_magic.mana.ManaType;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -9,6 +12,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -17,138 +23,143 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
-public class DwarvenArmor extends ArmorItem implements GeoItem {
+public class DwarvenArmor extends ArmorItem implements GeoItem, LeveldMagicArmor {
+
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private static final Map<ArmorMaterial, MobEffectInstance> MATERIAL_TO_EFFECT_MAP =
-            (new ImmutableMap.Builder<ArmorMaterial, MobEffectInstance>())
-                    .put(ModArmorMaterials.DWARVEN_STEEL, new MobEffectInstance(MobEffects.HEALTH_BOOST, 1000000000, 2,
-                            false, false, true)).build();
-    //Reduces and removes the negativ effects like slowness, not able to swim, falldamage = x2
-    private static final String OPTIMISING_COUNT = "OptimisingCount";
-    //makes armor stronger, less damage, absorption hearts
-    private static final String PURITY = "Purity";
-    private static final String MAGIC_CAPACITY = "MagicCapacity";
-    //gives strength, speed, regeneration,(maby also saturation)
-    private static final String MAGIC_LV = "MagicLv";
+    private static final UUID[] ARMOR_UUIDS = new UUID[]{
+            UUID.fromString("00000000-0000-0000-0000-000000000001"), // HEAD
+            UUID.fromString("00000000-0000-0000-0000-000000000002"), // CHEST
+            UUID.fromString("00000000-0000-0000-0000-000000000003"), // LEGS
+            UUID.fromString("00000000-0000-0000-0000-000000000004")  // FEET
+    };
+
+    private static final UUID[] TOUGHNESS_UUIDS = new UUID[]{
+            UUID.fromString("00000000-0000-0000-0000-000000000005"),
+            UUID.fromString("00000000-0000-0000-0000-000000000006"),
+            UUID.fromString("00000000-0000-0000-0000-000000000007"),
+            UUID.fromString("00000000-0000-0000-0000-000000000008")
+    };
+    private static final UUID[] Knockback_UUIDS = new UUID[]{
+            UUID.fromString("00000000-0000-0000-0000-000000000009"),
+            UUID.fromString("00000000-0000-0000-0000-000000000010"),
+            UUID.fromString("00000000-0000-0000-0000-000000000011"),
+            UUID.fromString("00000000-0000-0000-0000-000000000012")
+    };
 
     public DwarvenArmor(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
         super(pMaterial, pType, pProperties);
     }
 
-    public static void setPurity(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(PURITY, value);
-    }
-
-    public static int getPurity(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(PURITY) : 0;
-    }
-
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pEntity instanceof Player) {
+        if (pEntity instanceof Player player) {
             if (!pLevel.isClientSide()) {
-                if (hasFullSuitOfArmorOn((Player) pEntity)) {
-                    evaluateArmorEffects((Player) pEntity);
+
+                // Helmet gives Saturation
+                if (this.hasHelmet(player) && this.helmetLevel(player) >= 50) {
+                    player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 0, false, false));
                 }
             }
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
-    private void evaluateArmorEffects(Player player) {
-        for (Map.Entry<ArmorMaterial, MobEffectInstance> entry : MATERIAL_TO_EFFECT_MAP.entrySet()) {
-            ArmorMaterial mapArmorMaterial = entry.getKey();
-            MobEffectInstance mapStatusEffect = entry.getValue();
+    // Attribute BS
+    @Override
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
-            if (hasCorrectArmorOn(mapArmorMaterial, player)) {
-                addStatusEffectForMaterial(player, mapArmorMaterial, mapStatusEffect);
-            }
+        if (slot == this.getEquipmentSlot()) {
+            double baseArmor = this.getDefense();
+            double baseToughness = this.getToughness();
+            double baseKnockback = this.getMaterial().getKnockbackResistance();
+
+            int index = getSlotIndex(slot);
+
+            builder.put(Attributes.ARMOR,
+                    new AttributeModifier(ARMOR_UUIDS[index], "Armor modifier", baseArmor, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ARMOR_TOUGHNESS,
+                    new AttributeModifier(TOUGHNESS_UUIDS[index], "Armor toughness modifier", baseToughness, AttributeModifier.Operation.ADDITION));
+
+            builder.put(Attributes.KNOCKBACK_RESISTANCE,
+                    new AttributeModifier(Knockback_UUIDS[index], "Armor knockback modifier", baseKnockback, AttributeModifier.Operation.ADDITION));
         }
+
+        return builder.build();
     }
 
-    private void addStatusEffectForMaterial(Player player, ArmorMaterial mapArmorMaterial,
-                                            MobEffectInstance mapStatusEffect) {
-        boolean hasPlayerEffect = player.hasEffect(mapStatusEffect.getEffect());
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
-        if (hasCorrectArmorOn(mapArmorMaterial, player) && !hasPlayerEffect) {
-            player.addEffect(new MobEffectInstance(mapStatusEffect));
+        if (slot == this.getEquipmentSlot()) {
+            int level = getItemLevel(stack);  // NOW we can safely read level here
+
+            double baseArmor = this.getDefense();
+            double baseToughness = this.getToughness();
+            double baseKnockback = this.getMaterial().getKnockbackResistance();
+
+            double scaledArmor = baseArmor + (level * 0.2);
+            double scaledToughness = baseToughness + (level * 0.2);
+            double scaledKnockback = (baseKnockback * ((double) level /10));
+
+            int index = getSlotIndex(slot);
+
+            builder.put(Attributes.ARMOR,
+                    new AttributeModifier(ARMOR_UUIDS[index], "Armor modifier", scaledArmor, AttributeModifier.Operation.ADDITION));
+
+            builder.put(Attributes.ARMOR_TOUGHNESS,
+                    new AttributeModifier(TOUGHNESS_UUIDS[index], "Armor toughness modifier", scaledToughness, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.KNOCKBACK_RESISTANCE,
+                    new AttributeModifier(Knockback_UUIDS[index], "Armor knockback modifier", scaledKnockback, AttributeModifier.Operation.ADDITION));
         }
+
+        return builder.build();
     }
 
-    private boolean hasFullSuitOfArmorOn(Player player) {
-        ItemStack boots = player.getInventory().getArmor(0);
-        ItemStack leggings = player.getInventory().getArmor(1);
-        ItemStack breastplate = player.getInventory().getArmor(2);
-        ItemStack helmet = player.getInventory().getArmor(3);
-
-        return !helmet.isEmpty() && !breastplate.isEmpty()
-                && !leggings.isEmpty() && !boots.isEmpty();
+    private int getSlotIndex(EquipmentSlot slot) {
+        return switch (slot) {
+            case HEAD -> 0;
+            case CHEST -> 1;
+            case LEGS -> 2;
+            case FEET -> 3;
+            default -> throw new IllegalArgumentException("Invalid armor slot: " + slot);
+        };
     }
 
-    private boolean hasCorrectArmorOn(ArmorMaterial material, Player player) {
-        for (ItemStack armorStack : player.getInventory().armor) {
-            if (!(armorStack.getItem() instanceof ArmorItem)) {
-                return false;
-            }
-        }
-        ArmorItem boots = ((ArmorItem) player.getInventory().getArmor(0).getItem());
-        ArmorItem leggings = ((ArmorItem) player.getInventory().getArmor(1).getItem());
-        ArmorItem breastplate = ((ArmorItem) player.getInventory().getArmor(2).getItem());
-        ArmorItem helmet = ((ArmorItem) player.getInventory().getArmor(3).getItem());
 
-        return helmet.getMaterial() == material && breastplate.getMaterial() == material &&
-                leggings.getMaterial() == material && boots.getMaterial() == material;
+    // Irrelevant Code below (Gecko lib + basic Overrides)
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {return false;}
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        LeveldMagicArmor.super.appendLevelTooltip(stack, tooltip);
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("Purity: " + getPurity(pStack)));
-        pTooltipComponents.add(Component.literal("Magic Capacity: " + getMagicCapacity(pStack)));
-        pTooltipComponents.add(Component.literal("Optimisation: " + getOptimisingCount(pStack)));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
+    public ManaType getManaType() {return ManaType.DWARVEN;}
 
     @Override
-    public boolean isDamageable(ItemStack stack) {
-        return false;
-    }
-
-    public void setMagicCapacity(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(MAGIC_CAPACITY, value);
-    }
-
-    public int getMagicCapacity(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(MAGIC_CAPACITY) : 0;
-    }
-
-    public void setOptimisingCount(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(OPTIMISING_COUNT, value);
-    }
-
-    public int getOptimisingCount(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(OPTIMISING_COUNT) : 0;
-    }
+    public int getItemLevelCap() {return 100;}
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {}
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
+    public AnimatableInstanceCache getAnimatableInstanceCache() {return this.cache;}
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -168,5 +179,4 @@ public class DwarvenArmor extends ArmorItem implements GeoItem {
             }
         });
     }
-
 }
