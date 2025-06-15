@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.blocks.custom;
 
+import be.noah.ritual_magic.blocks.BlockTier;
 import be.noah.ritual_magic.blocks.RitualBaseBlock;
 import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
 import be.noah.ritual_magic.blocks.entity.SoulSacrificeBlockEntity;
@@ -10,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class SoulSacrificeBlock extends RitualBaseBlock<SoulSacrificeBlockEntity> {
 
-    public SoulSacrificeBlock(Properties pProperties) {
-        super(pProperties,
+    public SoulSacrificeBlock(BlockTier tier, Properties pProperties) {
+        super(tier, pProperties,
                 ModBlockEntities.SOUL_SACRIFICE,
                 SoulSacrificeBlockEntity::tick);
     }

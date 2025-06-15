@@ -5,9 +5,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 
-public class SacrificeDamageSource extends DamageSource {
+public class ModDamageSource extends DamageSource {
 
-    public SacrificeDamageSource(Holder<DamageType> damageTypeHolder) {
+    public ModDamageSource(Holder<DamageType> damageTypeHolder) {
         super(damageTypeHolder);
     }
 }

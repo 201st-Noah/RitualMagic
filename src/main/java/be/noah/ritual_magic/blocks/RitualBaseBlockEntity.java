@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,6 +24,16 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
 
     public RitualBaseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
+    }
+
+    public static BlockTier getBlockTier(Level pLevel, BlockPos pPos) {
+        if(pLevel == null) return null;
+        BlockState state = pLevel.getBlockState(pPos);
+        Block block = state.getBlock();
+        if (block instanceof RitualBaseBlock ritualBlock) {
+            return ritualBlock.getBlockTier();
+        }
+        return BlockTier.BASIC;
     }
 
     public UUID getOwner() {

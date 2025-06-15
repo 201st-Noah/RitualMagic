@@ -8,16 +8,11 @@ public enum BlockTier {
 
     public int getInt() {
         switch (this) {
-            case BASIC:
-                return 0;
-            case INTERMEDIATE:
-                return 1;
-            case ADVANCED:
-                return 2;
-            case ULTIMATE:
-                return 3;
-            default:
-                return 0;
+            case BASIC -> {return 0;}
+            case INTERMEDIATE -> {return 1;}
+            case ADVANCED -> {return 2;}
+            case ULTIMATE -> {return 3;}
+            default -> {return 0;}
         }
     }
 }

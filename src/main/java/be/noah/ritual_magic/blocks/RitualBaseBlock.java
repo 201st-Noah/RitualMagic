@@ -11,17 +11,25 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class RitualBaseBlock<T extends RitualBaseBlockEntity>  extends BaseEntityBlock {
 
     private final RegistryObject<BlockEntityType<T>> blockEntityType;
     private final BlockEntityTicker<T> ticker;
+    private BlockTier tier;
 
-    protected RitualBaseBlock(Properties pProperties, RegistryObject<BlockEntityType<T>>  blockEntityType, BlockEntityTicker<T> ticker) {
+    protected RitualBaseBlock(BlockTier tier, Properties pProperties, RegistryObject<BlockEntityType<T>>  blockEntityType, BlockEntityTicker<T> ticker) {
         super(pProperties);
         this.blockEntityType = blockEntityType;
         this.ticker = ticker;
+        this.tier = tier;
+    }
+
+    @NotNull
+    public BlockTier getBlockTier(){
+        return tier;
     }
 
     @Override
