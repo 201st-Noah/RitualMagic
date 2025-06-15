@@ -1,0 +1,78 @@
+package be.noah.ritual_magic.blocks;
+
+import be.noah.ritual_magic.mana.ManaNetworkData;
+import be.noah.ritual_magic.mana.ManaType;
+import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
+
+public abstract class RitualBaseBlockEntity extends BlockEntity {
+
+    private UUID owner;
+
+    public RitualBaseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+        super(pType, pPos, pBlockState);
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UUID uuid) {
+        this.owner = uuid;
+        setChanged();
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        if (owner != null) {
+            tag.putUUID("Owner", owner);
+        }
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        if (tag.hasUUID("Owner")) {
+            owner = tag.getUUID("Owner");
+        } else {
+            owner = null;
+        }
+    }
+
+    @NotNull
+    public abstract ManaType getManaType();
+
+    @Nullable
+    public MultiBlockStructure getStructure() {
+        return null;
+    }
+
+    public boolean consumeMana(Player owner, int amount) {
+        ServerLevel serverLevel = ((ServerPlayer) owner).serverLevel();
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+        return data.consume(owner.getUUID(), getManaType(), amount);
+    }
+    public void addMana(Player owner, int amount) {
+        ServerLevel serverLevel = ((ServerPlayer) owner).serverLevel();
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+        data.add(owner.getUUID(), getManaType(), amount);
+    }
+
+    public boolean structureIsOk(Level level, BlockPos position) {
+        if (getStructure() == null) return true;
+        return getStructure().checkStructure(0, level, position.getX(), position.getY(), position.getZ());
+    }
+}

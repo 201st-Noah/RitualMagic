@@ -111,6 +111,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ritual_magic.item.soul_scythe.aoe", "Size: ");
     }
 
+    private void deathMessages() {
+        add("death.attack.sacrifice", "%1$s's Soul was sacrificed");
+    }
+
     @Override
     protected void addTranslations() {
         blocks();
@@ -119,6 +123,7 @@ public class ModLanguageProvider extends LanguageProvider {
         items();
         messages();
         effects();
+        deathMessages();
     }
 
     public void addCreativeTab(CreativeModeTab key, String name) {

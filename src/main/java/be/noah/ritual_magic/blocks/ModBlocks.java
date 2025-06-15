@@ -46,6 +46,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> MOD_TELEPORTER = registerBlock("mod_portal", () -> new ModTeleporterBlock(BlockBehaviour.Properties.copy(Blocks.STONE).noLootTable().noOcclusion()));
     public static final RegistryObject<Block> MINING_CORE = registerBlock("mining_core", () -> new MiningCoreBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> ANCIENT_ANVIL = registerBlock("ancient_anvil", () -> new AncientAnvilBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> SOUL_SACRIFICE = registerBlock("soul_sacrifice", () -> new SoulSacrificeBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     public static final RegistryObject<Block> B_NEXUS_PEDESTAL = registerBlock("b_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> I_NEXUS_PEDESTAL = registerBlock("i_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));

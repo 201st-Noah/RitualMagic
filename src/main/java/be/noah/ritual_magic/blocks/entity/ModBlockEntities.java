@@ -39,5 +39,10 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(InfusionBlockEntity::new,
                             ModBlocks.INFUSION.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<SoulSacrificeBlockEntity>> SOUL_SACRIFICE =
+            BLOCK_ENTITIES.register("soul_sacrifice", () ->
+                    BlockEntityType.Builder.of(SoulSacrificeBlockEntity::new,
+                            ModBlocks.SOUL_SACRIFICE.get()).build(null));
+
 
 }
