@@ -135,6 +135,9 @@ public class IceArmorItem extends ArmorItem implements GeoItem, LeveldMagicArmor
     }
 
     @Override
+    public boolean isDamageable(ItemStack stack) {return false;}
+
+    @Override
     public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer){
         return true;
     }
