@@ -39,9 +39,7 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
 
     public static <T extends RitualBaseBlockEntity> BlockEntityTicker<T> createTicker() {
         return (level, pos, state, blockEntity) -> {
-            if (!level.isClientSide) {
                 blockEntity.tick();
-            }
         };
     }
 

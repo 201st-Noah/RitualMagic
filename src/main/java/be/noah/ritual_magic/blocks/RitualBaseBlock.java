@@ -50,7 +50,7 @@ public abstract class RitualBaseBlock<T extends RitualBaseBlockEntity>  extends 
 
     @Override
     public <E extends BlockEntity> BlockEntityTicker<E> getTicker(Level level, BlockState state, BlockEntityType<E> type) {
-        if (level.isClientSide || type != blockEntityType.get()) return null;
+        if (type != blockEntityType.get()) return null;
         @SuppressWarnings("unchecked")
         BlockEntityTicker<E> tickerCast = (BlockEntityTicker<E>) ticker;
         return tickerCast;
