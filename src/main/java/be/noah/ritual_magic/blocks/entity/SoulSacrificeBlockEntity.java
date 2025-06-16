@@ -3,13 +3,9 @@ package be.noah.ritual_magic.blocks.entity;
 import be.noah.ritual_magic.blocks.ModBlockEntities;
 import be.noah.ritual_magic.blocks.RitualBaseBlockEntity;
 import be.noah.ritual_magic.mana.ManaType;
-import be.noah.ritual_magic.utils.ModDamageSource;
-import be.noah.ritual_magic.utils.ModDamageTypes;
+import be.noah.ritual_magic.utils.ModDamageSources;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -45,20 +41,12 @@ public class SoulSacrificeBlockEntity extends RitualBaseBlockEntity {
             if (entity.isAlive() && !(entity instanceof Player player && pRitualBaseBlockEntity.getOwner().equals(player.getUUID()))) {
                 float healthBefore = entity.getHealth();
 
-                Holder<DamageType> damageTypeHolder = pLevel.registryAccess()
-                        .registryOrThrow(Registries.DAMAGE_TYPE)
-                        .getHolder(ModDamageTypes.SACRIFICE)
-                        .orElseThrow(() -> new IllegalStateException("DamageType not found!"));
-
-                DamageSource source = new ModDamageSource(damageTypeHolder);
+                DamageSource source = ModDamageSources.sacrifice(pLevel);
                 entity.hurt(source, damageAmount);
 
                 if (!entity.isAlive() && healthBefore > 0) {
                     if (pRitualBaseBlockEntity.getOwner() != null) {
-                        Player owner = pLevel.getPlayerByUUID(pRitualBaseBlockEntity.getOwner());
-                        if (owner != null && pRitualBaseBlockEntity instanceof SoulSacrificeBlockEntity) {
-                            pRitualBaseBlockEntity.addMana(owner, (int)entity.getMaxHealth() * (1 + blockTier));
-                        }
+                        pRitualBaseBlockEntity.addMana(pLevel, pRitualBaseBlockEntity.getOwner(), (int)entity.getMaxHealth() * (1 + blockTier));
                     }
                 }
             }

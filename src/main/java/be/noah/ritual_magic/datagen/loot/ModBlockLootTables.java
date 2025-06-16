@@ -77,6 +77,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.I_SOUL_SACRIFICE.get());
         this.dropSelf(ModBlocks.A_SOUL_SACRIFICE.get());
         this.dropSelf(ModBlocks.U_SOUL_SACRIFICE.get());
+        this.dropSelf(ModBlocks.B_WEATHER_RITUAL.get());
+        this.dropSelf(ModBlocks.I_WEATHER_RITUAL.get());
+        this.dropSelf(ModBlocks.A_WEATHER_RITUAL.get());
+        this.dropSelf(ModBlocks.U_WEATHER_RITUAL.get());
 
         this.dropOther(ModBlocks.ICE_SPIKE.get(), ModItems.ICE_SHARD.get());
         this.dropOther(ModBlocks.B_SOUL_FARMLAND.get(), Items.SOUL_SOIL);

@@ -6,8 +6,6 @@ import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -71,15 +69,15 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
         return null;
     }
 
-    public boolean consumeMana(Player owner, int amount) {
-        ServerLevel serverLevel = ((ServerPlayer) owner).serverLevel();
+    public boolean consumeMana(Level level,UUID owner, int amount) {
+        ServerLevel serverLevel = (ServerLevel) level;
         ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
-        return data.consume(owner.getUUID(), getManaType(), amount);
+        return data.consume(owner, getManaType(), amount);
     }
-    public void addMana(Player owner, int amount) {
-        ServerLevel serverLevel = ((ServerPlayer) owner).serverLevel();
+    public void addMana(Level level,UUID owner, int amount) {
+        ServerLevel serverLevel = (ServerLevel) level;
         ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
-        data.add(owner.getUUID(), getManaType(), amount);
+        data.add(owner, getManaType(), amount);
     }
 
     public boolean structureIsOk(Level level, BlockPos position) {

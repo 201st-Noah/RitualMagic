@@ -86,5 +86,13 @@ public class ModBlockEntities {
                             ModBlocks.A_SOUL_SACRIFICE.get(),
                             ModBlocks.U_SOUL_SACRIFICE.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<WeatherRitualBlockEntity>> WEATHER_RITUAL =
+            BLOCK_ENTITIES.register("weather_ritual", () ->
+                    BlockEntityType.Builder.of(WeatherRitualBlockEntity::new,
+                            ModBlocks.B_WEATHER_RITUAL.get(),
+                            ModBlocks.I_WEATHER_RITUAL.get(),
+                            ModBlocks.A_WEATHER_RITUAL.get(),
+                            ModBlocks.U_WEATHER_RITUAL.get()).build(null));
+
 
 }

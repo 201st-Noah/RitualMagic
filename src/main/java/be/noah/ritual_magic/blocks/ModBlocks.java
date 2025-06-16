@@ -52,6 +52,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> I_SOUL_SACRIFICE = registerBlock("i_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> A_SOUL_SACRIFICE = registerBlock("a_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> U_SOUL_SACRIFICE = registerBlock("u_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
+    public static final RegistryObject<Block> B_WEATHER_RITUAL = registerBlock("b_weather_ritual", () -> new WeatherRitualBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> I_WEATHER_RITUAL = registerBlock("i_weather_ritual", () -> new WeatherRitualBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> A_WEATHER_RITUAL = registerBlock("a_weather_ritual", () -> new WeatherRitualBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> U_WEATHER_RITUAL = registerBlock("u_weather_ritual", () -> new WeatherRitualBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     // Infusion Pedestals
     public static final RegistryObject<Block> B_NEXUS_PEDESTAL = registerBlock("b_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> I_NEXUS_PEDESTAL = registerBlock("i_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));

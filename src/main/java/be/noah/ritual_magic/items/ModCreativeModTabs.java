@@ -71,6 +71,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ICE_SPIKE.get());
                         pOutput.accept(ModBlocks.POINTED_ICICLE.get());
+                        pOutput.accept(ModBlocks.B_WEATHER_RITUAL.get());
+                        pOutput.accept(ModBlocks.I_WEATHER_RITUAL.get());
+                        pOutput.accept(ModBlocks.A_WEATHER_RITUAL.get());
+                        pOutput.accept(ModBlocks.U_WEATHER_RITUAL.get());
                         //BlockEntities
                     })
                     .build()
@@ -99,7 +103,7 @@ public class ModCreativeModTabs {
     public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_SOULEATER_TAB = CREATIVE_MODE_TABS.register(
             "ritual_magic_souleater_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(ModBlocks.SOUL_BRICKS.get()))
+                    .icon(() -> new ItemStack(ModItems.SOUL_SCYTHE.get()))
                     .title(Component.translatable("creativetab.ritual_magic_souleater_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         //Basic Items
@@ -112,6 +116,10 @@ public class ModCreativeModTabs {
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
                         //BlockEntities
+                        pOutput.accept(ModBlocks.B_SOUL_SACRIFICE.get());
+                        pOutput.accept(ModBlocks.I_SOUL_SACRIFICE.get());
+                        pOutput.accept(ModBlocks.A_SOUL_SACRIFICE.get());
+                        pOutput.accept(ModBlocks.U_SOUL_SACRIFICE.get());
                     })
                     .build()
     );
