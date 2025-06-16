@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.blocks.custom;
 
 import be.noah.ritual_magic.blocks.entity.ForgeBlockEntity;
-import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
+import be.noah.ritual_magic.blocks.ModBlockEntities;
 import be.noah.ritual_magic.multiblocks.MultiBlockLayer;
 import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.multiblocks.MultiblockBaseEntityBlock;

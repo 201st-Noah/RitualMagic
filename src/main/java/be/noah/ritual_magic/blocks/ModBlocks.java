@@ -34,6 +34,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> DRAGON_FIRE = registerBlock("dragon_fire_block", () -> new DragonFireBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).replaceable().noCollission().instabreak().lightLevel((p_152605_) -> 15).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY).noLootTable()));
     public static final RegistryObject<Block> ICE_SPIKE = registerBlock("ice_spike_block", () -> new IceSpikeBlock(BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).strength(5f, 3.0f).requiresCorrectToolForDrops().noCollission()));
     public static final RegistryObject<Block> POINTED_ICICLE = registerBlock("pointed_icicle", () -> new PointedIcicleBlock(BlockBehaviour.Properties.copy(Blocks.POINTED_DRIPSTONE)));
+    // SoulFarmlandBlock
     public static final RegistryObject<Block> B_SOUL_FARMLAND = registerBlock("b_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
     public static final RegistryObject<Block> I_SOUL_FARMLAND = registerBlock("i_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
     public static final RegistryObject<Block> A_SOUL_FARMLAND = registerBlock("a_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
@@ -46,8 +47,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> MOD_TELEPORTER = registerBlock("mod_portal", () -> new ModTeleporterBlock(BlockBehaviour.Properties.copy(Blocks.STONE).noLootTable().noOcclusion()));
     public static final RegistryObject<Block> MINING_CORE = registerBlock("mining_core", () -> new MiningCoreBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> ANCIENT_ANVIL = registerBlock("ancient_anvil", () -> new AncientAnvilBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
-    public static final RegistryObject<Block> SOUL_SACRIFICE = registerBlock("soul_sacrifice", () -> new SoulSacrificeBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
-
+    //Mana generating Rituals
+    public static final RegistryObject<Block> B_SOUL_SACRIFICE = registerBlock("b_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> I_SOUL_SACRIFICE = registerBlock("i_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> A_SOUL_SACRIFICE = registerBlock("a_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> U_SOUL_SACRIFICE = registerBlock("u_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    // Infusion Pedestals
     public static final RegistryObject<Block> B_NEXUS_PEDESTAL = registerBlock("b_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> I_NEXUS_PEDESTAL = registerBlock("i_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> A_NEXUS_PEDESTAL = registerBlock("a_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
@@ -68,7 +73,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> I_DRACONIC_PEDESTAL = registerBlock("i_draconic_pedestal", () -> new RitualPedestalBlock(ManaType.DRACONIC, BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> A_DRACONIC_PEDESTAL = registerBlock("a_draconic_pedestal", () -> new RitualPedestalBlock(ManaType.DRACONIC, BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> U_DRACONIC_PEDESTAL = registerBlock("u_draconic_pedestal", () -> new RitualPedestalBlock(ManaType.DRACONIC, BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
-
+    // Infusion Cores
     public static final RegistryObject<Block> B_NEXUS_INFUSION_CORE = registerBlock("b_nexus_infusion-core", () -> new InfusionBlock(ManaType.NEXUS, BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> I_NEXUS_INFUSION_CORE = registerBlock("i_nexus_infusion-core", () -> new InfusionBlock(ManaType.NEXUS, BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> A_NEXUS_INFUSION_CORE = registerBlock("a_nexus_infusion-core", () -> new InfusionBlock(ManaType.NEXUS, BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));

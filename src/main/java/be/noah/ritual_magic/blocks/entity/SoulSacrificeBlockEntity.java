@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.blocks.entity;
 
+import be.noah.ritual_magic.blocks.ModBlockEntities;
 import be.noah.ritual_magic.blocks.RitualBaseBlockEntity;
 import be.noah.ritual_magic.mana.ManaType;
 import be.noah.ritual_magic.utils.ModDamageSource;

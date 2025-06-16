@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.events;
 
 import be.noah.ritual_magic.RitualMagic;
-import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
+import be.noah.ritual_magic.blocks.ModBlockEntities;
 import be.noah.ritual_magic.blocks.entity.renderer.InfusionBlockEntityRenderer;
 import be.noah.ritual_magic.blocks.entity.renderer.RitualPedestalBlockEntityRenderer;
 import be.noah.ritual_magic.client.*;

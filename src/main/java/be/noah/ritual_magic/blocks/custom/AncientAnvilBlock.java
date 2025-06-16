@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.blocks.custom;
 
 import be.noah.ritual_magic.blocks.entity.AncientAnvilBlockEntity;
-import be.noah.ritual_magic.blocks.entity.ModBlockEntities;
+import be.noah.ritual_magic.blocks.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.blocks.entity;
 
+import be.noah.ritual_magic.blocks.ModBlockEntities;
 import be.noah.ritual_magic.blocks.custom.InfusionBlock;
 import be.noah.ritual_magic.blocks.custom.RitualPedestalBlock;
 import be.noah.ritual_magic.recipes.InfusionRecipe;

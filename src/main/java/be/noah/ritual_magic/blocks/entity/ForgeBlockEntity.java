@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.blocks.entity;
 
+import be.noah.ritual_magic.blocks.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
