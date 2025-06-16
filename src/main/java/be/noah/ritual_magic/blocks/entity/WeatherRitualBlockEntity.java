@@ -19,10 +19,14 @@ public class WeatherRitualBlockEntity extends RitualBaseBlockEntity {
         return ManaType.ATLANTIAN;
     }
 
-    public static void tick(Level pLevel, BlockPos pPos, BlockState pBlockState, RitualBaseBlockEntity pRitualBaseBlockEntity) {
+    @Override
+    public void tick() {
+        Level pLevel = getLevel();
+        BlockPos pPos = getBlockPos();
+        RitualBaseBlockEntity pRitualBaseBlockEntity = this;
         /*
         for Infos https://minecraft.wiki/w/Biome#Temperature
-        basetemperature = -0.7 bis 2.0
+        base temperature = -0.7 bis 2.0
         downfall = 0.0 to 1.0
         */
         if(pLevel.isClientSide()) {return;}

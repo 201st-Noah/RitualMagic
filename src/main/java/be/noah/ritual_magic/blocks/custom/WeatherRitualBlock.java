@@ -11,9 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class WeatherRitualBlock extends RitualBaseBlock<WeatherRitualBlockEntity> {
     public WeatherRitualBlock(BlockTier tier, Properties pProperties) {
-        super(tier, pProperties,
-                ModBlockEntities.WEATHER_RITUAL,
-                WeatherRitualBlockEntity::tick);
+        super(tier, pProperties, ModBlockEntities.WEATHER_RITUAL);
     }
 
     @Override

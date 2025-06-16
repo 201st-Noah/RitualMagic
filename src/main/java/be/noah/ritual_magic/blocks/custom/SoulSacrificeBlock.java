@@ -12,9 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class SoulSacrificeBlock extends RitualBaseBlock<SoulSacrificeBlockEntity> {
 
     public SoulSacrificeBlock(BlockTier tier, Properties pProperties) {
-        super(tier, pProperties,
-                ModBlockEntities.SOUL_SACRIFICE,
-                SoulSacrificeBlockEntity::tick);
+        super(tier, pProperties, ModBlockEntities.SOUL_SACRIFICE);
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,16 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
             return ritualBlock.getBlockTier();
         }
         return BlockTier.BASIC;
+    }
+
+    public abstract void tick();
+
+    public static <T extends RitualBaseBlockEntity> BlockEntityTicker<T> createTicker() {
+        return (level, pos, state, blockEntity) -> {
+            if (!level.isClientSide) {
+                blockEntity.tick();
+            }
+        };
     }
 
     public UUID getOwner() {

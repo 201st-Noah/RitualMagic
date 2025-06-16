@@ -25,10 +25,10 @@ public abstract class RitualBaseBlock<T extends RitualBaseBlockEntity>  extends 
     private final BlockEntityTicker<T> ticker;
     private BlockTier tier;
 
-    protected RitualBaseBlock(BlockTier tier, Properties pProperties, RegistryObject<BlockEntityType<T>>  blockEntityType, BlockEntityTicker<T> ticker) {
+    protected RitualBaseBlock(BlockTier tier, Properties pProperties, RegistryObject<BlockEntityType<T>>  blockEntityType) {
         super(pProperties);
         this.blockEntityType = blockEntityType;
-        this.ticker = ticker;
+        this.ticker = RitualBaseBlockEntity.createTicker();
         this.tier = tier;
     }
 

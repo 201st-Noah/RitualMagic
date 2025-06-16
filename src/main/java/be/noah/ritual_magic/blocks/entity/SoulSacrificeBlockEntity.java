@@ -27,8 +27,14 @@ public class SoulSacrificeBlockEntity extends RitualBaseBlockEntity {
         return ManaType.HELLISH;
     }
 
-    public static void tick(Level pLevel, BlockPos pPos, BlockState pBlockState, RitualBaseBlockEntity pRitualBaseBlockEntity) {
+    @Override
+    public void tick() {
+        Level pLevel = getLevel();
+        BlockPos pPos = getBlockPos();
+        RitualBaseBlockEntity pRitualBaseBlockEntity = this;
+
         if (pLevel.isClientSide) return;
+        if(!(pLevel.getGameTime() % 21 == 0)) {return;} //Timer
         if (!pRitualBaseBlockEntity.structureIsOk(pLevel, pPos) ){return;}
         final int blockTier = getBlockTier(pLevel, pPos).getInt();
         final double radius = 4.0D + (double) blockTier;
@@ -52,5 +58,4 @@ public class SoulSacrificeBlockEntity extends RitualBaseBlockEntity {
             }
         }
     }
-
 }
