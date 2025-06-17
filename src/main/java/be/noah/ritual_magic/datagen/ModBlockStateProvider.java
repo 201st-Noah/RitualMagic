@@ -32,6 +32,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.I_SOUL_FARMLAND);
         blockWithItem(ModBlocks.A_SOUL_FARMLAND);
         blockWithItem(ModBlocks.U_SOUL_FARMLAND);
+        blockWithItem(ModBlocks.UNSTABLE_MAGMA_BLOCK);
         simpleBlockWithItem(ModBlocks.ANCIENT_ANVIL.get(), new ModelFile.UncheckedModelFile(modLoc("block/ancient_anvil")));
         simpleBlockWithItem(ModBlocks.B_NEXUS_PEDESTAL.get(), new ModelFile.UncheckedModelFile(modLoc("block/b_nexus_pedestal")));
         simpleBlockWithItem(ModBlocks.INFUSION.get(), new ModelFile.UncheckedModelFile(modLoc("block/infusion")));

@@ -113,6 +113,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.NETHER_SCEPTRE.get());
                         pOutput.accept(ModItems.SOUL_SCYTHE.get());
                         pOutput.accept(ModItems.HELLISH_MANA_RUNE.get());
+                        pOutput.accept(ModItems.SOUL_EATER_BOOTS.get());
+                        pOutput.accept(ModItems.SOUL_EATER_LEGGINGS.get());
+                        pOutput.accept(ModItems.SOUL_EATER_CHESTPLATE.get());
+                        pOutput.accept(ModItems.SOUL_EATER_HELMET.get());
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
                         //BlockEntities

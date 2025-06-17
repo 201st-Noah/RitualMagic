@@ -86,6 +86,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.A_WEATHER_RITUAL, "Advanced Weather Ritual Block");
         addBlock(ModBlocks.U_WEATHER_RITUAL, "Ultimate Weather Ritual Block");
         addBlock(ModBlocks.INFUSION, "Infusion Core");
+        addBlock(ModBlocks.UNSTABLE_MAGMA_BLOCK, "Unstable Magma Block");
     }
 
     private void creativeTabs() {
@@ -132,6 +133,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.ICE_CHESTPLATE, "Ice Chestplate");
         addItem(ModItems.ICE_LEGGINGS, "Ice Leggings");
         addItem(ModItems.ICE_BOOTS, "Ice Boots");
+        addItem(ModItems.SOUL_EATER_HELMET, "Soul Eater Helmet");
+        addItem(ModItems.SOUL_EATER_CHESTPLATE, "Soul Eater Chestplate");
+        addItem(ModItems.SOUL_EATER_LEGGINGS, "Soul Eater Leggings");
+        addItem(ModItems.SOUL_EATER_BOOTS, "Soul Eater Boots");
     }
 
     private void effects() {

@@ -46,6 +46,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.I_SOUL_FARMLAND.get(),
                         ModBlocks.A_SOUL_FARMLAND.get(),
                         ModBlocks.U_SOUL_FARMLAND.get(),
+                        ModBlocks.UNSTABLE_MAGMA_BLOCK.get(),
                         ModBlocks.ICE_SPIKE.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -58,6 +59,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.FORGE_T0.get(),
                         ModBlocks.FORGE_T1.get(),
                         ModBlocks.FORGE_T2.get(),
+                        ModBlocks.UNSTABLE_MAGMA_BLOCK.get(),
                         ModBlocks.ICE_SPIKE.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)

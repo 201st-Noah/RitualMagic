@@ -34,6 +34,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> DRAGON_FIRE = registerBlock("dragon_fire_block", () -> new DragonFireBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).replaceable().noCollission().instabreak().lightLevel((p_152605_) -> 15).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY).noLootTable()));
     public static final RegistryObject<Block> ICE_SPIKE = registerBlock("ice_spike_block", () -> new IceSpikeBlock(BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).strength(5f, 3.0f).requiresCorrectToolForDrops().noCollission()));
     public static final RegistryObject<Block> POINTED_ICICLE = registerBlock("pointed_icicle", () -> new PointedIcicleBlock(BlockBehaviour.Properties.copy(Blocks.POINTED_DRIPSTONE)));
+    public static final RegistryObject<Block> UNSTABLE_MAGMA_BLOCK = registerBlock("unstable_magma_block", () -> new UnstableMagmaBlock(BlockBehaviour.Properties.copy(Blocks.MAGMA_BLOCK).requiresCorrectToolForDrops()));
     // SoulFarmlandBlock
     public static final RegistryObject<Block> B_SOUL_FARMLAND = registerBlock("b_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));
     public static final RegistryObject<Block> I_SOUL_FARMLAND = registerBlock("i_soul_farmland", () -> new SoulFarmlandBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL)));

@@ -4,6 +4,7 @@ import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.items.armor.DwarvenArmor;
 import be.noah.ritual_magic.items.armor.IceArmorItem;
 import be.noah.ritual_magic.items.armor.ModArmorMaterials;
+import be.noah.ritual_magic.items.armor.SoulEaterArmor;
 import be.noah.ritual_magic.items.custom.*;
 import be.noah.ritual_magic.mana.ManaType;
 import net.minecraft.world.item.ArmorItem;
@@ -52,6 +53,10 @@ public class ModItems {
     public static final RegistryObject<Item> ICE_CHESTPLATE = ITEMS.register("ice_chestplate", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> ICE_LEGGINGS = ITEMS.register("ice_leggings", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> ICE_BOOTS = ITEMS.register("ice_boots", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_EATER_HELMET = ITEMS.register("soul_eater_helmet", () -> new SoulEaterArmor(ModArmorMaterials.PURE_NETHERITE, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_EATER_CHESTPLATE = ITEMS.register("soul_eater_chestplate", () -> new SoulEaterArmor(ModArmorMaterials.PURE_NETHERITE, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_EATER_LEGGINGS = ITEMS.register("soul_eater_leggings", () -> new SoulEaterArmor(ModArmorMaterials.PURE_NETHERITE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_EATER_BOOTS = ITEMS.register("soul_eater_boots", () -> new SoulEaterArmor(ModArmorMaterials.PURE_NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_STEEL_HELMET = ITEMS.register("dwarven_steel_helmet", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_STEEL_CHESTPLATE = ITEMS.register("dwarven_steel_chestplate", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_STEEL_LEGGINGS = ITEMS.register("dwarven_steel_leggings", () -> new DwarvenArmor(ModArmorMaterials.DWARVEN_STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
