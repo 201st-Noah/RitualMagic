@@ -3,6 +3,7 @@ package be.noah.ritual_magic.events;
 import be.noah.ritual_magic.RitualMagic;
 import be.noah.ritual_magic.items.armor.DwarvenArmor;
 import be.noah.ritual_magic.items.armor.IceArmorItem;
+import be.noah.ritual_magic.items.armor.SoulEaterArmor;
 import be.noah.ritual_magic.items.custom.DwarvenAxe;
 import be.noah.ritual_magic.items.custom.DwarvenPickAxe;
 import be.noah.ritual_magic.mana.ManaNetworkData;
@@ -19,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -46,6 +48,69 @@ public class ForgeEvents {
     private static final Set<BlockPos> HARVESTED_STONE_BLOCKS = new HashSet<>();
     private static final Set<BlockPos> HARVESTED_WOOD_BLOCKS = new HashSet<>();
 
+    //TODO get rid of Code Duplicates
+    private static boolean cancleLogic(LivingAttackEvent event){
+        if ((event.getEntity() instanceof ServerPlayer player)){
+            CompoundTag data = player.getPersistentData();
+            int hitsLeft = data.getInt(VOID_SHIELD_TAG);
+            Item boots = player.getInventory().getArmor(0).getItem();
+            Item leggings = player.getInventory().getArmor(1).getItem();
+            Item chesplate = player.getInventory().getArmor(2).getItem();
+            Item helmet = player.getInventory().getArmor(3).getItem();
+            DamageSource source = event.getSource();
+            float amount = event.getAmount();
+
+            // ----- IceArmor Logic -----
+            if (chesplate instanceof IceArmorItem iceArmorItem && event.getSource().is(DamageTypes.FREEZE)) {
+                return(iceArmorItem.hasFullSet(player));
+            }
+
+            if (hitsLeft > 0 && amount != Float.MAX_VALUE) {
+                data.putInt(VOID_SHIELD_TAG, hitsLeft - 1);
+                player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1f, 1f);
+                if (hitsLeft == 1) {
+                    data.remove(VOID_SHIELD_TAG);
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f, 1f);
+                    player.displayClientMessage(Component.literal("Void Shield Depleted"), true);
+                }
+                return true;
+            }
+
+            // ----- SoulEaterArmor Logic -----
+            if (chesplate instanceof SoulEaterArmor soulEaterArmor && soulEaterArmor.hasFullSet(player)) {
+                if(source.is(DamageTypes.IN_FIRE) ||
+                        source.is(DamageTypes.ON_FIRE) ||
+                        source.is(DamageTypes.LAVA) ||
+                        source.is(DamageTypes.FIREBALL)){
+                    return true;
+                }
+            }
+            if (boots instanceof SoulEaterArmor soulEaterArmor && soulEaterArmor.hasBoots(player)) {
+                if(source.is(DamageTypes.HOT_FLOOR)){
+                    return true;
+                }
+            }
+
+
+            // ----- DwarvenArmor Logic -----
+            if(chesplate instanceof DwarvenArmor dwarvenArmor) {
+                float damage  = event.getAmount();
+                if(dwarvenArmor.hasFullSet(player) &&
+                        !source.is(DamageTypes.FREEZE) &&
+                        !source.is(DamageTypes.DROWN) &&
+                        !source.is(DamageTypes.FELL_OUT_OF_WORLD) &&
+                        !source.is(DamageTypes.IN_FIRE) &&
+                        !source.is(DamageTypes.ON_FIRE) &&
+                        !source.is(DamageTypes.LAVA) &&
+                        !source.is(DamageTypes.HOT_FLOOR) &&
+                        !source.is(DamageTypes.STARVE)) {
+                    float fullSetLevel = dwarvenArmor.fullSetLevel(player);
+                    return (damage <= fullSetLevel/2);
+                }
+            }
+        }
+        return false;
+    }
     // Done with the help of https://github.com/CoFH/CoFHCore/blob/1.19.x/src/main/java/cofh/core/event/AreaEffectEvents.java
     // Don't be a jerk License
     @SubscribeEvent
@@ -104,10 +169,7 @@ public class ForgeEvents {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingAttackEvent event) {
-        Entity entity = event.getEntity();
-        Entity attacker = event.getSource().getDirectEntity();
-        float damage = event.getAmount();
-        event.setCanceled(false);
+        event.setCanceled(cancleLogic(event));
     }
 
     @SubscribeEvent
@@ -139,21 +201,22 @@ public class ForgeEvents {
         Item leggings = player.getInventory().getArmor(1).getItem();
         Item chesplate = player.getInventory().getArmor(2).getItem();
         Item helmet = player.getInventory().getArmor(3).getItem();
+        DamageSource source = event.getSource();
 
 
         // ----- DwarvenArmor Logic -----
         if(chesplate instanceof DwarvenArmor dwarvenArmor) {
             float damage  = event.getAmount();
             if(dwarvenArmor.hasFullSet(player) &&
-                    !event.getSource().is(DamageTypes.FREEZE) &&
-                    !event.getSource().is(DamageTypes.DROWN) &&
-                    !event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD) &&
-                    !event.getSource().is(DamageTypes.IN_FIRE) &&
-                    !event.getSource().is(DamageTypes.ON_FIRE) &&
-                    !event.getSource().is(DamageTypes.LAVA) &&
-                    !event.getSource().is(DamageTypes.STARVE)) {
+                    !source.is(DamageTypes.FREEZE) &&
+                    !source.is(DamageTypes.DROWN) &&
+                    !source.is(DamageTypes.FELL_OUT_OF_WORLD) &&
+                    !source.is(DamageTypes.IN_FIRE) &&
+                    !source.is(DamageTypes.ON_FIRE) &&
+                    !source.is(DamageTypes.LAVA) &&
+                    !source.is(DamageTypes.HOT_FLOOR) &&
+                    !source.is(DamageTypes.STARVE)) {
                 float fullSetLevel = dwarvenArmor.fullSetLevel(player);
-                event.setCanceled(damage <= fullSetLevel/2);
                 //damage = damage * (Math.min(100, (102 - fullSetLevel))/100);
                 damage = damage * ((100 - (fullSetLevel * 0.98f))/100);
             }
@@ -163,23 +226,6 @@ public class ForgeEvents {
         // ----- IceArmor Logic -----
         if(helmet instanceof IceArmorItem iceArmorItem && hitsLeft == 0){
             player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, iceArmorItem.helmetLevel(player)*10, 0, false, false));
-        }
-        if (chesplate instanceof IceArmorItem iceArmorItem && event.getSource().is(DamageTypes.FREEZE)) {
-            event.setCanceled(iceArmorItem.hasFullSet(player));
-            return;
-        }
-
-        if (hitsLeft > 0 && event.getAmount() != Float.MAX_VALUE) {
-            event.setCanceled(true);  // cancel damage
-            data.putInt(VOID_SHIELD_TAG, hitsLeft - 1);
-            player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1f, 1f);
-        }
-        if (hitsLeft == 1 && event.getAmount() != Float.MAX_VALUE) {
-            data.remove(VOID_SHIELD_TAG);
-            player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f, 1f);
-            if (!player.level().isClientSide()) {
-                player.displayClientMessage(Component.literal("Void Shield Depleted"), true);
-            }
         }
     }
 
