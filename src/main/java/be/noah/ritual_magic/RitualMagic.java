@@ -6,6 +6,7 @@ import be.noah.ritual_magic.effects.ModEffects;
 import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.entities.client.BallLightningRenderer;
 import be.noah.ritual_magic.entities.client.HomingProjectileRenderer;
+import be.noah.ritual_magic.entities.client.LavaMinionRenderer;
 import be.noah.ritual_magic.entities.client.ThrownDwarvenAxeRenderer;
 import be.noah.ritual_magic.items.ModCreativeModTabs;
 import be.noah.ritual_magic.items.ModItems;
@@ -64,6 +65,7 @@ public class RitualMagic {
             EntityRenderers.register(ModEntities.BALL_LIGHTNING.get(), BallLightningRenderer::new);
             EntityRenderers.register(ModEntities.THROWN_DWARVEN_AXE.get(), ThrownDwarvenAxeRenderer::new);
             EntityRenderers.register(ModEntities.HOMING_PROJECTILE.get(), HomingProjectileRenderer::new);
+            EntityRenderers.register(ModEntities.LAVA_MINION.get(), LavaMinionRenderer::new);
             MenuScreens.register(ModMenuTypes.ANCIENT_ANVIL_MENU.get(), AncientAnvilScreen::new);
         }
     }

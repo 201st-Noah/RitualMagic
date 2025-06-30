@@ -28,6 +28,12 @@ public class ModEntities {
                     .updateInterval(1) // Update frequently for smooth homing
                     .build(new ResourceLocation(RitualMagic.MODID, "homing_projectile").toString()));
 
+    public static final RegistryObject<EntityType<LavaMinion>> LAVA_MINION = ENTITIES.register("lava_minion",
+            () -> EntityType.Builder.<LavaMinion>of(LavaMinion::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F)
+                    .updateInterval(1)
+                    .build(new ResourceLocation(RitualMagic.MODID, "lava_minion").toString()));
+
     public static void register(IEventBus eventBus)
     {
         ENTITIES.register(eventBus);
