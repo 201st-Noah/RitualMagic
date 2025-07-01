@@ -15,4 +15,26 @@ public enum BlockTier {
             default -> {return 0;}
         }
     }
+
+    //for the Anti TP Field
+    public int getRange(){
+        switch (this) {
+            case BASIC -> {return 20;}
+            case INTERMEDIATE -> {return 50;}
+            case ADVANCED -> {return 100;}
+            case ULTIMATE -> {return 200;}
+            default -> {return 0;}
+        }
+    }
+
+    //for the Anti TP Field
+    public float getDamagePercent(){
+        switch (this) {
+            case BASIC -> {return 0.1f;}
+            case INTERMEDIATE -> {return 0.2f;}
+            case ADVANCED -> {return 0.3f;}
+            case ULTIMATE -> {return 0.5f;}
+            default -> {return 0;}
+        }
+    }
 }

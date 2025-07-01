@@ -1,6 +1,11 @@
 package be.noah.ritual_magic.events;
 
 import be.noah.ritual_magic.RitualMagic;
+import be.noah.ritual_magic.blocks.AntiTeleportBlockData;
+import be.noah.ritual_magic.blocks.BlockTier;
+import be.noah.ritual_magic.blocks.RitualBaseBlockEntity;
+import be.noah.ritual_magic.entities.LavaMinion;
+import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.items.armor.DwarvenArmor;
 import be.noah.ritual_magic.items.armor.IceArmorItem;
 import be.noah.ritual_magic.items.armor.SoulEaterArmor;
@@ -25,12 +30,16 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -47,6 +56,7 @@ public class ForgeEvents {
     private static final String VOID_SHIELD_TAG = "void_shield";
     private static final Set<BlockPos> HARVESTED_STONE_BLOCKS = new HashSet<>();
     private static final Set<BlockPos> HARVESTED_WOOD_BLOCKS = new HashSet<>();
+    private static final boolean NOMANA = true;
 
     //TODO get rid of Code Duplicates
     private static boolean cancleLogic(LivingAttackEvent event){
@@ -260,5 +270,40 @@ public class ForgeEvents {
 
         // ✅ Send the sync packet
         ModMessages.sendToPlayer(new ManaDataSyncS2CPacket(player.getUUID(), tag), player);
+    }
+
+    @SubscribeEvent
+    public static void onEntityTeleport(EntityTeleportEvent event) {
+        if (event.getEntity() == null || event.getEntity().level().isClientSide()) return;
+
+        BlockPos targetPos = new BlockPos((int)event.getTargetX(), (int)event.getTargetY(), (int)event.getTargetZ());
+        BlockPos startPos = new BlockPos((int)event.getPrevX(), (int)event.getPrevY(), (int)event.getPrevZ());
+
+        MinecraftServer minecraftServer = event.getEntity().level().getServer();
+        ManaNetworkData data = ManaNetworkData.get(minecraftServer);
+
+        for (BlockTier tier : BlockTier.values()) {
+            Entity entity = event.getEntity();
+            for (BlockPos blockPos : AntiTeleportBlockData.get((ServerLevel) entity.level()).get(tier)) {
+
+                BlockTier blockTier = RitualBaseBlockEntity.getBlockTier(entity.level(), blockPos);
+                if (blockTier == tier && ( blockPos.closerThan(targetPos, tier.getRange()) || blockPos.closerThan(startPos, tier.getRange()))) {
+                    RitualBaseBlockEntity be = (RitualBaseBlockEntity) entity.level().getBlockEntity(blockPos);
+                    UUID owner = be.getOwner();
+                    ManaPool pool = data.getOrCreate(owner);
+                    if (!owner.equals(entity.getUUID()) && (NOMANA ||pool.get(ManaType.DRACONIC) > 0)) { //TODO maby later implement a lis of allowed Players
+                        event.setCanceled(true);
+                        if (entity instanceof LivingEntity livingEntity) {
+                            entity.hurt(entity.level().damageSources().cramming(), Math.min(livingEntity.getMaxHealth() * tier.getDamagePercent(), 100 * tier.getDamagePercent()));
+                            if (livingEntity instanceof ServerPlayer serverPlayer) {
+                                serverPlayer.playNotifySound(SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0f, 1.0f);
+                            }
+                        }
+                        entity.sendSystemMessage(Component.literal("Teleportation denied by Anti-Teleport Field!"));
+                        return;
+                    }
+                }
+            }
+        }
     }
 }

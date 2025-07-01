@@ -94,5 +94,13 @@ public class ModBlockEntities {
                             ModBlocks.A_WEATHER_RITUAL.get(),
                             ModBlocks.U_WEATHER_RITUAL.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<AntiTeleportRitualBlockEntity>> ANTI_TELEPORTATION_RITUAL =
+            BLOCK_ENTITIES.register("anti_teleportation_ritual", () ->
+                    BlockEntityType.Builder.of(AntiTeleportRitualBlockEntity::new,
+                            ModBlocks.B_ANTI_TELEPORT_RITUAL.get(),
+                            ModBlocks.I_ANTI_TELEPORT_RITUAL.get(),
+                            ModBlocks.A_ANTI_TELEPORT_RITUAL.get(),
+                            ModBlocks.U_ANTI_TELEPORT_RITUAL.get()
+                            ).build(null));
 
 }

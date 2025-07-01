@@ -96,6 +96,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
                         pOutput.accept(ModBlocks.DRAGON_FIRE.get()); // Remove later just here for testing
                         //BlockEntities
+                        pOutput.accept(ModBlocks.B_ANTI_TELEPORT_RITUAL.get());
+                        pOutput.accept(ModBlocks.I_ANTI_TELEPORT_RITUAL.get());
+                        pOutput.accept(ModBlocks.A_ANTI_TELEPORT_RITUAL.get());
+                        pOutput.accept(ModBlocks.U_ANTI_TELEPORT_RITUAL.get());
                     })
                     .build()
     );

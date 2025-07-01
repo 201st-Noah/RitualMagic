@@ -58,6 +58,13 @@ public class ModBlocks {
     public static final RegistryObject<Block> I_WEATHER_RITUAL = registerBlock("i_weather_ritual", () -> new WeatherRitualBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> A_WEATHER_RITUAL = registerBlock("a_weather_ritual", () -> new WeatherRitualBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> U_WEATHER_RITUAL = registerBlock("u_weather_ritual", () -> new WeatherRitualBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
+    //Mana consuming Ritual
+    public static final RegistryObject<Block> B_ANTI_TELEPORT_RITUAL = registerBlock("b_anti_teleport_ritual", () -> new AntiTeleportRitualBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> I_ANTI_TELEPORT_RITUAL = registerBlock("i_anti_teleport_ritual", () -> new AntiTeleportRitualBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> A_ANTI_TELEPORT_RITUAL = registerBlock("a_anti_teleport_ritual", () -> new AntiTeleportRitualBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> U_ANTI_TELEPORT_RITUAL = registerBlock("u_anti_teleport_ritual", () -> new AntiTeleportRitualBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
     // Infusion Pedestals
     public static final RegistryObject<Block> B_NEXUS_PEDESTAL = registerBlock("b_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> I_NEXUS_PEDESTAL = registerBlock("i_nexus_pedestal", () -> new RitualPedestalBlock(ManaType.NEXUS, BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));

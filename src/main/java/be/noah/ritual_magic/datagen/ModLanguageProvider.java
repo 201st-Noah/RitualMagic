@@ -85,6 +85,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.I_WEATHER_RITUAL, "Intermediate Weather Ritual Block");
         addBlock(ModBlocks.A_WEATHER_RITUAL, "Advanced Weather Ritual Block");
         addBlock(ModBlocks.U_WEATHER_RITUAL, "Ultimate Weather Ritual Block");
+        addBlock(ModBlocks.B_ANTI_TELEPORT_RITUAL, "Basic TP Block Ritual");
+        addBlock(ModBlocks.I_ANTI_TELEPORT_RITUAL, "Intermediate TP Block Ritual");
+        addBlock(ModBlocks.A_ANTI_TELEPORT_RITUAL, "Advanced TP Block Ritual");
+        addBlock(ModBlocks.U_ANTI_TELEPORT_RITUAL, "Ultimate TP Block Ritual");
         addBlock(ModBlocks.INFUSION, "Infusion Core");
         addBlock(ModBlocks.UNSTABLE_MAGMA_BLOCK, "Unstable Magma Block");
     }

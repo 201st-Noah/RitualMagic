@@ -25,6 +25,8 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -230,10 +232,16 @@ public class Speer extends SwordItem implements LeveldMagicItem {
         Vec3 playerPos = new Vec3(player.getX(), player.getY(), player.getZ());
         if (NOMANA || consumeMana(player, range)) {
             if (playerPos.distanceTo(dest) > 2) {
-                player.teleportTo(dest.x, dest.y, dest.z);
+                EntityTeleportEvent.TeleportCommand event = new EntityTeleportEvent.TeleportCommand(player, dest.x, dest.y, dest.z);
+                if (!MinecraftForge.EVENT_BUS.post(event)) {
+                    player.teleportTo(dest.x, dest.y, dest.z);
+                }
             } else {
                 dest = getNextAirBlockBehindHit(level, player, range / 2);
-                player.teleportTo(dest.x, dest.y, dest.z);
+                EntityTeleportEvent.TeleportCommand event = new EntityTeleportEvent.TeleportCommand(player, dest.x, dest.y, dest.z);
+                if (!MinecraftForge.EVENT_BUS.post(event)) {
+                    player.teleportTo(dest.x, dest.y, dest.z);
+                }
             }
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
