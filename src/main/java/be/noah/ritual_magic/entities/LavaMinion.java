@@ -36,6 +36,11 @@ public class LavaMinion extends SummonedEntity {
     }
 
     @Override
+    public boolean fireImmune() {
+        return true;
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
 

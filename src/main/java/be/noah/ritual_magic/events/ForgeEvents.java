@@ -39,7 +39,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -211,6 +210,7 @@ public class ForgeEvents {
         Item leggings = player.getInventory().getArmor(1).getItem();
         Item chesplate = player.getInventory().getArmor(2).getItem();
         Item helmet = player.getInventory().getArmor(3).getItem();
+        Level plevel = player.level();
         DamageSource source = event.getSource();
 
 
@@ -237,13 +237,21 @@ public class ForgeEvents {
         if(helmet instanceof IceArmorItem iceArmorItem && hitsLeft == 0){
             player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, iceArmorItem.helmetLevel(player)*10, 0, false, false));
         }
+
+        if (chesplate instanceof SoulEaterArmor soulEaterArmor && soulEaterArmor.hasFullSet(player) && source.getDirectEntity() instanceof LivingEntity target) {
+            LavaMinion entity = new LavaMinion(ModEntities.LAVA_MINION.get(), plevel);
+            entity.setPos(player.getX(), player.getY() + 1, player.getZ());
+            entity.setOwner(player.getUUID());
+            plevel.addFreshEntity(entity);
+
+        }
     }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer serverPlayer) {
             CompoundTag tag = serverPlayer.getPersistentData();
-            int hitsLeft = tag.getInt("void_shield");
+            int hitsLeft = tag.getInt(VOID_SHIELD_TAG);
             ModMessages.sendToPlayer(new VoidShieldDataSyncS2CPacket(hitsLeft), serverPlayer);
         }
     }

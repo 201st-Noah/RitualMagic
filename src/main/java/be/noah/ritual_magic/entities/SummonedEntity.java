@@ -35,12 +35,6 @@ public abstract class SummonedEntity extends PathfinderMob implements OwnableEnt
         super(pEntityType, pLevel);
     }
 
-
-    @Override
-    public boolean fireImmune() {
-        return true;
-    }
-
     @Override
     public @Nullable UUID getOwnerUUID() {
         return this.ownerUUID;
