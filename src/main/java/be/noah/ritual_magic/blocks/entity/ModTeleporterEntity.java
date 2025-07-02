@@ -27,6 +27,6 @@ public class ModTeleporterEntity extends BlockEntity {
     }
 
     private boolean updateStructure(Level pLevel, int pX, int pY, int pZ) {
-        return structure.checkStructure(3, pLevel, pX, pY, pZ);
+        return structure.checkStructure(pLevel, pX, pY, pZ);
     }
 }

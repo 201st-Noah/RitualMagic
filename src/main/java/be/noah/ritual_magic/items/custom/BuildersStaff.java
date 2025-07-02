@@ -20,7 +20,8 @@ public class BuildersStaff extends Item {
         BlockPos blockpos = pContext.getClickedPos();
         Block clickedBlock = level.getBlockState(blockpos).getBlock();
         if (clickedBlock instanceof MultiblockBaseEntityBlock) {
-            ((MultiblockBaseEntityBlock) clickedBlock).getStructure().buildStructure(level, blockpos.getX(), blockpos.getY(), blockpos.getZ());
+            ((MultiblockBaseEntityBlock) clickedBlock).getStructure()
+                    .buildStructure(level, blockpos.getX(), blockpos.getY(), blockpos.getZ());
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
     }

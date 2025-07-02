@@ -1,8 +1,7 @@
 package be.noah.ritual_magic.blocks.custom;
 
-import be.noah.ritual_magic.blocks.entity.ForgeBlockEntity;
 import be.noah.ritual_magic.blocks.ModBlockEntities;
-import be.noah.ritual_magic.multiblocks.MultiBlockLayer;
+import be.noah.ritual_magic.blocks.entity.ForgeBlockEntity;
 import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.multiblocks.MultiblockBaseEntityBlock;
 import net.minecraft.core.BlockPos;
@@ -25,11 +24,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
+
 public class ForgeBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
     private static final MultiBlockStructure structureT1 = MultiBlockStructure.forgeT1();
     private static final MultiBlockStructure structureT2 = MultiBlockStructure.forgeT2();
     private final Tier tier;
+
     public ForgeBlock(Tier tier, Properties pProperties) {
         super(pProperties);
         this.tier = tier;
@@ -38,7 +40,10 @@ public class ForgeBlock extends MultiblockBaseEntityBlock {
     public MultiBlockStructure getStructure() {
         switch (tier) {
             case BEGINNER -> {
-                return new MultiBlockStructure(new MultiBlockLayer(Blocks.AIR, 0, 0, 0));
+                return new MultiBlockStructure.Builder()
+                        .addBlock(0, 0, 0, Set.of(Blocks.AIR))
+                        .build();
+//                return new MultiBlockStructure(new MultiBlockLayer(Blocks.AIR, 0, 0, 0));
             }
             case BASIC -> {
                 return structureT1;

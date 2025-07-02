@@ -1,0 +1,46 @@
+{
+  "base": "ritual_magic:b_soul_sacrifice_block",
+  "basePos": {
+    "x": 1,
+    "y": 1,
+    "z": 1
+  },
+  "symmetry": {
+    "x": true,
+    "y": true,
+    "z": true
+  },
+  "bindings": {
+    "S": [
+      "ritual_magic:b_soul_sacrifice_block"
+    ],
+    " ": [
+      "minecraft:air"
+    ],
+    "r": [
+      "minecraft:redstone_block"
+    ]
+  },
+  "size": {
+    "x": 3,
+    "y": 3,
+    "z": 3
+  },
+  "layers": [
+    [
+      "rrr",
+      "r r",
+      "rrr"
+    ],
+    [
+      "r r",
+      " S ",
+      "r r"
+    ],
+    [
+      "rrr",
+      "r r",
+      "rrr"
+    ]
+  ]
+}

@@ -1,7 +1,7 @@
 package be.noah.ritual_magic;
 
-import be.noah.ritual_magic.blocks.ModBlocks;
 import be.noah.ritual_magic.blocks.ModBlockEntities;
+import be.noah.ritual_magic.blocks.ModBlocks;
 import be.noah.ritual_magic.effects.ModEffects;
 import be.noah.ritual_magic.entities.ModEntities;
 import be.noah.ritual_magic.entities.client.BallLightningRenderer;
@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 @Mod(RitualMagic.MODID)
 public class RitualMagic {
     public static final String MODID = "ritual_magic";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public RitualMagic() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

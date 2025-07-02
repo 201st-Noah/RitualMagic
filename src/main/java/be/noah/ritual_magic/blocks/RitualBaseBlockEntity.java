@@ -26,7 +26,7 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
     }
 
     public static BlockTier getBlockTier(Level pLevel, BlockPos pPos) {
-        if(pLevel == null) return null;
+        if (pLevel == null) return null;
         BlockState state = pLevel.getBlockState(pPos);
         Block block = state.getBlock();
         if (block instanceof RitualBaseBlock ritualBlock) {
@@ -35,13 +35,13 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
         return BlockTier.BASIC;
     }
 
-    public abstract void tick();
-
     public static <T extends RitualBaseBlockEntity> BlockEntityTicker<T> createTicker() {
         return (level, pos, state, blockEntity) -> {
-                blockEntity.tick();
+            blockEntity.tick();
         };
     }
+
+    public abstract void tick();
 
     public UUID getOwner() {
         return owner;
@@ -78,19 +78,21 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
         return null;
     }
 
-    public boolean consumeMana(Level level,UUID owner, int amount) {
+    public boolean consumeMana(Level level, UUID owner, int amount) {
         ServerLevel serverLevel = (ServerLevel) level;
         ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
         return data.consume(owner, getManaType(), amount);
     }
-    public void addMana(Level level,UUID owner, int amount) {
+
+    public void addMana(Level level, UUID owner, int amount) {
         ServerLevel serverLevel = (ServerLevel) level;
         ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
         data.add(owner, getManaType(), amount);
     }
 
     public boolean structureIsOk(Level level, BlockPos position) {
-        if (getStructure() == null) return true;
-        return getStructure().checkStructure(0, level, position.getX(), position.getY(), position.getZ());
+        if (getStructure() == null)
+            return true;
+        return getStructure().checkStructure(level, position.getX(), position.getY(), position.getZ());
     }
 }
