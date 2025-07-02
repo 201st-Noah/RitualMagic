@@ -100,7 +100,14 @@ public class ModBlockEntities {
                             ModBlocks.B_ANTI_TELEPORT_RITUAL.get(),
                             ModBlocks.I_ANTI_TELEPORT_RITUAL.get(),
                             ModBlocks.A_ANTI_TELEPORT_RITUAL.get(),
-                            ModBlocks.U_ANTI_TELEPORT_RITUAL.get()
-                            ).build(null));
+                            ModBlocks.U_ANTI_TELEPORT_RITUAL.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<MetalExtractionBlockEntity>> METAL_EXTRACTION_RITUAL =
+            BLOCK_ENTITIES.register("metal_extraction_ritual", () ->
+                    BlockEntityType.Builder.of(MetalExtractionBlockEntity::new,
+                            ModBlocks.B_METAL_EXTRACTION_RITUAL.get(),
+                            ModBlocks.I_METAL_EXTRACTION_RITUAL.get(),
+                            ModBlocks.A_METAL_EXTRACTION_RITUAL.get(),
+                            ModBlocks.U_METAL_EXTRACTION_RITUAL.get()).build(null));
 
 }

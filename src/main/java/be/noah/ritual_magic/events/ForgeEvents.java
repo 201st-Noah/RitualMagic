@@ -11,6 +11,7 @@ import be.noah.ritual_magic.items.armor.IceArmorItem;
 import be.noah.ritual_magic.items.armor.SoulEaterArmor;
 import be.noah.ritual_magic.items.custom.DwarvenAxe;
 import be.noah.ritual_magic.items.custom.DwarvenPickAxe;
+import be.noah.ritual_magic.mana.MetalToManaJsonReloadListener;
 import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaPool;
 import be.noah.ritual_magic.mana.ManaType;
@@ -36,6 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -313,5 +315,10 @@ public class ForgeEvents {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onDataReload(AddReloadListenerEvent event) {
+        event.addListener(new MetalToManaJsonReloadListener());
     }
 }

@@ -44,6 +44,12 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.FORGE_T0.get());
                         pOutput.accept(ModBlocks.FORGE_T1.get());
                         pOutput.accept(ModBlocks.FORGE_T2.get());
+
+                        pOutput.accept(ModBlocks.B_METAL_EXTRACTION_RITUAL.get());
+                        pOutput.accept(ModBlocks.I_METAL_EXTRACTION_RITUAL.get());
+                        pOutput.accept(ModBlocks.A_METAL_EXTRACTION_RITUAL.get());
+                        pOutput.accept(ModBlocks.U_METAL_EXTRACTION_RITUAL.get());
+
                     })
                     .build()
     );
@@ -135,7 +141,7 @@ public class ModCreativeModTabs {
     public static final RegistryObject<CreativeModeTab> RITUAL_MAGIC_NEXUS_TAB = CREATIVE_MODE_TABS.register(
             "ritual_magic_nexus_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(ModBlocks.MINING_CORE.get()))
+                    .icon(() -> new ItemStack(ModBlocks.INFUSION.get()))
                     .title(Component.translatable("creativetab.ritual_magic_nexus_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         //Basic Items

@@ -1,0 +1,9 @@
+{
+  "minecraft:copper_ingot": 2,
+  "minecraft:iron_ingot": 3,
+  "minecraft:gold_ingot": 4,
+  "minecraft:netherite_ingot": 50,
+  "ritual_magic:atlantian_steel_ingot": 201,
+  "ritual_magic:pure_netherite": 202,
+  "ritual_magic:dwarven_steel_ingot": 203
+}

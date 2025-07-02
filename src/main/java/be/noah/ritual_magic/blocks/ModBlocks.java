@@ -59,6 +59,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> A_WEATHER_RITUAL = registerBlock("a_weather_ritual", () -> new WeatherRitualBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> U_WEATHER_RITUAL = registerBlock("u_weather_ritual", () -> new WeatherRitualBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
+    public static final RegistryObject<Block> B_METAL_EXTRACTION_RITUAL = registerBlock("b_metal_extraction_ritual", () -> new MetalExtractionBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> I_METAL_EXTRACTION_RITUAL = registerBlock("i_metal_extraction_ritual", () -> new MetalExtractionBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> A_METAL_EXTRACTION_RITUAL = registerBlock("a_metal_extraction_ritual", () -> new MetalExtractionBlock(BlockTier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> U_METAL_EXTRACTION_RITUAL = registerBlock("u_metal_extraction_ritual", () -> new MetalExtractionBlock(BlockTier.ULTIMATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
     //Mana consuming Ritual
     public static final RegistryObject<Block> B_ANTI_TELEPORT_RITUAL = registerBlock("b_anti_teleport_ritual", () -> new AntiTeleportRitualBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> I_ANTI_TELEPORT_RITUAL = registerBlock("i_anti_teleport_ritual", () -> new AntiTeleportRitualBlock(BlockTier.INTERMEDIATE, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));

@@ -89,6 +89,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.I_ANTI_TELEPORT_RITUAL, "Intermediate TP Block Ritual");
         addBlock(ModBlocks.A_ANTI_TELEPORT_RITUAL, "Advanced TP Block Ritual");
         addBlock(ModBlocks.U_ANTI_TELEPORT_RITUAL, "Ultimate TP Block Ritual");
+        addBlock(ModBlocks.B_METAL_EXTRACTION_RITUAL, "Basic Metal Extraction Ritual");
+        addBlock(ModBlocks.I_METAL_EXTRACTION_RITUAL, "Intermediate Metal Extraction Ritual");
+        addBlock(ModBlocks.A_METAL_EXTRACTION_RITUAL, "Advanced Metal Extraction Ritual");
+        addBlock(ModBlocks.U_METAL_EXTRACTION_RITUAL, "Ultimate Metal Extraction Ritual");
         addBlock(ModBlocks.INFUSION, "Infusion Core");
         addBlock(ModBlocks.UNSTABLE_MAGMA_BLOCK, "Unstable Magma Block");
     }

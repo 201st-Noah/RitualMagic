@@ -85,6 +85,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.I_ANTI_TELEPORT_RITUAL.get());
         this.dropSelf(ModBlocks.A_ANTI_TELEPORT_RITUAL.get());
         this.dropSelf(ModBlocks.U_ANTI_TELEPORT_RITUAL.get());
+        this.dropSelf(ModBlocks.B_METAL_EXTRACTION_RITUAL.get());
+        this.dropSelf(ModBlocks.I_METAL_EXTRACTION_RITUAL.get());
+        this.dropSelf(ModBlocks.A_METAL_EXTRACTION_RITUAL.get());
+        this.dropSelf(ModBlocks.U_METAL_EXTRACTION_RITUAL.get());
         this.dropSelf(ModBlocks.UNSTABLE_MAGMA_BLOCK.get());
 
         this.dropOther(ModBlocks.ICE_SPIKE.get(), ModItems.ICE_SHARD.get());
