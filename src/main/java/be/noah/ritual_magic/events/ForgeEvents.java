@@ -131,7 +131,7 @@ public class ForgeEvents {
         if (player instanceof ServerPlayer serverPlayer) {
             MinecraftServer minecraftServer = serverPlayer.getServer();
 
-            if (mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe(mainHandItem) != 0) {
+            if (mainHandItem.getItem() instanceof DwarvenPickAxe dwarvenPickAxe && dwarvenPickAxe.getDigAoe(mainHandItem) != 0  && !player.isShiftKeyDown()) {
                 ManaNetworkData data = ManaNetworkData.get(minecraftServer);
                 BlockPos initialBlockPos = event.getPos();
                 if (HARVESTED_STONE_BLOCKS.contains(initialBlockPos)) {

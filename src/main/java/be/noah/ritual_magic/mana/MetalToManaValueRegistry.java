@@ -1,5 +1,6 @@
 package be.noah.ritual_magic.mana;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -24,7 +25,7 @@ public class MetalToManaValueRegistry {
 
     public static void loadFromJsonObject(Map<String, Integer> itemManaMap) {
         for (Map.Entry<String, Integer> entry : itemManaMap.entrySet()) {
-            Item item = ForgeRegistries.ITEMS.getValue(new net.minecraft.resources.ResourceLocation(entry.getKey()));
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(entry.getKey()));
             if (item != null) {
                 register(item, entry.getValue());
             }
