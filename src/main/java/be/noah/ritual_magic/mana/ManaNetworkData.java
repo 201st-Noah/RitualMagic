@@ -78,6 +78,10 @@ public class ManaNetworkData extends SavedData {
         setDirty();
     }
 
+    public boolean isFull(UUID playerId, ManaType type){
+         return getOrCreate(playerId).isFull(type);
+    }
+
     public void syncDirty(ServerLevel level) {
         Iterator<UUID> iterator = dirtyPlayers.iterator();
         while (iterator.hasNext()) {

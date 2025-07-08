@@ -44,7 +44,7 @@ public class SoulSacrificeBlockEntity extends RitualBaseBlockEntity {
         if (!pRitualBaseBlockEntity.structureIsOk(pLevel, pPos) ){return;}
         final int blockTier = getBlockTier(pLevel, pPos).getInt();
         final double radius = 4.0D + (double) blockTier;
-        if (!pLevel.isClientSide && pRitualBaseBlockEntity.getOwner() != null){
+        if (!pLevel.isClientSide && pRitualBaseBlockEntity.getOwner() != null && !ifFullMana(pLevel, pRitualBaseBlockEntity.getOwner())){
             final float damageAmount = 1.0F + 3f * (blockTier + 1);
 
             AABB area = new AABB(pPos).inflate(radius);

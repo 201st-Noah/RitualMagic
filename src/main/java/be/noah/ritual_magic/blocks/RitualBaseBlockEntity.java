@@ -88,6 +88,11 @@ public abstract class RitualBaseBlockEntity extends BlockEntity {
         ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
         data.add(owner, getManaType(), amount);
     }
+    public boolean ifFullMana(Level level,UUID owner) {
+        ServerLevel serverLevel = (ServerLevel) level;
+        ManaNetworkData data = ManaNetworkData.get(serverLevel.getServer());
+        return data.isFull(owner, getManaType());
+    }
 
     public boolean structureIsOk(Level level, BlockPos position) {
         if (getStructure() == null) return true;

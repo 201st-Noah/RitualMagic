@@ -55,6 +55,10 @@ public class ManaPool {
         setMax(type, getMax(type) + amount);
     }
 
+    public boolean isFull(ManaType type){
+        return get(type) == getMax(type);
+    }
+
     //data
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();

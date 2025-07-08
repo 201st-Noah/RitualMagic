@@ -62,7 +62,7 @@ public class MetalExtractionBlockEntity extends RitualBaseBlockEntity {
         ItemStack input = this.itemStackHandler.getStackInSlot(0);
         int manaValue = MetalToManaValueRegistry.getManaValue(input.getItem());
 
-        if (!input.isEmpty() && manaValue > 0) {
+        if (!input.isEmpty() && manaValue > 0 && !ifFullMana(this.level, this.getOwner())) {
             this.progress++;
 
             if (this.progress >= getProgress()) {
