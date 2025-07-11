@@ -66,6 +66,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ICE_SHARD.get());
                         pOutput.accept(ModItems.SHARP_ICE_SHARD.get());
                         pOutput.accept(ModItems.ICE_SWORD_HILT.get());
+                        pOutput.accept(ModItems.ATLANTIAN_STEEL_ARMOR_PLATE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.ICE_HELMET.get());
                         pOutput.accept(ModItems.ICE_CHESTPLATE.get());
@@ -74,6 +75,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ICE_SWORD.get());
                         pOutput.accept(ModItems.ATLANTIAN_MANA_RUNE.get());
                         //Blocks
+                        pOutput.accept(ModBlocks.ATLANTIAN_STEEL_BLOCK.get());
                         pOutput.accept(ModBlocks.ATLANTIAN_DEBRIS.get());
                         pOutput.accept(ModBlocks.ICE_SPIKE.get());
                         pOutput.accept(ModBlocks.POINTED_ICICLE.get());
@@ -95,11 +97,13 @@ public class ModCreativeModTabs {
                         //Basic Items
                         pOutput.accept(ModItems.DRAGON_PLATE.get());
                         pOutput.accept(ModItems.DRAGON_SCALE.get());
+                        pOutput.accept(ModItems.DRAGON_SCALE_ARMOR_PLATE.get());
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.SPEER.get());
                         pOutput.accept(ModItems.DRACONIC_MANA_RUNE.get());
                         //Blocks
                         pOutput.accept(ModBlocks.PETRIFIED_DRAGON_SCALE.get());
+                        pOutput.accept(ModBlocks.DRAGON_SCALE_BLOCK.get());
                         pOutput.accept(ModBlocks.DRAGON_FIRE.get()); // Remove later just here for testing
                         //BlockEntities
                         pOutput.accept(ModBlocks.B_ANTI_TELEPORT_RITUAL.get());
@@ -117,7 +121,8 @@ public class ModCreativeModTabs {
                     .title(Component.translatable("creativetab.ritual_magic_souleater_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         //Basic Items
-                        pOutput.accept(ModItems.PURE_NETHERITE.get());
+                        pOutput.accept(ModItems.PURE_NETHERITE_INGOT.get());
+                        pOutput.accept(ModItems.PURE_NETHERITE_ARMOR_PLATE.get());
 
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.NETHER_SCEPTRE.get());
@@ -129,6 +134,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SOUL_EATER_HELMET.get());
                         //Blocks
                         pOutput.accept(ModBlocks.SOUL_BRICKS.get());
+                        pOutput.accept(ModBlocks.PURE_NETHERITE_BLOCK.get());
                         //BlockEntities
                         pOutput.accept(ModBlocks.B_SOUL_SACRIFICE.get());
                         pOutput.accept(ModBlocks.I_SOUL_SACRIFICE.get());

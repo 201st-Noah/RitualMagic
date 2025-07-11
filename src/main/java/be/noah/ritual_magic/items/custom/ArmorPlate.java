@@ -1,34 +1,80 @@
 package be.noah.ritual_magic.items.custom;
 
+import be.noah.ritual_magic.items.armor.PlateArmor;
+import be.noah.ritual_magic.mana.ManaType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ArmorPlate extends TieredItem {
-    private static final String PURITY = "Purity";
-    private static final String EXPERIENCE = "Experience";
-    private static final String TEMPERATURE = "Temperature";
-    private static final String ELEMENTAL_AFFINITY = "ElementalAffinity";
+public class ArmorPlate extends Item {
+    /*
+    24 Plates per armor set
 
-    public ArmorPlate(Tier toolTier, Properties pProperties) {
-        super(toolTier, pProperties);
+    Darven Armor Plate:
+        Purity
+        Surface finish (better Movement speed)
+    Ice Armor Plate:
+        Purity
+        Tension (if hit everyone in a radius gets splinters)
+    SoulEater Armor Plate:
+        Purity
+        Soul count fused in (gets infused by a ritual)
+    VoidWalker Armor Plate:
+        Purity
+        VoidEnergy (gets infused by a ritual)
+
+    */
+
+    private static final String PURITY = "Purity";
+    private static final String PURITY_LVL = "Purity_lvl";
+    private static final String UNIQVAR = "UniqVar";
+    private static final String UNIQVAR_LVL = "UniqVar_lvl";
+
+    private static final String TEMPERATURE = "Temperature";
+    private ManaType manaType;
+
+    public ArmorPlate(ManaType manaType, Properties pProperties) {
+        super(pProperties);
+        this.manaType = manaType;
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("Purity: " + getPurity(pStack)));
-        pTooltipComponents.add(Component.literal("Temperature: " + getTemperature(pStack)));
-        pTooltipComponents.add(Component.literal("ElementalAffinity: " + getElementalAffinity(pStack)));
-        pTooltipComponents.add(Component.literal("Experience: " + getExperience(pStack)));
+        pTooltipComponents.add(Component.literal("Purity: " + getPurityLvl(pStack)));
+        String spesificsForType = "";
+        switch (manaType) {
+            case ATLANTIAN -> spesificsForType = "Tension: ";
+            case DWARVEN -> spesificsForType = "Surface Finish: ";
+            case DRACONIC -> spesificsForType = "Void Energy: ";
+            case HELLISH -> spesificsForType = "Soul Energy: ";
+            default -> spesificsForType = "Energy: ";
+        }
+        pTooltipComponents.add(Component.literal(spesificsForType + getUniqVarLvl(pStack)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
+    public ManaType getManaType() {
+        return manaType;
+    }
+
+    public int getLevel(ItemStack stack) {
+        return getPurityLvl(stack) * getUniqVarLvl(stack);
+    }
+
+    public int getValueCap(int level) {
+        return (int) Math.pow(2, level);
+    }
+
+    //Purity
     private int getPurity(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(PURITY) : 0;
     }
@@ -37,28 +83,62 @@ public class ArmorPlate extends TieredItem {
         stack.getOrCreateTag().putInt(PURITY, value);
     }
 
-    private int getExperience(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(EXPERIENCE) : 0;
+    private int getPurityLvl(ItemStack stack) {
+        return stack.hasTag() ? stack.getTag().getInt(PURITY_LVL) : 0;
     }
 
-    private void setExperience(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(EXPERIENCE, value);
+    private void setPurityLvl(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(PURITY_LVL, value);
     }
 
-    private int getTemperature(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(TEMPERATURE) : 0;
+    //UniqVar
+    private int getUniqVar(ItemStack stack) {
+        return stack.hasTag() ? stack.getTag().getInt(UNIQVAR) : 0;
     }
 
-    private void setTemperature(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(TEMPERATURE, value);
+    private void setUniqVar(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(UNIQVAR, value);
     }
 
-    private int getElementalAffinity(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(ELEMENTAL_AFFINITY) : 0;
+    private int getUniqVarLvl(ItemStack stack) {
+        return stack.hasTag() ? stack.getTag().getInt(UNIQVAR_LVL) : 0;
     }
 
-    private void setTElementalAffinity(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(ELEMENTAL_AFFINITY, value);
+    private void setUniqVarLvl(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(UNIQVAR_LVL, value);
+    }
+
+    //TODO remove just temp for testing
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (level.isClientSide()) {
+            return InteractionResultHolder.pass(player.getItemInHand(hand));
+        }
+
+        ItemStack plateStack = player.getItemInHand(hand);
+        ItemStack offhandStack = player.getOffhandItem();
+
+        // Check if offhand has plate armor
+        if (offhandStack.getItem() instanceof PlateArmor plateArmor) {
+            // Find first empty slot
+            for (int i = 0; i <= plateArmor.getInstalledPlatesCount(offhandStack); i++) {
+                if (!plateArmor.hasArmorPlateInSlot(offhandStack, i)) {
+                    // Try to add the plate
+                    if (plateArmor.addArmorPlate(offhandStack, plateStack, i)) {
+                        // Success - consume one plate
+                        plateStack.shrink(1);
+                        player.playSound(SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 1.0F);
+                        player.displayClientMessage(Component.literal("§aArmor plate installed!"), true);
+                        return InteractionResultHolder.success(plateStack);
+                    }
+                }
+            }
+            // No empty slots found
+            player.displayClientMessage(Component.literal("§cNo empty slots in armor!"), true);
+            return InteractionResultHolder.fail(plateStack);
+        }
+
+        return InteractionResultHolder.pass(plateStack);
     }
 
 }

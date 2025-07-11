@@ -151,9 +151,10 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(Items.HOST_ARMOR_TRIM_SMITHING_TEMPLATE, 1)
                 .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
                 .save(pWriter);
+
+        //Armor Material Ingots
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DWARVEN_STEEL_INGOT.get())
                 .requires(ModItems.DWARVEN_SCRAP.get(), 4)
-                .requires(ModItems.WARDEN_CORE.get(), 1)
                 .requires(Items.IRON_INGOT, 4)
                 .unlockedBy(getHasName(ModItems.DWARVEN_SCRAP.get()), has(ModItems.DWARVEN_SCRAP.get()))
                 .group("dwarven_steel_ingot")
@@ -163,6 +164,82 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
                 .group("dwarven_steel_ingot")
                 .save(pWriter, new ResourceLocation(RitualMagic.MODID, "dwarven_steel_ingot_from_block"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ATLANTIAN_STEEL_INGOT.get())
+                .requires(ModItems.ATLANTIAN_SCRAP.get(), 4)
+                .requires(Items.COPPER_INGOT, 4)
+                .unlockedBy(getHasName(ModItems.ATLANTIAN_SCRAP.get()), has(ModItems.ATLANTIAN_SCRAP.get()))
+                .group("atlantian_steel_ingot")
+                .save(pWriter, new ResourceLocation(RitualMagic.MODID, "atlantian_steel_ingot_from_scrap"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ATLANTIAN_STEEL_INGOT.get(), 9)
+                .requires(ModBlocks.ATLANTIAN_STEEL_BLOCK.get())
+                .unlockedBy(getHasName(ModItems.ATLANTIAN_STEEL_INGOT.get()), has(ModItems.ATLANTIAN_STEEL_INGOT.get()))
+                .group("atlantian_steel_ingot")
+                .save(pWriter, new ResourceLocation(RitualMagic.MODID, "atlantian_steel_ingot_from_block"));
+        // TODO change recipe
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PURE_NETHERITE_INGOT.get())
+                .requires(Items.NETHERITE_SCRAP, 4)
+                .requires(Items.GHAST_TEAR, 4)
+                .unlockedBy(getHasName(ModItems.ATLANTIAN_SCRAP.get()), has(ModItems.ATLANTIAN_SCRAP.get()))
+                .group("pure_netherite_ingot")
+                .save(pWriter, new ResourceLocation(RitualMagic.MODID, "pure_netherite_ingot_from_scrap"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PURE_NETHERITE_INGOT.get(), 9)
+                .requires(ModBlocks.PURE_NETHERITE_BLOCK.get())
+                .unlockedBy(getHasName(ModItems.PURE_NETHERITE_INGOT.get()), has(ModItems.PURE_NETHERITE_INGOT.get()))
+                .group("pure_netherite_ingot")
+                .save(pWriter, new ResourceLocation(RitualMagic.MODID, "pure_netherite_ingot_from_block"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DRAGON_PLATE.get())
+                .requires(ModItems.DRAGON_SCALE.get(), 4)
+                .requires(Items.CHORUS_FLOWER, 4)
+                .unlockedBy(getHasName(ModItems.DRAGON_SCALE.get()), has(ModItems.DRAGON_SCALE.get()))
+                .group("dragon_plate")
+                .save(pWriter, new ResourceLocation(RitualMagic.MODID, "dragon_plate_from_scrap"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DRAGON_PLATE.get(), 9)
+                .requires(ModBlocks.DRAGON_SCALE_BLOCK.get())
+                .unlockedBy(getHasName(ModItems.DRAGON_PLATE.get()), has(ModItems.DRAGON_PLATE.get()))
+                .group("dragon_plate")
+                .save(pWriter, new ResourceLocation(RitualMagic.MODID, "dragon_plate_from_block"));
+
+        // Armor Plates
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DWARVEN_STEEL_ARMOR_PLATE.get())
+                .pattern("AEA")
+                .pattern("EWE")
+                .pattern("AEA")
+                .define('A', ModItems.DWARVEN_STEEL_INGOT.get())
+                .define('E', Items.ECHO_SHARD)
+                .define('W', ModItems.WARDEN_CORE.get())
+                .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ATLANTIAN_STEEL_ARMOR_PLATE.get())
+                .pattern("IAI")
+                .pattern("AHA")
+                .pattern("IAI")
+                .define('A', ModItems.ATLANTIAN_STEEL_INGOT.get())
+                .define('H', Items.HEART_OF_THE_SEA)
+                .define('I', ModItems.ICE_SHARD.get())
+                .unlockedBy(getHasName(ModItems.ATLANTIAN_STEEL_INGOT.get()), has(ModItems.ATLANTIAN_STEEL_INGOT.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PURE_NETHERITE_ARMOR_PLATE.get())
+                .pattern("PBP")
+                .pattern("BNB")
+                .pattern("PBP")
+                .define('P', ModItems.PURE_NETHERITE_INGOT.get())
+                .define('N', Items.NETHER_STAR)
+                .define('B', Items.BLAZE_ROD)
+                .unlockedBy(getHasName(ModItems.PURE_NETHERITE_INGOT.get()), has(ModItems.PURE_NETHERITE_INGOT.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DRAGON_SCALE_ARMOR_PLATE.get())
+                .pattern("DED")
+                .pattern("EHE")
+                .pattern("DED")
+                .define('E', Items.END_ROD)
+                .define('H', Items.DRAGON_HEAD)
+                .define('D', ModItems.DRAGON_PLATE.get())
+                .unlockedBy(getHasName(ModItems.DRAGON_PLATE.get()), has(ModItems.DRAGON_PLATE.get()))
+                .save(pWriter);
+
+        //Armor Material Blocks
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DWARVEN_STEEL_BLOCK.get())
                 .pattern("AAA")
                 .pattern("AAA")
@@ -170,6 +247,28 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('A', ModItems.DWARVEN_STEEL_INGOT.get())
                 .unlockedBy(getHasName(ModItems.DWARVEN_STEEL_INGOT.get()), has(ModItems.DWARVEN_STEEL_INGOT.get()))
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ATLANTIAN_STEEL_BLOCK.get())
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', ModItems.ATLANTIAN_STEEL_INGOT.get())
+                .unlockedBy(getHasName(ModItems.ATLANTIAN_STEEL_INGOT.get()), has(ModItems.ATLANTIAN_STEEL_INGOT.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.PURE_NETHERITE_BLOCK.get())
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', ModItems.PURE_NETHERITE_INGOT.get())
+                .unlockedBy(getHasName(ModItems.PURE_NETHERITE_INGOT.get()), has(ModItems.PURE_NETHERITE_INGOT.get()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DRAGON_SCALE_BLOCK.get())
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', ModItems.DRAGON_PLATE.get())
+                .unlockedBy(getHasName(ModItems.DRAGON_PLATE.get()), has(ModItems.DRAGON_PLATE.get()))
+                .save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.HEART_OF_THE_SEA, 2)
                 .pattern("ITI")
                 .pattern("NHN")
@@ -258,7 +357,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .minBlockTier("BASIC")
                 .save(pWriter);
         new InfusionRecipeBuilder().input(ModItems.SOUL_SCYTHE.get())
-                .pedestalItems(ModItems.PURE_NETHERITE.get())
+                .pedestalItems(ModItems.PURE_NETHERITE_INGOT.get())
                 .result(ModItems.SOUL_SCYTHE.get())
                 .minLevel(0)
                 .maxLevel(90)
@@ -369,7 +468,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .preserveMainItem(true)
                 .save(pWriter);
         new InfusionRecipeBuilder().input(ModItems.SOUL_EATER_HELMET.get())
-                .pedestalItems(ModItems.PURE_NETHERITE.get())
+                .pedestalItems(ModItems.PURE_NETHERITE_INGOT.get())
                 .result(ModItems.SOUL_EATER_HELMET.get())
                 .minLevel(0)
                 .maxLevel(90)
@@ -380,7 +479,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .preserveMainItem(true)
                 .save(pWriter);
         new InfusionRecipeBuilder().input(ModItems.SOUL_EATER_CHESTPLATE.get())
-                .pedestalItems(ModItems.PURE_NETHERITE.get())
+                .pedestalItems(ModItems.PURE_NETHERITE_INGOT.get())
                 .result(ModItems.SOUL_EATER_CHESTPLATE.get())
                 .minLevel(0)
                 .maxLevel(90)
@@ -391,7 +490,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .preserveMainItem(true)
                 .save(pWriter);
         new InfusionRecipeBuilder().input(ModItems.SOUL_EATER_LEGGINGS.get())
-                .pedestalItems(ModItems.PURE_NETHERITE.get())
+                .pedestalItems(ModItems.PURE_NETHERITE_INGOT.get())
                 .result(ModItems.SOUL_EATER_LEGGINGS.get())
                 .minLevel(0)
                 .maxLevel(90)
@@ -402,7 +501,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .preserveMainItem(true)
                 .save(pWriter);
         new InfusionRecipeBuilder().input(ModItems.SOUL_EATER_BOOTS.get())
-                .pedestalItems(ModItems.PURE_NETHERITE.get())
+                .pedestalItems(ModItems.PURE_NETHERITE_INGOT.get())
                 .result(ModItems.SOUL_EATER_BOOTS.get())
                 .minLevel(0)
                 .maxLevel(90)

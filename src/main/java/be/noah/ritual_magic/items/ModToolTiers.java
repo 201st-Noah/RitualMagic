@@ -26,7 +26,7 @@ public class ModToolTiers {
             new ResourceLocation(RitualMagic.MODID, "dwarven"), List.of(Tiers.NETHERITE), List.of());
     public static final Tier HELLISH = TierSortingRegistry.registerTier(
             new ForgeTier(5, 10000, 5f, 4f, 25,
-                    Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.PURE_NETHERITE.get())),
+                    Tags.Blocks.NEEDS_NETHERITE_TOOL, () -> Ingredient.of(ModItems.PURE_NETHERITE_INGOT.get())),
             new ResourceLocation(RitualMagic.MODID, "hellish"), List.of(Tiers.NETHERITE), List.of());
     //Ignore
     public static final Tier TEMP = TierSortingRegistry.registerTier(

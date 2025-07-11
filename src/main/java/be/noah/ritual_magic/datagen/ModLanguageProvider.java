@@ -21,6 +21,9 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.POLISHED_OBSIDIAN, "Polished Obsidian");
         addBlock(ModBlocks.SOUL_BRICKS, "Soul Bricks");
         addBlock(ModBlocks.DWARVEN_STEEL_BLOCK, "Dwarven Steel Block");
+        addBlock(ModBlocks.ATLANTIAN_STEEL_BLOCK, "Atlantian Steel Block");
+        addBlock(ModBlocks.PURE_NETHERITE_BLOCK, "Pure Netherite Block");
+        addBlock(ModBlocks.DRAGON_SCALE_BLOCK, "Dragon Scale Block");
         addBlock(ModBlocks.DRAGON_FIRE, "Dragon Fire");
         addBlock(ModBlocks.ICE_SPIKE, "Ice Spike");
         addBlock(ModBlocks.POINTED_ICICLE, " Pointed Icicle");
@@ -115,8 +118,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DWARVEN_STEEL_INGOT, "Dwarven Steel Ingot");
         addItem(ModItems.DWARVEN_TEMPLATE, "Dwarven Template");
         addItem(ModItems.LOST_SOUL, "Lost Soul");
-        addItem(ModItems.DWARVEN_STEEL_ARMOR_PLATE, "Dwarven Steel Armor Plate");
-        addItem(ModItems.PURE_NETHERITE, "Pure Netherite");
+        addItem(ModItems.PURE_NETHERITE_INGOT, "Pure Netherite");
         addItem(ModItems.TORCH, "Torch");
         addItem(ModItems.SPEER, "Dragon Rider's Speer");
         addItem(ModItems.DWARVEN_AXE, "Dwarven Axe");
@@ -145,6 +147,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.SOUL_EATER_CHESTPLATE, "Soul Eater Chestplate");
         addItem(ModItems.SOUL_EATER_LEGGINGS, "Soul Eater Leggings");
         addItem(ModItems.SOUL_EATER_BOOTS, "Soul Eater Boots");
+        addItem(ModItems.ATLANTIAN_STEEL_ARMOR_PLATE, "Atlantian Steel Armor Plate");
+        addItem(ModItems.DRAGON_SCALE_ARMOR_PLATE, "Dragon Scale Armor Plate");
+        addItem(ModItems.DWARVEN_STEEL_ARMOR_PLATE, "Dwarven Steel Armor Plate");
+        addItem(ModItems.PURE_NETHERITE_ARMOR_PLATE, "Pure Netherite Armor Plate");
     }
 
     private void effects() {

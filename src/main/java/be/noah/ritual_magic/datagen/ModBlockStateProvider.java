@@ -27,6 +27,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.PETRIFIED_DRAGON_SCALE);
         blockWithItem(ModBlocks.POLISHED_OBSIDIAN);
         blockWithItem(ModBlocks.DWARVEN_STEEL_BLOCK);
+        blockWithItem(ModBlocks.ATLANTIAN_STEEL_BLOCK);
+        blockWithItem(ModBlocks.PURE_NETHERITE_BLOCK);
+        blockWithItem(ModBlocks.DRAGON_SCALE_BLOCK);
         blockWithItem(ModBlocks.FORGE_T0);
         blockWithItem(ModBlocks.B_SOUL_FARMLAND);
         blockWithItem(ModBlocks.I_SOUL_FARMLAND);

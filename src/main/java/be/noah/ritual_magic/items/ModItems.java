@@ -27,8 +27,11 @@ public class ModItems {
     public static final RegistryObject<Item> DWARVEN_STEEL_INGOT = ITEMS.register("dwarven_steel_ingot", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DWARVEN_TEMPLATE = ITEMS.register("dwarven_template", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LOST_SOUL = ITEMS.register("lost_soul", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> DWARVEN_STEEL_ARMOR_PLATE = ITEMS.register("dwarven_steel_armor_plate", () -> new ArmorPlate(ModToolTiers.DWARVEN, new Item.Properties()));
-    public static final RegistryObject<Item> PURE_NETHERITE = ITEMS.register("pure_netherite", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DWARVEN_STEEL_ARMOR_PLATE = ITEMS.register("dwarven_steel_armor_plate", () -> new ArmorPlate(ManaType.DWARVEN, new Item.Properties()));
+    public static final RegistryObject<Item> ATLANTIAN_STEEL_ARMOR_PLATE = ITEMS.register("atlantian_steel_armor_plate", () -> new ArmorPlate(ManaType.ATLANTIAN, new Item.Properties()));
+    public static final RegistryObject<Item> PURE_NETHERITE_ARMOR_PLATE = ITEMS.register("pure_netherite_armor_plate", () -> new ArmorPlate(ManaType.HELLISH, new Item.Properties()));
+    public static final RegistryObject<Item> DRAGON_SCALE_ARMOR_PLATE = ITEMS.register("dragon_scale_armor_plate", () -> new ArmorPlate(ManaType.DRACONIC, new Item.Properties()));
+    public static final RegistryObject<Item> PURE_NETHERITE_INGOT = ITEMS.register("pure_netherite_ingot", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ICE_SHARD = ITEMS.register("ice_shard", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ICE_SWORD_HILT = ITEMS.register("ice_sword_hilt", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SHARP_ICE_SHARD = ITEMS.register("sharp_ice_shard", () -> new Item(new Item.Properties()));
