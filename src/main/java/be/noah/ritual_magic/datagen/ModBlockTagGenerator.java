@@ -92,5 +92,11 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.I_SOUL_FARMLAND.get(),
                         ModBlocks.A_SOUL_FARMLAND.get(),
                         ModBlocks.U_SOUL_FARMLAND.get());
+
+        this.tag(BlockTags.WITHER_IMMUNE)
+                .add(ModBlocks.DWARVEN_STEEL_BLOCK.get(),
+                        ModBlocks.ATLANTIAN_STEEL_BLOCK.get(),
+                        ModBlocks.PURE_NETHERITE_BLOCK.get(),
+                        ModBlocks.DRAGON_SCALE_BLOCK.get());
     }
 }
