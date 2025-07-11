@@ -1,12 +1,10 @@
 package be.noah.ritual_magic.items.armor;
 
 import be.noah.ritual_magic.client.DwarvenArmorRenderer;
-import be.noah.ritual_magic.items.LeveldMagicArmor;
 import be.noah.ritual_magic.mana.ManaType;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -17,27 +15,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class DwarvenArmor extends ArmorItem implements GeoItem, LeveldMagicArmor {
+public class DwarvenArmor extends PlateArmor {
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private static final UUID MOVMENT_SLOWDOWN_UUID = UUID.fromString("11111111-2222-3333-4444-555555555556");
     private static final UUID[] ARMOR_UUIDS = new UUID[]{
             UUID.fromString("00000000-0000-0000-0000-000000000001"), // HEAD
@@ -59,8 +48,8 @@ public class DwarvenArmor extends ArmorItem implements GeoItem, LeveldMagicArmor
             UUID.fromString("00000000-0000-0000-0000-000000000012")
     };
 
-    public DwarvenArmor(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
-        super(pMaterial, pType, pProperties);
+    public DwarvenArmor(int platCount, ArmorMaterial pMaterial, Type pType, Properties pProperties) {
+        super(platCount, pMaterial, pType, pProperties);
     }
 
     @Override
@@ -165,28 +154,8 @@ public class DwarvenArmor extends ArmorItem implements GeoItem, LeveldMagicArmor
         };
     }
 
-
-    // Irrelevant Code below (Gecko lib + basic Overrides)
-
-    @Override
-    public boolean isDamageable(ItemStack stack) {return false;}
-
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        LeveldMagicArmor.super.appendLevelTooltip(stack, tooltip);
-    }
-
     @Override
     public ManaType getManaType() {return ManaType.DWARVEN;}
-
-    @Override
-    public int getItemLevelCap() {return 100;}
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {}
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {return this.cache;}
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {

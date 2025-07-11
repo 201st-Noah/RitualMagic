@@ -29,7 +29,7 @@ public class OrbitingIceShieldLayer<T extends Player, M extends PlayerModel<T>> 
     public void render(PoseStack poseStack, MultiBufferSource bufferSource, int light, T player, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!ClientIceShieldHandler.hasShield(player.getUUID())) return;
         int shieldCount = 0;
-        if (player.getPersistentData().contains("void_shield")) {
+        if (player.getPersistentData().contains("void_shield") && !player.isInvisible()) {
             shieldCount =  player.getPersistentData().getInt("void_shield");
         }
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(SHIELD_TEXTURE));
