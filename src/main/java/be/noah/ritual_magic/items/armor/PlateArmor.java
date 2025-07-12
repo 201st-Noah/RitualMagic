@@ -109,6 +109,10 @@ public abstract class PlateArmor extends ArmorItem implements GeoItem, LeveldMag
         return getInstalledPlatesCount(armorStack) == required_plates;
     }
 
+    public int getRequiredPlates() {
+        return required_plates;
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         LeveldMagicArmor.super.appendLevelTooltip(stack, tooltip);
@@ -122,8 +126,11 @@ public abstract class PlateArmor extends ArmorItem implements GeoItem, LeveldMag
                     CompoundTag plateTag = platesList.getCompound(i);
                     if (!plateTag.isEmpty()) {
                         tooltip.add(Component.literal("§7Plate " + (i + 1) + ":"));
-                        tooltip.add(Component.literal("§8 Purity: " + plateTag.getInt("Purity_lvl")));
-                        tooltip.add(Component.literal("§8 Experience: " + plateTag.getInt("UniqVar_lvl")));
+                        if (plateTag.contains("tag", Tag.TAG_COMPOUND)) {
+                            CompoundTag innerTag = plateTag.getCompound("tag");
+                            tooltip.add(Component.literal("  ↳ Purity: " + innerTag.getInt("Purity_lvl")));
+                            tooltip.add(Component.literal("  ↳ Experience: " + innerTag.getInt("UniqVar_lvl")));
+                        }
                     }
                 }
             }
@@ -142,6 +149,30 @@ public abstract class PlateArmor extends ArmorItem implements GeoItem, LeveldMag
             return this.swapWithEquipmentSlot(this, pLevel, pPlayer, pHand);
         }
         return InteractionResultHolder.fail(itemstack);
+    }
+
+    @Override
+    public int getItemLevel(ItemStack stack) {
+        int purity_lvl = (int)((float)(getArmorPlateTag(stack, "Purity_lvl")/required_plates));
+        int uniqVar_lvl = (int)((float)(getArmorPlateTag(stack, "UniqVar_lvl")/required_plates));
+        return purity_lvl * uniqVar_lvl;
+    }
+
+    private int getArmorPlateTag(ItemStack itemStack, String tagKey) {
+        int level = 0;
+        if (itemStack.hasTag() && itemStack.getTag().contains(ARMOR_PLATES_TAG)) {
+            ListTag platesList = itemStack.getTag().getList(ARMOR_PLATES_TAG, Tag.TAG_COMPOUND);
+            for (int i = 0; i < platesList.size(); i++) {
+                CompoundTag plateTag = platesList.getCompound(i);
+                if (!plateTag.isEmpty()) {
+                    if (plateTag.contains("tag", Tag.TAG_COMPOUND)) {
+                        CompoundTag innerTag = plateTag.getCompound("tag");
+                        level += innerTag.getInt(tagKey);
+                    }
+                }
+            }
+        }
+        return level;
     }
 
     @Override

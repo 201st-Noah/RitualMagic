@@ -153,6 +153,7 @@ public class ModCreativeModTabs {
                         //Basic Items
                         //Functional Items (Wapons, Tools, Armor,...)
                         pOutput.accept(ModItems.NEXUS_MANA_RUNE.get());
+                        pOutput.accept(ModItems.BLACKSMITH_HAMMER.get());
                         //Blocks
                         pOutput.accept(ModBlocks.POLISHED_OBSIDIAN.get());
                         pOutput.accept(ModBlocks.B_NEXUS_PEDESTAL.get());

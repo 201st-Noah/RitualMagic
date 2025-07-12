@@ -2,15 +2,20 @@ package be.noah.ritual_magic.items.custom;
 
 import be.noah.ritual_magic.items.armor.PlateArmor;
 import be.noah.ritual_magic.mana.ManaType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SmithingTableBlock;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -48,8 +53,18 @@ public class ArmorPlate extends Item {
     }
 
     @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
+    }
+
+    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("Purity: " + getPurityLvl(pStack)));
+        if (getPurityLvl(pStack) < 10) {
+            pTooltipComponents.add(Component.literal("Purity Level: " + getPurityLvl(pStack)));
+            pTooltipComponents.add(Component.literal("Progress: " + getPurity(pStack) + "/" + getValueCap(getPurityLvl(pStack))));
+        }else{
+            pTooltipComponents.add(Component.literal("Purity Level: MAX"));
+        }
         String spesificsForType = "";
         switch (manaType) {
             case ATLANTIAN -> spesificsForType = "Tension: ";
@@ -66,46 +81,62 @@ public class ArmorPlate extends Item {
         return manaType;
     }
 
-    public int getLevel(ItemStack stack) {
-        return getPurityLvl(stack) * getUniqVarLvl(stack);
-    }
-
     public int getValueCap(int level) {
-        return (int) Math.pow(2, level);
+        return (int) Math.pow(2, level + 1 );
     }
 
     //Purity
-    private int getPurity(ItemStack stack) {
+    public int getPurity(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(PURITY) : 0;
     }
-
-    private void setPurity(ItemStack stack, int value) {
+    public void setPurity(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(PURITY, value);
     }
-
-    private int getPurityLvl(ItemStack stack) {
-        return stack.hasTag() ? stack.getTag().getInt(PURITY_LVL) : 0;
+    public void addPurity(ItemStack stack) {
+        stack.getOrCreateTag().putInt(PURITY, getPurity(stack) + 1);
+    }
+    public void addPurity(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(PURITY, value + getPurity(stack));
     }
 
-    private void setPurityLvl(ItemStack stack, int value) {
+    public int getPurityLvl(ItemStack stack) {
+        return stack.hasTag() ? stack.getTag().getInt(PURITY_LVL) : 0;
+    }
+    public void setPurityLvl(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(PURITY_LVL, value);
+    }
+    public void addPurityLvl(ItemStack stack) {
+        stack.getOrCreateTag().putInt(PURITY_LVL, getPurityLvl(stack) + 1);
+    }
+    public void addPurityLvl(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(PURITY_LVL, getPurityLvl(stack) + value);
     }
 
     //UniqVar
     private int getUniqVar(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(UNIQVAR) : 0;
     }
-
     private void setUniqVar(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(UNIQVAR, value);
+    }
+    private void addUniqVar(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(UNIQVAR, getUniqVar(stack) + value);
+    }
+    private void addUniqVar(ItemStack stack) {
+        stack.getOrCreateTag().putInt(UNIQVAR, getUniqVar(stack) + 1);
     }
 
     private int getUniqVarLvl(ItemStack stack) {
         return stack.hasTag() ? stack.getTag().getInt(UNIQVAR_LVL) : 0;
     }
-
     private void setUniqVarLvl(ItemStack stack, int value) {
         stack.getOrCreateTag().putInt(UNIQVAR_LVL, value);
+    }
+    private void addUniqVarLvl(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt(UNIQVAR_LVL, getUniqVarLvl(stack) + value);
+    }
+    private void addUniqVarLvl(ItemStack stack) {
+        stack.getOrCreateTag().putInt(UNIQVAR_LVL, getUniqVarLvl(stack) + 1);
     }
 
     //TODO remove just temp for testing
@@ -119,7 +150,7 @@ public class ArmorPlate extends Item {
         ItemStack offhandStack = player.getOffhandItem();
 
         // Check if offhand has plate armor
-        if (offhandStack.getItem() instanceof PlateArmor plateArmor) {
+        if (offhandStack.getItem() instanceof PlateArmor plateArmor && plateArmor.getManaType() == this.getManaType()) {
             // Find first empty slot
             for (int i = 0; i <= plateArmor.getInstalledPlatesCount(offhandStack); i++) {
                 if (!plateArmor.hasArmorPlateInSlot(offhandStack, i)) {
@@ -141,4 +172,17 @@ public class ArmorPlate extends Item {
         return InteractionResultHolder.pass(plateStack);
     }
 
+    @Override
+    public InteractionResult useOn(UseOnContext pContext) {
+        Level level = pContext.getLevel();
+        Player player = pContext.getPlayer();
+        ItemStack stack = pContext.getItemInHand();
+        BlockPos blockpos = pContext.getClickedPos();
+        Block clickedBlock = level.getBlockState(blockpos).getBlock();
+        if (!(clickedBlock instanceof SmithingTableBlock)) {
+            setUniqVarLvl(stack, getUniqVarLvl(stack) + 1);
+            return InteractionResult.SUCCESS;
+        }
+        return super.useOn(pContext);
+    }
 }

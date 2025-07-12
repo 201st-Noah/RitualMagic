@@ -151,6 +151,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.DRAGON_SCALE_ARMOR_PLATE, "Dragon Scale Armor Plate");
         addItem(ModItems.DWARVEN_STEEL_ARMOR_PLATE, "Dwarven Steel Armor Plate");
         addItem(ModItems.PURE_NETHERITE_ARMOR_PLATE, "Pure Netherite Armor Plate");
+        addItem(ModItems.BLACKSMITH_HAMMER, "Blacksmith Hammer");
     }
 
     private void effects() {

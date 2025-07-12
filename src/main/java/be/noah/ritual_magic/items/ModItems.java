@@ -50,6 +50,7 @@ public class ModItems {
     public static final RegistryObject<Item> NETHER_SCEPTRE = ITEMS.register("nether_scepter", () -> new NetherScepter(new Item.Properties()));
     public static final RegistryObject<Item> ICE_SWORD = ITEMS.register("ice_sword", () -> new IceSword(ModToolTiers.ATLANTIAN, 3, 1, new Item.Properties()));
     public static final RegistryObject<Item> SOUL_SCYTHE = ITEMS.register("soul_scythe", () -> new SoulScythe(ModToolTiers.HELLISH, 30, 1, new Item.Properties()));
+    public static final RegistryObject<Item> BLACKSMITH_HAMMER = ITEMS.register("blacksmith_hammer", () -> new BlacksmithHammer(new Item.Properties()));
 
     //Armors
     public static final RegistryObject<Item> ICE_HELMET = ITEMS.register("ice_helmet", () -> new IceArmorItem(ModArmorMaterials.ATLANTIAN_STEEL, ArmorItem.Type.HELMET, new Item.Properties()));
