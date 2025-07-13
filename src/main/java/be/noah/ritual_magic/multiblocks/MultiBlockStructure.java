@@ -226,7 +226,7 @@ public class MultiBlockStructure {
     }
 
     public static class Loader {
-        public final static char WILDCARD = '*';
+        public final static char BLOCK_WILDCARD = '*';
         private final static Gson GSON = new Gson();
 
         @NotNull
@@ -310,7 +310,7 @@ public class MultiBlockStructure {
 
                     for (int z = 0; z < row.length(); z++) {
                         char binding = row.charAt(z);
-                        if (binding == WILDCARD)
+                        if (binding == BLOCK_WILDCARD)
                             // Skip wildcard positions
                             continue;
 

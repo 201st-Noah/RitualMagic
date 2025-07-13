@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MiningCoreBlockEntity extends BlockEntity {
-    private static final MultiBlockStructure structure = MultiBlockStructure.forgeT2();
+    private static final MultiBlockStructure structure = null;// MultiBlockStructure.forgeT2();  // todo: to correct
 
     public MiningCoreBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MINING_CORE.get(), pPos, pBlockState);

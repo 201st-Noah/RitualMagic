@@ -28,8 +28,8 @@ import java.util.Set;
 
 public class ForgeBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    private static final MultiBlockStructure structureT1 = MultiBlockStructure.forgeT1();
-    private static final MultiBlockStructure structureT2 = MultiBlockStructure.forgeT2();
+    private static final MultiBlockStructure structureT1 = null;// MultiBlockStructure.forgeT1();  // todo: to correct
+    private static final MultiBlockStructure structureT2 = null;// MultiBlockStructure.forgeT2();  // todo: to correct
     private final Tier tier;
 
     public ForgeBlock(Tier tier, Properties pProperties) {

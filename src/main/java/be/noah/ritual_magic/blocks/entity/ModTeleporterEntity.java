@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 
 public class ModTeleporterEntity extends BlockEntity {
-    private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
+    private static final MultiBlockStructure structure = null;// MultiBlockStructure.getTeleporterStruct();  // todo: to correct
     public boolean MULTIBLOCK_OK = false;
 
     public ModTeleporterEntity(BlockPos pPos, BlockState pBlockState) {

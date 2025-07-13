@@ -1,7 +1,7 @@
 package be.noah.ritual_magic.blocks.custom;
 
-import be.noah.ritual_magic.blocks.entity.MiningCoreBlockEntity;
 import be.noah.ritual_magic.blocks.ModBlockEntities;
+import be.noah.ritual_magic.blocks.entity.MiningCoreBlockEntity;
 import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
 import be.noah.ritual_magic.multiblocks.MultiblockBaseEntityBlock;
 import net.minecraft.core.BlockPos;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class MiningCoreBlock extends MultiblockBaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    private static final MultiBlockStructure structure = MultiBlockStructure.forgeT2();
+    private static final MultiBlockStructure structure = null;// MultiBlockStructure.forgeT2();  // todo: to correct
 
     public MiningCoreBlock(Properties pProperties) {
         super(pProperties);
