@@ -1,6 +1,7 @@
 package be.noah.ritual_magic.multiblocks;
 
 import be.noah.ritual_magic.blocks.ModBlocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -71,10 +72,10 @@ public class MultiBlockStructure {
         return new MultiBlockStructure(List.of(layer0));
     }
 
-    public boolean checkStructure(int symmetry, Level pLevel, int pX, int pY, int pZ) {
+    public boolean checkStructure(int symmetry, Level pLevel, BlockPos vec3) {
         boolean res = true;
         for (MultiBlockLayer layer : layers) {
-            res = res && layer.checkLayer(symmetry, pLevel, pX, pY, pZ);
+            res = res && layer.checkLayer(symmetry, pLevel, vec3.getX(), vec3.getY(), vec3.getZ());
             if (!res)
                 return false;
         }
@@ -87,5 +88,18 @@ public class MultiBlockStructure {
                 break;
             }
         }
+    }
+    // just for allowing my code to run without new Multiblock Code
+    public int getMaxSize() {
+        int maxSize = 0;
+        for (MultiBlockLayer layer : layers) {
+            for (List<Integer> coords : layer.getCoordsList()) {
+                if (coords.get(0) > maxSize) {
+                    maxSize = coords.get(0);
+                }
+                if (coords.get(1) > maxSize) {}
+            }
+        }
+        return maxSize;
     }
 }

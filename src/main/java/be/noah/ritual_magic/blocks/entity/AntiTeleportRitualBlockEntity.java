@@ -21,7 +21,7 @@ public class AntiTeleportRitualBlockEntity extends RitualBaseBlockEntity {
         RitualBaseBlockEntity pRitualBaseBlockEntity = this;
         if(!(pLevel.getGameTime() % 20 == 3)) {return;} //Timer
         if (!pLevel.isClientSide && pRitualBaseBlockEntity.getOwner() != null) {
-            if (!pRitualBaseBlockEntity.structureIsOk(pLevel, pPos) ){return;}
+            if (!pRitualBaseBlockEntity.structureIsOk() ){return;}
             boolean res = pRitualBaseBlockEntity.consumeMana(pLevel, getOwner(), (getBlockTier(pLevel, pPos).getInt() * 10) + 10);
         }
     }

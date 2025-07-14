@@ -1,9 +1,9 @@
 package be.noah.ritual_magic.blocks.custom;
 
+import be.noah.ritual_magic.blocks.BlockTier;
 import be.noah.ritual_magic.blocks.ModBlockEntities;
+import be.noah.ritual_magic.blocks.RitualBaseBlock;
 import be.noah.ritual_magic.blocks.entity.ModTeleporterEntity;
-import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
-import be.noah.ritual_magic.multiblocks.MultiblockBaseEntityBlock;
 import be.noah.ritual_magic.worldgen.dimension.ModDimensions;
 import be.noah.ritual_magic.worldgen.portal.ModTeleporter;
 import net.minecraft.core.BlockPos;
@@ -14,58 +14,23 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class ModTeleporterBlock extends MultiblockBaseEntityBlock {
-    public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    private static final MultiBlockStructure structure = MultiBlockStructure.getTeleporterStruct();
+public class ModTeleporterBlock extends RitualBaseBlock<ModTeleporterEntity> {
 
-    public ModTeleporterBlock(Properties pProperties) {
-        super(pProperties);
-    }
-
-    @Override
-    public MultiBlockStructure getStructure() {
-        return structure;
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE;
-    }
-
-    @Override
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.MODEL;
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pLevel.isClientSide()) {
-            return null;
-        }
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.MOD_TELEPORTER.get(),
-                (pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1));
-
+    public ModTeleporterBlock(BlockTier tier, Properties pProperties) {
+        super(tier, pProperties, ModBlockEntities.MOD_TELEPORTER);
     }
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
         if (blockentity instanceof ModTeleporterEntity) {
-            if (pPlayer.canChangeDimensions() && ((ModTeleporterEntity) blockentity).MULTIBLOCK_OK) {
+            if (pPlayer.canChangeDimensions() && ((ModTeleporterEntity) blockentity).structureIsOk()) {
                 handleInfinityPortal(pPlayer, pPos);
                 return InteractionResult.SUCCESS;
             } else {

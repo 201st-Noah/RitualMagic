@@ -1,29 +1,25 @@
 package be.noah.ritual_magic.blocks.entity;
 
 import be.noah.ritual_magic.blocks.ModBlockEntities;
-import be.noah.ritual_magic.multiblocks.MultiBlockStructure;
+import be.noah.ritual_magic.blocks.RitualBaseBlockEntity;
+import be.noah.ritual_magic.mana.ManaType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
-public class MiningCoreBlockEntity extends BlockEntity {
-    private static final MultiBlockStructure structure = MultiBlockStructure.forgeT2();
+public class MiningCoreBlockEntity extends RitualBaseBlockEntity {
 
     public MiningCoreBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MINING_CORE.get(), pPos, pBlockState);
     }
 
-    public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        int x = pPos.getX();
-        int y = pPos.getY(); //Höhe (ja ich brauch das)
-        int z = pPos.getZ();
-        boolean isCorrect = false;
+    @Override
+    public void tick() {
+        Level pLevel = getLevel();
+        if(pLevel.isClientSide()) {return;}
         if (pLevel.getGameTime() % 20L == 0L) {
-            isCorrect = updateStructure(pLevel, x, y, z);
-
-            //System.out.println(pLevel.getBlockState(new BlockPos(x, y-1 , z)));
-            if (isCorrect) {
+            if (this.structureIsOk()) {
                 System.out.println("Jaaaaaaaaaaaaaaaaaaaaaaa");
             } else {
                 System.out.println("Neiiiiiiiiiiiiiiiiiiiiiiin");
@@ -31,7 +27,9 @@ public class MiningCoreBlockEntity extends BlockEntity {
         }
     }
 
-    private boolean updateStructure(Level pLevel, int pX, int pY, int pZ) {
-        return structure.checkStructure(3, pLevel, pX, pY, pZ);
+    @Override
+    public @NotNull ManaType getManaType() {
+        return ManaType.NEXUS;
     }
+
 }

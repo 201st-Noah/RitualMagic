@@ -43,6 +43,8 @@ public abstract class RitualBaseBlock<T extends RitualBaseBlockEntity>  extends 
             BlockEntity be = pLevel.getBlockEntity(pPos);
             if (be instanceof RitualBaseBlockEntity blockEntity) {
                 blockEntity.setOwner(player.getUUID());
+                blockEntity.loadMultiblockStructure();
+                blockEntity.updateStructure(pLevel, pPos);
             }
         }
         super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);

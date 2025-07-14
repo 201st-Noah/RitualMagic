@@ -48,8 +48,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> FORGE_T0 = registerBlock("forge_t0", () -> new ForgeBlock(ForgeBlock.Tier.BEGINNER, BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICKS).strength(5f, 1200.0f).requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> FORGE_T1 = registerBlock("forge_t1", () -> new ForgeBlock(ForgeBlock.Tier.BASIC, BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICKS).strength(25f, 1200.0f).requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> FORGE_T2 = registerBlock("forge_t2", () -> new ForgeBlock(ForgeBlock.Tier.ADVANCED, BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICKS).strength(150f, 1200.0f).requiresCorrectToolForDrops()));
-    public static final RegistryObject<Block> MOD_TELEPORTER = registerBlock("mod_portal", () -> new ModTeleporterBlock(BlockBehaviour.Properties.copy(Blocks.STONE).noLootTable().noOcclusion()));
-    public static final RegistryObject<Block> MINING_CORE = registerBlock("mining_core", () -> new MiningCoreBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> MOD_TELEPORTER = registerBlock("mod_portal", () -> new ModTeleporterBlock(BlockTier.BASIC,BlockBehaviour.Properties.copy(Blocks.STONE).noLootTable().noOcclusion()));
+    public static final RegistryObject<Block> MINING_CORE = registerBlock("mining_core", () -> new MiningCoreBlock(BlockTier.BASIC,BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final RegistryObject<Block> ANCIENT_ANVIL = registerBlock("ancient_anvil", () -> new AncientAnvilBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
     //Mana generating Rituals
     public static final RegistryObject<Block> B_SOUL_SACRIFICE = registerBlock("b_soul_sacrifice_block", () -> new SoulSacrificeBlock(BlockTier.BASIC, BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));

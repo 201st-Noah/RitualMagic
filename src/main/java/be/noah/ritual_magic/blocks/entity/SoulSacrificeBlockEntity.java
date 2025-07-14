@@ -41,7 +41,7 @@ public class SoulSacrificeBlockEntity extends RitualBaseBlockEntity {
         RitualBaseBlockEntity pRitualBaseBlockEntity = this;
 
         if(!(pLevel.getGameTime() % 40 == 0)) {return;} //Timer
-        if (!pRitualBaseBlockEntity.structureIsOk(pLevel, pPos) ){return;}
+        if (!pRitualBaseBlockEntity.structureIsOk() ){return;}
         final int blockTier = getBlockTier(pLevel, pPos).getInt();
         final double radius = 4.0D + (double) blockTier;
         if (!pLevel.isClientSide && pRitualBaseBlockEntity.getOwner() != null && !ifFullMana(pLevel, pRitualBaseBlockEntity.getOwner())){
