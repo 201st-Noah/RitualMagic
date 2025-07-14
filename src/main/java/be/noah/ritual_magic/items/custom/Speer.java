@@ -201,18 +201,18 @@ public class Speer extends SwordItem implements LeveldMagicItem {
 
         if (entityHitResult != null) {
             Entity target = entityHitResult.getEntity();
-            if (target instanceof LivingEntity living) {
+            //if (target instanceof LivingEntity living) {
 
-                float existingTime = living.getPersistentData().getFloat("LaserLockTime");
+                float existingTime = target.getPersistentData().getFloat("LaserLockTime");
                 existingTime += 1;
-                living.getPersistentData().putFloat("LaserLockTime", existingTime);
+                 target.getPersistentData().putFloat("LaserLockTime", existingTime);
                 float damage = 1.0F + Math.min(existingTime * 0.2F, maxDamage);
                 System.out.println("Damage: " + damage);
 
                 if(NOMANA || consumeMana(player, (int) damage)){
-                    living.hurt(player.level().damageSources().playerAttack(player), damage);
+                    target.hurt(player.level().damageSources().playerAttack(player), damage);
                 }
-            }
+           // }
         }
         // remove LaserLockTime from entities not currently targeted
         AABB cleanupBox = player.getBoundingBox().inflate(range);

@@ -11,10 +11,10 @@ import be.noah.ritual_magic.items.armor.IceArmorItem;
 import be.noah.ritual_magic.items.armor.SoulEaterArmor;
 import be.noah.ritual_magic.items.custom.DwarvenAxe;
 import be.noah.ritual_magic.items.custom.DwarvenPickAxe;
-import be.noah.ritual_magic.mana.MetalToManaJsonReloadListener;
 import be.noah.ritual_magic.mana.ManaNetworkData;
 import be.noah.ritual_magic.mana.ManaPool;
 import be.noah.ritual_magic.mana.ManaType;
+import be.noah.ritual_magic.mana.MetalToManaJsonReloadListener;
 import be.noah.ritual_magic.networking.ModMessages;
 import be.noah.ritual_magic.networking.packet.ManaDataSyncS2CPacket;
 import be.noah.ritual_magic.networking.packet.VoidShieldDataSyncS2CPacket;
@@ -32,7 +32,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +40,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -184,25 +184,6 @@ public class ForgeEvents {
     }
 
     @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        Entity entity = event.getEntity();
-        Entity attacker = event.getSource().getDirectEntity();
-        float damage = event.getAmount();
-        //Debuging (und nein kein Bock das mit Breakpoints etc. zu machen)
-        if (entity instanceof Player player && false){
-            double defensePoints = player.getAttribute(Attributes.ARMOR).getValue();
-            double toughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue();
-            double rec = damage * (1-((Math.min(20, Math.max((defensePoints/2), defensePoints - (damage/(2+(toughness/4))))))/25));
-            System.out.println("defensePoints: " + defensePoints );
-            System.out.println("toughness: " + toughness);
-            System.out.println("damage dealt: " + damage + " |damage recieved " + rec);
-            System.out.println("-------------------------------------------");
-        }
-        event.setCanceled(false);
-    }
-
-
-    @SubscribeEvent
     public static void onPlayerHurt(LivingHurtEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
@@ -246,6 +227,31 @@ public class ForgeEvents {
             entity.setOwner(player.getUUID());
             plevel.addFreshEntity(entity);
 
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDamage(LivingDamageEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        MinecraftServer minecraftServer = player.getServer();
+        ManaNetworkData data = ManaNetworkData.get(minecraftServer);
+        Item chesplate = player.getInventory().getArmor(2).getItem();
+
+        if (chesplate instanceof SoulEaterArmor soulEaterArmor && soulEaterArmor.hasFullSet(player)) {
+            float damage = event.getAmount();
+            float currentHealth = player.getHealth();
+
+            if (damage >= currentHealth) {
+                if (data.consume(player.getUUID(), ManaType.HELLISH, (int)(damage - currentHealth) * 100)) {
+                    player.setHealth(1.0f);
+                    event.setCanceled(true);
+
+                    // Optional: play particles or sound
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
         }
     }
 
