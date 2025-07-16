@@ -2,12 +2,9 @@ package be.noah.ritual_magic.client;
 
 import be.noah.ritual_magic.RitualMagic;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -22,39 +19,88 @@ public class HighlightRenderer {
 
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) return;
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
         if (ClientHighlightManager.HIGHLIGHTED_BLOCKS.isEmpty()) return;
 
         PoseStack poseStack = event.getPoseStack();
-        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Camera camera = event.getCamera();
         Vec3 camPos = camera.getPosition();
 
-        // 🔁 Disable depth test so outlines are visible through walls
+        // Setup render state
         RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.disableCull();
 
+        // Apply the view matrix
+        RenderSystem.getModelViewMatrix().set(poseStack.last().pose());
+
+        Tesselator tessellator = Tesselator.getInstance();
+        BufferBuilder buffer = tessellator.getBuilder();
+
+        // Start drawing
+        buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+
+        // Render all highlighted blocks
         for (BlockPos pos : ClientHighlightManager.HIGHLIGHTED_BLOCKS) {
-            AABB box = AABB.unitCubeFromLowerCorner(Vec3.atLowerCornerOf(pos))
-                    .move(-camPos.x, -camPos.y, -camPos.z);
-            LevelRenderer.renderLineBox(
-                    poseStack,
-                    buffer.getBuffer(RenderType.lines()),
-                    box,
-                    0f, 0.8f, 1f, 1.0f
-            );
+            AABB box = new AABB(pos).inflate(0.002D);
+            drawBox(buffer, box, camPos, 0f, 0.8f, 1f, 1f);
         }
 
-        buffer.endBatch(RenderType.lines());
+        // Finish rendering
+        tessellator.end();
 
-        // ✅ Restore depth test to avoid breaking rendering after this
-        RenderSystem.depthMask(true);
+        // Restore render state
         RenderSystem.enableDepthTest();
+        RenderSystem.enableCull();
         RenderSystem.disableBlend();
+
     }
 
-   @SubscribeEvent
+
+    private static void drawBox(BufferBuilder buffer, AABB box, Vec3 cam, float r, float g, float b, float a) {
+        // Adjust box coordinates relative to camera position
+        double minX = box.minX - cam.x;
+        double minY = box.minY - cam.y;
+        double minZ = box.minZ - cam.z;
+        double maxX = box.maxX - cam.x;
+        double maxY = box.maxY - cam.y;
+        double maxZ = box.maxZ - cam.z;
+
+        // Bottom face
+        buffer.vertex(minX, minY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, minY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, minY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, minY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, minY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, minY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, minY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, minY, minZ).color(r, g, b, a).endVertex();
+
+        // Top face
+        buffer.vertex(minX, maxY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, maxY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, maxY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, maxY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, maxY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, maxY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, maxY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, maxY, minZ).color(r, g, b, a).endVertex();
+
+        // Vertical edges
+        buffer.vertex(minX, minY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, maxY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, minY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, maxY, minZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, minY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(maxX, maxY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, minY, maxZ).color(r, g, b, a).endVertex();
+        buffer.vertex(minX, maxY, maxZ).color(r, g, b, a).endVertex();
+    }
+
+
+    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             ClientHighlightManager.tick();
